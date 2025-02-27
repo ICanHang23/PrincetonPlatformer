@@ -23,7 +23,6 @@ public class Move : MonoBehaviour
         
         if (jumpInput() && isGrounded())
         {
-            Debug.Log("Help");
             body.linearVelocityY = 7;
         }
 
@@ -41,9 +40,10 @@ public class Move : MonoBehaviour
         float xVelocity = body.linearVelocityX;
 
         bool notTooFast = Mathf.Abs(xVelocity) < 5 || Mathf.Sign(inputAxis) != Mathf.Sign(xVelocity);
-        bool notWalled = !isWalled(new Vector2(xVelocity, 0));
+        bool notWalled = !isWalled(new Vector2(inputAxis, 0));
+        bool actuallyPressed = inputAxis != 0;
 
-        return notTooFast && notWalled;
+        return notTooFast && notWalled && actuallyPressed;
     }
 
     bool jumpInput()
@@ -62,7 +62,10 @@ public class Move : MonoBehaviour
 
     bool isWalled(Vector2 direction)
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, box.bounds.size, 0, direction, 0.1f, groundLayer);
+        Vector2 boxSize = box.bounds.size;
+        Vector2 sizeVector = new Vector2(boxSize.x, boxSize.y * 0.5f);
+
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, sizeVector, 0, direction, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
 }
