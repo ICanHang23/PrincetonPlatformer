@@ -16,19 +16,34 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Change x velocity
-        float direction = Input.GetAxis("Horizontal");
-        Vector2 directionVector = new Vector2(direction, 0);
-        if (direction != 0 && !isWalled(directionVector))
+        if (checkIfCanMove())
         {
-            body.linearVelocity = new Vector2(direction * 5, body.linearVelocity.y);
+            body.AddForceX(15 * Input.GetAxis("Horizontal"));
         }
-
-        // Change y velocity for jumping
+        
         if (jumpInput() && isGrounded())
         {
-            body.linearVelocity = new Vector2(body.linearVelocity.x, 5);
+            Debug.Log("Help");
+            body.linearVelocityY = 7;
         }
+
+        if (transform.position.y < -15)
+        {
+            Vector2 newPosition = new Vector2(-5, 0);
+            body.MovePosition(newPosition);
+            body.linearVelocity = Vector2.zero;
+        }
+    }
+
+    bool checkIfCanMove()
+    {
+        float inputAxis = Input.GetAxis("Horizontal");
+        float xVelocity = body.linearVelocityX;
+
+        bool notTooFast = Mathf.Abs(xVelocity) < 5 || Mathf.Sign(inputAxis) != Mathf.Sign(xVelocity);
+        bool notWalled = !isWalled(new Vector2(xVelocity, 0));
+
+        return notTooFast && notWalled;
     }
 
     bool jumpInput()
@@ -38,7 +53,10 @@ public class Move : MonoBehaviour
 
     bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, box.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        Vector2 boxSize = box.bounds.size;
+        Vector2 sizeVector = new Vector2(boxSize.x * 0.5f, boxSize.y);
+
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, sizeVector, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
 
