@@ -3,11 +3,10 @@ using UnityEngine;
 public class Follow : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private Transform trans;
     private GameObject player;
     void Start()
     {
-        player = GameObject.Find("Circle");
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame

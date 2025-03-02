@@ -21,7 +21,7 @@ public class Move : MonoBehaviour
             body.AddForceX(15 * Input.GetAxis("Horizontal"));
         }
         
-        if (jumpInput() && isGrounded())
+        if (jumpInput() && isGrounded() && !GameScript.reachedGoal)
         {
             body.linearVelocityY = 7;
         }
@@ -42,8 +42,9 @@ public class Move : MonoBehaviour
         bool notTooFast = Mathf.Abs(xVelocity) < 5 || Mathf.Sign(inputAxis) != Mathf.Sign(xVelocity);
         bool notWalled = !isWalled(new Vector2(inputAxis, 0));
         bool actuallyPressed = inputAxis != 0;
+        bool completed = GameScript.reachedGoal;
 
-        return notTooFast && notWalled && actuallyPressed;
+        return notTooFast && notWalled && actuallyPressed && !completed;
     }
 
     bool jumpInput()
