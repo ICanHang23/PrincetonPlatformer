@@ -55,8 +55,6 @@ public class Move : MonoBehaviour
         bool actuallyPressed = inputAxis != 0;
         bool completed = game.reachedGoal;
 
-        Debug.Log(completed);
-
         return notTooFast && notWalled && actuallyPressed && !completed;
     }
 
