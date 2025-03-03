@@ -5,6 +5,7 @@ public class Move : MonoBehaviour
     private Rigidbody2D body;
     private BoxCollider2D box;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private GameData game;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -16,12 +17,13 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (checkIfCanMove())
         {
             body.AddForceX(15 * Input.GetAxis("Horizontal"));
         }
         
-        if (jumpInput() && isGrounded() && !GameScript.reachedGoal)
+        if (jumpInput() && isGrounded() && !game.reachedGoal)
         {
             body.linearVelocityY = 7;
         }
@@ -29,8 +31,9 @@ public class Move : MonoBehaviour
         if (transform.position.y < -15)
         {
             Vector2 newPosition = new Vector2(-5, 0);
-            body.MovePosition(newPosition);
+            transform.position = newPosition;
             body.linearVelocity = Vector2.zero;
+            game.deathCount++;
         }
     }
 
@@ -42,7 +45,9 @@ public class Move : MonoBehaviour
         bool notTooFast = Mathf.Abs(xVelocity) < 5 || Mathf.Sign(inputAxis) != Mathf.Sign(xVelocity);
         bool notWalled = !isWalled(new Vector2(inputAxis, 0));
         bool actuallyPressed = inputAxis != 0;
-        bool completed = GameScript.reachedGoal;
+        bool completed = game.reachedGoal;
+
+        Debug.Log(completed);
 
         return notTooFast && notWalled && actuallyPressed && !completed;
     }

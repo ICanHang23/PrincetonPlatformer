@@ -1,5 +1,15 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <engine:VisualElement name="VisualElement" style="width: 75%; height: 75%; background-color: rgb(255, 255, 255); top: 12.5%; left: 12.5%; border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-right-radius: 45px; border-bottom-left-radius: 45px;">
         <engine:Label text="Level Complete!" style="align-items: auto; font-size: 45%; -unity-text-align: upper-center; -unity-font-style: bold; top: 5%;" />
+        <engine:Label text="Label" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" style="top: 12%; -unity-text-align: upper-center; font-size: 26%;">
+            <Bindings>
+                <engine:DataBinding property="text" data-source-path="deathString" binding-mode="ToTarget" />
+            </Bindings>
+        </engine:Label>
+        <engine:Label text="Label" style="font-size: 26%; -unity-text-align: upper-center; top: 9%;">
+            <Bindings>
+                <engine:DataBinding property="text" data-source-path="timeString" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" binding-mode="ToTarget" />
+            </Bindings>
+        </engine:Label>
     </engine:VisualElement>
 </engine:UXML>
