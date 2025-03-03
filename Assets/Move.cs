@@ -4,6 +4,7 @@ public class Move : MonoBehaviour
 {
     private Rigidbody2D body;
     private BoxCollider2D box;
+    private CapsuleCollider2D hurtbox;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
 
@@ -11,7 +12,9 @@ public class Move : MonoBehaviour
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        body.freezeRotation = true;
         box = GetComponent<BoxCollider2D>();
+        hurtbox = GetComponent<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
