@@ -23,7 +23,12 @@ public class Move : MonoBehaviour
 
         if (checkIfCanMove())
         {
-            body.AddForceX(15 * Input.GetAxis("Horizontal"));
+            if(isGrounded())
+            {
+                body.linearVelocityX = (5 * Input.GetAxis("Horizontal"));
+            } else {
+                body.AddForceX(15 * Input.GetAxis("Horizontal"));
+            }           
         }
         
         if (jumpInput() && isGrounded() && !game.reachedGoal)
