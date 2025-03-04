@@ -61,7 +61,7 @@ public class Move : MonoBehaviour
     bool isGrounded()
     {
         Vector2 boxSize = box.bounds.size;
-        Vector2 sizeVector = new Vector2(boxSize.x * 0.5f, boxSize.y);
+        Vector2 sizeVector = new Vector2(boxSize.x * 1.5f, boxSize.y);
 
         RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, sizeVector, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
