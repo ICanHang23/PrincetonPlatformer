@@ -33,7 +33,7 @@ public class Move : MonoBehaviour
         
         if (jumpInput() && isGrounded() && !game.reachedGoal)
         {
-            body.linearVelocityY += 7;
+            body.linearVelocityY = 7;
         }
 
         if (transform.position.y < -15)
