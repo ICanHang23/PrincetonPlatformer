@@ -76,7 +76,7 @@ public class Move : MonoBehaviour
     bool isWalled(Vector2 direction)
     {
         Vector2 boxSize = box.bounds.size;
-        Vector2 sizeVector = new Vector2(boxSize.x, boxSize.y * 1.5f);
+        Vector2 sizeVector = new Vector2(boxSize.x, boxSize.y * 0.5f);
 
         RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, sizeVector, 0, direction, 0.1f, groundLayer);
         return raycastHit.collider != null;
