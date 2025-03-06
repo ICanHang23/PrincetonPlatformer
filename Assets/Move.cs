@@ -7,7 +7,8 @@ public class Move : MonoBehaviour
     private CapsuleCollider2D hurtbox;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
-    [SerializeField] float gyatt = 1.5f;
+    [SerializeField] float gyatt = 0.9f;
+    int debug = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -21,28 +22,45 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float inputAxis = Input.GetAxis("Horizontal");
+        Vector2 inputVector = new Vector2(inputAxis, 0);
 
+        // For left or right movement
         if (checkIfCanMove())
         {
             if(isGrounded())
             {
-                body.linearVelocityX = (5 * Input.GetAxis("Horizontal"));
+                body.linearVelocityX = (5 * inputAxis);
             } else {
-                body.AddForceX(15 * Input.GetAxis("Horizontal"));
+                body.AddForceX(15 * inputAxis);
             }           
         }
         
-        if (jumpInput() && isGrounded() && !game.reachedGoal)
+        // For jumping
+        if (jumpInput() && !game.reachedGoal && isGrounded())
         {
-            body.linearVelocityY = 7;
+            body.linearVelocityY = 10;
         }
 
+        // For walljumps
+        else if (jumpInput(true) && inputAxis != 0 && isWalled(inputVector))
+        {
+            body.linearVelocityX = -18 * inputVector.x;
+            body.linearVelocityY = 10;
+        }
+
+        // To check for death
         if (transform.position.y < -15)
         {
             Vector2 newPosition = new Vector2(-5, 0);
             transform.position = newPosition;
             body.linearVelocity = Vector2.zero;
             game.deathCount++;
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+
         }
     }
 
@@ -59,8 +77,13 @@ public class Move : MonoBehaviour
         return notTooFast && notWalled && actuallyPressed && !completed;
     }
 
-    bool jumpInput()
+    bool jumpInput(bool precise = false)
     {
+        if (precise)
+        {
+            return Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
+        }
+
         return Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
     }
 
@@ -76,7 +99,7 @@ public class Move : MonoBehaviour
     bool isWalled(Vector2 direction)
     {
         Vector2 boxSize = box.bounds.size;
-        Vector2 sizeVector = new Vector2(boxSize.x, boxSize.y * 0.5f);
+        Vector2 sizeVector = new Vector2(boxSize.x, boxSize.y * 0.95f);
 
         RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, sizeVector, 0, direction, 0.1f, groundLayer);
         return raycastHit.collider != null;
