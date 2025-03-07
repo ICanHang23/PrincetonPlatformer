@@ -5,6 +5,7 @@ public class Move : MonoBehaviour
     private Rigidbody2D body;
     private BoxCollider2D box;
     private CapsuleCollider2D hurtbox;
+    private bool doubleJumped = false;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
     [SerializeField] float gyatt = 0.9f;
@@ -24,20 +25,29 @@ public class Move : MonoBehaviour
     {
         float inputAxis = Input.GetAxis("Horizontal");
         Vector2 inputVector = new Vector2(inputAxis, 0);
+        bool groundedNow = isGrounded();
+
+        // To check if double jump can be restored
+        if (groundedNow && doubleJumped)
+        {
+            doubleJumped = false;
+        }
 
         // For left or right movement
         if (checkIfCanMove())
         {
-            if(isGrounded())
+            if(groundedNow)
             {
                 body.linearVelocityX = (5 * inputAxis);
             } else {
                 body.AddForceX(15 * inputAxis);
             }           
         }
-        
+
         // For jumping
-        if (jumpInput() && !game.reachedGoal && isGrounded())
+        bool canDoubleJump = !groundedNow && !doubleJumped;
+
+        if (jumpInput() && !game.reachedGoal && groundedNow)
         {
             body.linearVelocityY = 10;
         }
@@ -49,6 +59,18 @@ public class Move : MonoBehaviour
             body.linearVelocityY = 10;
         }
 
+        // For double jumping
+        else if (jumpInput(true) && !game.reachedGoal && canDoubleJump)
+        {
+            if (inputAxis != 0)
+            {
+                body.AddForceX(200 * inputAxis);
+            }
+
+            body.linearVelocityY = 8;
+            doubleJumped = true;
+        }
+
         // To check for death
         if (transform.position.y < -15)
         {
@@ -56,11 +78,6 @@ public class Move : MonoBehaviour
             transform.position = newPosition;
             body.linearVelocity = Vector2.zero;
             game.deathCount++;
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-
         }
     }
 
