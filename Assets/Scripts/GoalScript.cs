@@ -13,9 +13,8 @@ public class GoalScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         GameObject obj = other.gameObject;
-        Debug.Log("Detected");
 
-        if (obj.tag.Equals("Player"))
+        if (obj.tag.Equals("Player") && other is BoxCollider2D)
         {
             game.reachedGoal = true;
             game.deathString = "Deaths: " + game.deathCount;
