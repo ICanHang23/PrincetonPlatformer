@@ -6,6 +6,7 @@ public class Move : MonoBehaviour
     private BoxCollider2D box;
     private CapsuleCollider2D hurtbox;
     private bool doubleJumped = false;
+    private int wallJumpCount = 0;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
     [SerializeField] float gyatt = 0.9f;
@@ -55,6 +56,7 @@ public class Move : MonoBehaviour
         // For walljumps
         else if (jumpInput(true) && inputAxis != 0 && isWalled(inputVector))
         {
+            wallJumpCount++;
             body.linearVelocityX = -18 * inputVector.x;
             body.linearVelocityY = 10;
         }
