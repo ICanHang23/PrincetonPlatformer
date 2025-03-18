@@ -29,9 +29,10 @@ public class Move : MonoBehaviour
         bool groundedNow = isGrounded();
 
         // To check if double jump can be restored
-        if (groundedNow && doubleJumped)
+        if (groundedNow)
         {
             doubleJumped = false;
+            wallJumpCount = 0;
         }
 
         // For left or right movement
