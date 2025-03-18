@@ -40,9 +40,9 @@ public class Move : MonoBehaviour
         {
             if(groundedNow)
             {
-                body.linearVelocityX = (5 * inputAxis);
+                body.linearVelocityX = (7 * inputAxis);
             } else {
-                body.AddForceX(15 * inputAxis);
+                body.AddForceX(10 * inputAxis);
             }           
         }
 
