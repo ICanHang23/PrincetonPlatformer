@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Level1Select : MonoBehaviour
 {
-    public void PlayGame()
+    public void SelectLevel()
     {
         SceneManager.LoadSceneAsync("Level1");
     }
