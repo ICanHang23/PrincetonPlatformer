@@ -75,10 +75,10 @@ crashlytics-build.properties
 # Ignore TextMeshPro files
 [Tt]extMeshPro/*
 TextMesh Pro/*
+Assets/TextMesh Pro/*
 
 #Ignore UI Toolkit
 UI Toolkit/*
 
 # Ignore Visual Studio Code settings
 .vscode/
-
