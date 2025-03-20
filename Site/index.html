@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Princeton Platformer</title>
+    </head>
+    <style>
+        .main-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-div {
+            padding: 0;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 15vh;
+        }
+
+        .btn-main {
+            width: 400px;
+            border-radius: 25px;
+            background-color: #E77500;
+            color: #FFF;
+            text-align: center;
+            font-family: Inter;
+            font-size: 48px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: -0.96px;
+        }
+    </style>
+    <body>
+        {% include 'header.html' %}
+        <div class="main-body">
+            <div class="btn-div">
+                <button class="btn-main">Play Game</button>
+            </div>
+            <div class="btn-div">
+                <button class="btn-main">Leaderboard</button>
+            </div>
+            {% if log == False %}
+            <div class="btn-div">
+                <button class="btn-main">Login</button>
+            </div>
+            {% else %}
+            <div class="btn-div">
+                <button class="btn-main">Logout</button>
+            </div>
+            {% endif %}
+        </div>
+    </body>
+</html>
