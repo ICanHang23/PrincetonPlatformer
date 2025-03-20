@@ -56,7 +56,7 @@ public class Move : MonoBehaviour
 
         // For walljumps
         else if (jumpInput(true) && inputAxis != 0 && isWalled(inputVector)
-            && wallJumpCount < 4)
+            && wallJumpCount < 5)
         {
             wallJumpCount++;
             body.linearVelocityX = -18 * inputVector.x;
