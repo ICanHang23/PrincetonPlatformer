@@ -56,7 +56,8 @@ def login():
 @app.route('/logout', methods=['GET'])
 def logout():
     #Using session here allows us to clear all data
-    #This means that we don't have a "soft" logout yet 
+    #This means that we don't have a hard logout yet.
+    #A user logged in will always be until logged out manually.
     flask.session.clear()
     return flask.redirect('/')
 
