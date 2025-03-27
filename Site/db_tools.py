@@ -24,7 +24,9 @@ def query_leaderboard(level):
                             password = db_pwd,
                             port = 5432)
     with conn.cursor() as curr:
-        curr.execute('SELECT netid, deaths, "time" FROM runs WHERE lvl=%s' % level)
+        query = 'SELECT netid, deaths, "time" FROM runs'
+        query += ' WHERE lvl=%s ORDER BY "time" ASC, deaths ASC' % level
+        curr.execute(query)
         rows = curr.fetchall()
     conn.commit()
     conn.close()
@@ -32,6 +34,8 @@ def query_leaderboard(level):
     return rows
 
 def insert_db(params):
+    time = datetime.datetime.now()
+    time.strftime('%Y-%m-%d %H:%M:%S')
     with psycopg2.connect(database = "Primary DB", 
                             user = "postgres", 
                             host= 'localhost',
@@ -45,7 +49,7 @@ def insert_db(params):
                             params['lvl'],
                             params['deaths'],
                             params['time'],
-                            params['timestamp'],
+                            time,
                             ))
         conn.commit()
 
@@ -54,7 +58,6 @@ def main():
     query_leaderboard()
     time = datetime.datetime.now()
     time.strftime('%Y-%m-%d %H:%M:%S')
-    print(time)
     params = {
         'run_id': 1,
         'netid': 'sh3735',
