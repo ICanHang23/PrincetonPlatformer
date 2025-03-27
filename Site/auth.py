@@ -9,8 +9,6 @@ import re
 import json
 import flask
 
-app = flask.Flask(__name__, template_folder='.')
-
 #-----------------------------------------------------------------------
 
 from load import app
