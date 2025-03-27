@@ -9,6 +9,8 @@ import re
 import json
 import flask
 
+app = flask.Flask(__name__, template_folder='.')
+
 #-----------------------------------------------------------------------
 
 _CAS_URL = 'https://fed.princeton.edu/cas/'
