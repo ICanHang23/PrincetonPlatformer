@@ -7,6 +7,7 @@
 
 import sys
 import flask
+import auth
 
 #-----------------------------------------------------------------------
 
@@ -28,9 +29,17 @@ def home():
 
 @app.route('/login', methods=['GET'])
 def login():
-    rendered =  flask.render_template('login.html', log = True)
+    user_info = auth.authenticate()
+    # print(user_info)
+    username = user_info['user']
+    #check if username is none
+    if (not username):
+        rendered = flask.render_template('index.html', log = False)
+        response.set_cookie('log', 'False')
+    else: 
+        rendered = flask.render_template('index.html', log = False)
+        response.set_cookie('log', 'True')
     response = flask.make_response(rendered)
-    response.set_cookie('log', 'True')
     return response
 
 @app.route('/logout', methods=['GET'])
