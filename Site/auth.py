@@ -9,9 +9,11 @@ import re
 import json
 import flask
 
+from load import app
+
 #-----------------------------------------------------------------------
 
-from load import app
+_CAS_URL = 'https://fed.princeton.edu/cas/'
 
 #-----------------------------------------------------------------------
 
