@@ -9,7 +9,7 @@ import re
 import json
 import flask
 
-from load import app
+app = flask.Flask(__name__, template_folder='.')
 
 #-----------------------------------------------------------------------
 
