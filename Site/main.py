@@ -11,6 +11,7 @@ import auth
 import dotenv
 import os
 
+from db_tools import query_leaderboard, insert_db
 from load import app
 
 #-----------------------------------------------------------------------
@@ -61,6 +62,23 @@ def logout():
     #A user logged in will always be until logged out manually.
     flask.session.clear()
     return flask.redirect('/')
+
+@app.route('/leaderboard-menu', methods=['GET'])
+def leader_menu():
+    return flask.render_template('leadermenu.html')
+
+@app.route('/leaderboard', methods=['GET'])
+def leaderboard():
+    lvl = flask.request.args.get('lvl', None)
+    if lvl == None:
+        print("Something went wrong")
+        return flask.redirect('/')
+    table_info = query_leaderboard(lvl)
+    for row in table_info:
+        print(row[0])
+        print(row[1])
+        print(row[2])
+    return flask.render_template('leaderboard.html', table = table_info)
 
 def str_to_bool(string):
     if string == "True":

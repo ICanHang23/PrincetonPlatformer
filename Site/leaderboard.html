@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Princeton Platformer - Leaderboard</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+<br><br>
+        <table id="overviewsTable" border="1">
+            <tr>
+                <th>NetId</th>
+                <th>Number of Deaths</td>
+                <th>Time</td>
+            </tr>
+            {% if table|length == 0: %}
+            <p>table is empty</p>
+            {% else %}
+            {% for row in table %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+    
+        </table>
+    </body>
+</html>
