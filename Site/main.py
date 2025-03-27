@@ -70,7 +70,7 @@ def main():
     try:
         global startUp
         startUp = True
-        app.run(host='0.0.0.0', port = 8000, debug=True)
+        app.run(host='localhost', port = 8000, debug=True)
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
