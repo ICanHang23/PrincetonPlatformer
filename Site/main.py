@@ -87,8 +87,8 @@ def leaderboard():
 @app.route('/insert', methods=['POST'])
 def insert():
     run_id = flask.request.form.get('run_id', 0)
-    netid = flask.request.form.get('netid', 
-                flask.session.get('username', None))
+    netid = flask.request.form.get('netid', '')
+    netid = flask.session.get('username', None) if netid == '' else netid
     lvl = flask.request.form.get('lvl', 1)
     deaths = flask.request.form.get('deaths', 0)
     time = flask.request.form.get('time', 50)
