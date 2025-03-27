@@ -11,9 +11,10 @@ import auth
 import dotenv
 import os
 
+from load import app
+
 #-----------------------------------------------------------------------
 
-app = flask.Flask(__name__, template_folder='.')
 dotenv.load_dotenv()
 app.secret_key = os.environ['APP_SECRET_KEY']
 
