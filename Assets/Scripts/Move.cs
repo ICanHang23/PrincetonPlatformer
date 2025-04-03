@@ -78,10 +78,7 @@ public class Move : MonoBehaviour
         // To check for death
         if (transform.position.y < -15)
         {
-            Vector2 newPosition = new Vector2(-5, 0);
-            transform.position = newPosition;
-            body.linearVelocity = Vector2.zero;
-            game.deathCount++;
+            die();
         }
     }
 
@@ -124,5 +121,13 @@ public class Move : MonoBehaviour
 
         RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, sizeVector, 0, direction, 0.1f, groundLayer);
         return raycastHit.collider != null;
+    }
+
+    public void die()
+    {
+        Vector2 newPosition = new Vector2(-5, 0);
+        transform.position = newPosition;
+        body.linearVelocity = Vector2.zero;
+        game.deathCount++;
     }
 }

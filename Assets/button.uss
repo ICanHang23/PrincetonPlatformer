@@ -1,0 +1,9 @@
+.button {
+    background-color: rgb(255, 111, 0);
+    height: 47%;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    border-bottom-right-radius: 17px;
+    border-bottom-left-radius: 17px;
+    width: 20%;
+}

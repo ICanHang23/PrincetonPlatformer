@@ -1,15 +1,26 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/button.uss?fileID=7433441132597879392&amp;guid=7f7b1e6f82ac55b4ebea7c9ef4b54eff&amp;type=3#button" />
     <engine:VisualElement name="VisualElement" style="width: 75%; height: 75%; background-color: rgb(255, 255, 255); top: 12.5%; left: 12.5%; border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-right-radius: 45px; border-bottom-left-radius: 45px;">
-        <engine:Label text="Level Complete!" style="align-items: auto; font-size: 45%; -unity-text-align: upper-center; -unity-font-style: bold; top: 5%;" />
-        <engine:Label text="Label" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" style="top: 12%; -unity-text-align: upper-center; font-size: 26%;">
-            <Bindings>
-                <engine:DataBinding property="text" data-source-path="deathString" binding-mode="ToTarget" />
-            </Bindings>
-        </engine:Label>
-        <engine:Label text="Label" style="font-size: 26%; -unity-text-align: upper-center; top: 9%;">
-            <Bindings>
-                <engine:DataBinding property="text" data-source-path="timeString" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" binding-mode="ToTarget" />
-            </Bindings>
-        </engine:Label>
+        <engine:VisualElement name="TextContainer" style="flex-grow: 1; height: 35%; width: 100%;">
+            <engine:VisualElement name="HeaderContainer" style="flex-grow: 1; background-color: rgba(56, 56, 56, 0); -unity-text-align: upper-left; align-content: auto; align-self: auto; justify-content: flex-start; height: 6%;">
+                <engine:Label text="Level Complete!" name="Header" style="-unity-font-style: bold; -unity-text-align: upper-center; font-size: 46px; align-items: stretch; top: 21%;" />
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 1; background-color: rgba(55, 55, 55, 0); height: 3%;">
+                <engine:Label text="Label" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" name="Label" style="-unity-text-align: upper-center; font-size: 20px;">
+                    <Bindings>
+                        <engine:DataBinding property="text" data-source-path="deathString" binding-mode="ToTarget" />
+                    </Bindings>
+                </engine:Label>
+                <engine:Label text="Label" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" style="-unity-text-align: upper-center; font-size: 20px;">
+                    <Bindings>
+                        <engine:DataBinding property="text" data-source-path="timeString" binding-mode="ToTarget" />
+                    </Bindings>
+                </engine:Label>
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="ButtonContainers" style="flex-grow: 1; flex-direction: row; align-content: flex-start; align-self: auto; justify-content: center;">
+            <engine:Button text="Restart" name="RestartButton" class="button" />
+            <engine:Button text="Next" name="NextButton" class="button" />
+        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
