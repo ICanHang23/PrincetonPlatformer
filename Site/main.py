@@ -73,9 +73,9 @@ def receivescore():
     deaths = data.get('deaths')
 
     params = {
-        'run_id': '1',
+        'run_id': 45102973,
         'netid' : netid,
-        'lvl': level[5:],
+        'lvl': int(level[5:]),
         'deaths' : deaths,
         'time' : time,
     }
