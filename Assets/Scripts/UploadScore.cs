@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class UploadScore : MonoBehaviour
 {
-    
+    public static UploadScore Instance{
+        get;
+        set;
+    }
     private static string url = "http://localhost:5000/receivescore";
 
     [SerializeField] GameData data;
