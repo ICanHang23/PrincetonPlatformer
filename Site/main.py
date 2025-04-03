@@ -14,6 +14,7 @@ import argparse
 
 from db_tools import query_leaderboard, insert_db
 from load import app
+import utils
 
 #-----------------------------------------------------------------------
 
@@ -26,12 +27,10 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 def home():
     global startUp
     if startUp:
-        print("Start Up happened")
         startUp = False
         rendered = flask.render_template('index.html', log=False)
         response = flask.make_response(rendered)
         return response
-    print('home was run')
     #getting log in information
     logged_in = flask.session.get('logged_in', False) 
     username = flask.session.get('username', None)
@@ -82,37 +81,15 @@ def leader_menu():
 def leaderboard():
     lvl = flask.request.args.get('lvl', None)
     if lvl == None:
-        print("Something went wrong")
         return flask.redirect('/')
     table_info = query_leaderboard(lvl)
-    for row in table_info:
-        print(row[0])
-        print(row[1])
-        print(row[2])
     return flask.render_template('leaderboard.html', table = table_info)
 
 @app.route('/insert', methods=['POST'])
 def insert():
-    run_id = flask.request.form.get('run_id', 0)
-    netid = flask.request.form.get('netid', '')
-    netid = flask.session.get('username', None) if netid == '' else netid
-    lvl = flask.request.form.get('lvl', 1)
-    deaths = flask.request.form.get('deaths', 0)
-    time = flask.request.form.get('time', 50)
-    params = {
-        'run_id': run_id,
-        'netid': netid,
-        'lvl': lvl,
-        'deaths': deaths,
-        'time': time,
-    }
+    params = utils.get_form_params()
     insert_db(params)
     return flask.redirect('/leaderboard-menu')
-
-def str_to_bool(string):
-    if string == "True":
-        return True
-    return False
 
 def main():
     # set up parser
@@ -122,8 +99,8 @@ def main():
 
     # add arguments
     parser.add_argument("port", help="""the port at which the
-                        server should listen""",
-                        metavar="port", type=int)
+                        server should listen""", nargs='?',
+                        metavar="port", type=int, default=8000)
 
     args = parser.parse_args()
 
