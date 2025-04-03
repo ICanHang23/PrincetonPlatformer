@@ -8,10 +8,12 @@ public class UploadScore : MonoBehaviour
 
     private static string url = "http://localhost:5000/receivescore";
 
+    [SerializeField] GameData data;
+
     public static void SendScore(string deathString, string timeString)
     {
         string level = SceneManager.GetActiveScene().name;
-        GameManager.Instance.StartCoroutine(UploadScoreCoroutine(level, deathString, timeString));
+        StartCoroutine(UploadScoreCoroutine(level, deathString, timeString));
     }
 
     private static IEnumerator UploadScoreCoroutine(string level, string deathString, string timeString)
