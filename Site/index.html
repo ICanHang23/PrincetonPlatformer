@@ -40,13 +40,23 @@
             <div class="btn-div">
                 <button class="btn-main">Leaderboard</button>
             </div>
-            {% if log == False %}
+            {% if log == True %}
             <div class="btn-div">
-                <button class="btn-main">Login</button>
+                <form action="/login" method="get">
+                    <button type="submit" class="btn-main">Logout</button>
+                </form>
+            </div>
+            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
+                Logged in as <stong>{{ username }}</stong>
             </div>
             {% else %}
             <div class="btn-div">
-                <button class="btn-main">Logout</button>
+                <form action="/logout" method="get">
+                    <button type="submit" class="btn-main">Login</button>
+                </form>
+            </div>
+            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
+                Currently playing as <strong>Guest</strong>. Scores will not be saved.
             </div>
             {% endif %}
         </div>

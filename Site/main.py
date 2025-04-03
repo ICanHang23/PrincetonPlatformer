@@ -7,10 +7,18 @@
 
 import sys
 import flask
+import auth
+import dotenv
+import os
+
+from load import app
 
 #-----------------------------------------------------------------------
 
-app = flask.Flask(__name__, template_folder='.')
+dotenv.load_dotenv()
+app.secret_key = os.environ['APP_SECRET_KEY']
+
+#-----------------------------------------------------------------------
 
 @app.route('/', methods=['GET'])
 def home():
@@ -20,25 +28,39 @@ def home():
         startUp = False
         rendered = flask.render_template('index.html', log=False)
         response = flask.make_response(rendered)
-        response.set_cookie('log', "False")
         return response
     print('home was run')
-    logged_in = str_to_bool(flask.request.cookies.get('log', None))
-    return flask.render_template('index.html', log=logged_in)
+    #getting log in information
+    logged_in = flask.session.get('logged_in', False) 
+    username = flask.session.get('username', None)
+    return flask.render_template('index.html', log=logged_in,
+                                  username = username)
 
 @app.route('/login', methods=['GET'])
 def login():
-    rendered =  flask.render_template('login.html', log = True)
-    response = flask.make_response(rendered)
-    response.set_cookie('log', 'True')
-    return response
+    user_info = auth.authenticate()
+    #making sure that user info is gathered correctly 
+    if isinstance(user_info, flask.Response):
+        return user_info
+    
+    #get username
+    username = user_info.get('user')
+    #checking if username is not None
+    if username:
+        # creating a session variable named logged in
+        flask.session['logged_in'] = True
+        flask.session['username'] = username
+    
+    #going back to the index
+    return flask.redirect('/')
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    redirect = flask.redirect('/')
-    response = flask.make_response(redirect)
-    response.set_cookie('log', 'False')
-    return response
+    #Using session here allows us to clear all data
+    #This means that we don't have a hard logout yet.
+    #A user logged in will always be until logged out manually.
+    flask.session.clear()
+    return flask.redirect('/')
 
 def str_to_bool(string):
     if string == "True":
@@ -49,7 +71,7 @@ def main():
     try:
         global startUp
         startUp = True
-        app.run(host='0.0.0.0', port = 8000, debug=True)
+        app.run(host='localhost', port = 8000, debug=True)
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
