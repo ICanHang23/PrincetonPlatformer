@@ -24,7 +24,12 @@ public class GoalScript : MonoBehaviour
 
             Debug.Log("Congratulations! You completed the level with " + game.deathCount + " deaths!");
             Debug.Log("Completion time: " + (Time.fixedTime - startTime));
+
+            // Putting in a score submission
+            UploadScore.SendScore(game.deathString, game.timeString);
+
             Instantiate(levelComplete);
+
         }
     }
 }

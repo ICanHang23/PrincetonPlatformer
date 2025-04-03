@@ -63,6 +63,29 @@ def gametest():
     response.headers['Content-Encoding'] = 'brotli'
     return response
 
+# I'm pretty sure post is right here to receive data?
+@app.route('/receivescore', methods = ['POST'])
+def receivescore():
+    data = flask.request.get_json()
+    netid = flask.session.get('username', None)
+    time = data.get('time')
+    level = data.get('level')
+    deaths = data.get('deaths')
+
+    params = {
+        'run_id': '1',
+        'netid' : netid,
+        'lvl': level,
+        'deaths' : deaths,
+        'time' : time,
+    }
+
+    insert_db(params)
+
+    return flask.jsonify({'message': 'Time submitted', 
+                          'player_name': netid})
+    
+
 @app.route('/logout', methods=['GET'])
 def logout():
     #Using session here allows us to clear all data
