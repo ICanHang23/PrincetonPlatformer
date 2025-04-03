@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Move : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Move : MonoBehaviour
     [SerializeField] float gyatt = 0.9f;
     int debug = 0;
 
+    // for hoagie
+    [SerializeField] GameObject hoagie;
+    int directionFacing = 1;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -24,9 +29,14 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Updating some variables that will be reused throughout
         float inputAxis = Input.GetAxis("Horizontal");
         Vector2 inputVector = new Vector2(inputAxis, 0);
         bool groundedNow = isGrounded();
+        if (inputAxis != 0)
+        {
+            directionFacing = Math.Sign(inputAxis);
+        }
 
         // To check if double jump can be restored
         if (groundedNow)
@@ -80,6 +90,12 @@ public class Move : MonoBehaviour
         {
             die();
         }
+
+        // Check for hoagie deployment
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            deployHoagie();
+        }
     }
 
     bool checkIfCanMove()
@@ -127,7 +143,29 @@ public class Move : MonoBehaviour
     {
         Vector2 newPosition = new Vector2(-5, 0);
         transform.position = newPosition;
-        body.linearVelocity = Vector2.zero;
+        resetVelocity();
         game.deathCount++;
+    }
+
+    public void resetVelocity()
+    {
+        body.linearVelocity = Vector2.zero;
+    }
+
+    void deployHoagie()
+    {
+        // Spawn the hoagie
+        Vector3 hoagiePosition = transform.position;
+        hoagiePosition.y += 0.1f;
+        GameObject newHoagie = Instantiate(hoagie, hoagiePosition, Quaternion.identity);
+
+        // Calculate the launch angle
+        double angle = Math.PI / 6;
+        Vector2 trajectory = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle));
+        trajectory.x *= directionFacing;
+
+        // Launch the thing
+        HoagieBuns buns = newHoagie.GetComponent<HoagieBuns>();
+        buns.launch(trajectory);
     }
 }

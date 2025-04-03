@@ -2441,6 +2441,7 @@ MonoBehaviour:
     m_Bits: 64
   game: {fileID: 11400000, guid: 2fede285dd9962748b52d966b1217dda, type: 2}
   gyatt: 0.98
+  hoagie: {fileID: 8542189437016471789, guid: 4be5dad5edc78ef488a469a071da66ac, type: 3}
 --- !u!70 &1795144444
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
