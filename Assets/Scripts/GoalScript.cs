@@ -26,7 +26,7 @@ public class GoalScript : MonoBehaviour
             Debug.Log("Completion time: " + (Time.fixedTime - startTime));
 
             // Putting in a score submission
-            UploadScore.SendScore(game.deathString, game.timeString);
+            UploadScore.SendScore(game.deathcount, elapsedPlayTime);
 
             Instantiate(levelComplete);
 

@@ -10,19 +10,19 @@ public class UploadScore : MonoBehaviour
 
     [SerializeField] GameData data;
 
-    public static void SendScore(string deathString, string timeString)
+    public static void SendScore(int deaths, float time)
     {
         string level = SceneManager.GetActiveScene().name;
-        StartCoroutine(UploadScoreCoroutine(level, deathString, timeString));
+        StartCoroutine(UploadScoreCoroutine(level, death, time));
     }
 
-    private static IEnumerator UploadScoreCoroutine(string level, string deathString, string timeString)
-    {
+    private static IEnumerator UploadScoreCoroutine(string level, int deaths, float time){
+
         ScoreData scoreData = new ScoreData
         {
             level = level,
-            deaths = int.Parse(deathString.Split(':')[1].Trim()), 
-            time = float.Parse(timeString.Split(':')[1].Trim()) 
+            deaths = deaths,
+            time = time
         };
 
         //Converting to JSON
@@ -56,7 +56,7 @@ public class UploadScore : MonoBehaviour
     [System.Serializable]
     public class ScoreData
     {
-        public int level;
+        public string level;
         public int deaths;
         public float time;
     }
