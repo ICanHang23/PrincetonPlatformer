@@ -15,12 +15,14 @@ import datetime
 
 dotenv.load_dotenv()
 # You need a password in your .env for this to work
+db_user = os.getenv("DB_USER", "")
 db_pwd = os.getenv("DB_PASS", "")
+db_host = os.getenv("DB_HOST", "")
 
 def query_leaderboard(level):
     conn = psycopg2.connect(database = "Primary DB", 
-                            user = "postgres", 
-                            host= 'localhost',
+                            user = db_user, 
+                            host= db_host,
                             password = db_pwd,
                             port = 5432)
     with conn.cursor() as curr:
@@ -37,8 +39,8 @@ def insert_db(params):
     time = datetime.datetime.now()
     time.strftime('%Y-%m-%d %H:%M:%S')
     with psycopg2.connect(database = "Primary DB", 
-                            user = "postgres", 
-                            host= 'localhost',
+                            user = db_user, 
+                            host= db_host,
                             password = db_pwd,
                             port = 5432) as conn:
         with conn.cursor() as curr:
@@ -56,15 +58,12 @@ def insert_db(params):
 #For testing purposes
 def main():
     query_leaderboard()
-    time = datetime.datetime.now()
-    time.strftime('%Y-%m-%d %H:%M:%S')
     params = {
         'run_id': 1,
         'netid': 'sh3735',
         'lvl': 1,
         'deaths': 3,
         'time': 21.4,
-        'timestamp': time
     }
     insert_db(params)
     query_leaderboard()
