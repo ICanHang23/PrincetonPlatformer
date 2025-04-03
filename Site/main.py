@@ -25,12 +25,6 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 
 @app.route('/', methods=['GET'])
 def home():
-    global startUp
-    if startUp:
-        startUp = False
-        rendered = flask.render_template('index.html', log=False)
-        response = flask.make_response(rendered)
-        return response
     #getting log in information
     logged_in = flask.session.get('logged_in', False) 
     username = flask.session.get('username', None)
@@ -105,8 +99,6 @@ def main():
     args = parser.parse_args()
 
     try:
-        global startUp
-        startUp = True
         app.run(host='localhost', port = args.port, debug=True)
     except Exception as ex:
         print(ex, file=sys.stderr)
