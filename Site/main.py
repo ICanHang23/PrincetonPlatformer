@@ -75,7 +75,7 @@ def receivescore():
     params = {
         'run_id': '1',
         'netid' : netid,
-        'lvl': level,
+        'lvl': level[5:],
         'deaths' : deaths,
         'time' : time,
     }
