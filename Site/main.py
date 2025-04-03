@@ -82,8 +82,7 @@ def receivescore():
 
     insert_db(params)
 
-    return flask.jsonify({'message': 'Time submitted', 
-                          'player_name': netid})
+    return flask.redirect('/leaderboard-menu')
     
 
 @app.route('/logout', methods=['GET'])
