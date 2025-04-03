@@ -10,7 +10,9 @@ import flask
 import auth
 import dotenv
 import os
+import argparse
 
+from db_tools import query_leaderboard, insert_db
 from load import app
 
 #-----------------------------------------------------------------------
@@ -69,16 +71,66 @@ def logout():
     flask.session.clear()
     return flask.redirect('/')
 
+@app.route('/leaderboard-menu', methods=['GET'])
+def leader_menu():
+    logged_in = flask.session.get('logged_in', False)
+    username = flask.session.get('username', None) 
+    return flask.render_template('leadermenu.html', log=logged_in,
+                                 username = username)
+
+@app.route('/leaderboard', methods=['GET'])
+def leaderboard():
+    lvl = flask.request.args.get('lvl', None)
+    if lvl == None:
+        print("Something went wrong")
+        return flask.redirect('/')
+    table_info = query_leaderboard(lvl)
+    for row in table_info:
+        print(row[0])
+        print(row[1])
+        print(row[2])
+    return flask.render_template('leaderboard.html', table = table_info)
+
+@app.route('/insert', methods=['POST'])
+def insert():
+    run_id = flask.request.form.get('run_id', 0)
+    netid = flask.request.form.get('netid', '')
+    netid = flask.session.get('username', None) if netid == '' else netid
+    lvl = flask.request.form.get('lvl', 1)
+    deaths = flask.request.form.get('deaths', 0)
+    time = flask.request.form.get('time', 50)
+    params = {
+        'run_id': run_id,
+        'netid': netid,
+        'lvl': lvl,
+        'deaths': deaths,
+        'time': time,
+    }
+    insert_db(params)
+    return flask.redirect('/leaderboard-menu')
+
 def str_to_bool(string):
     if string == "True":
         return True
     return False
 
 def main():
+    # set up parser
+    parser = argparse.ArgumentParser(
+                    prog=sys.argv[0],
+                    description="The registrar application")
+
+    # add arguments
+    parser.add_argument("port", help="""the port at which the
+                        server should listen""",
+                        metavar="port", type=int)
+
+    args = parser.parse_args()
+
     try:
         global startUp
         startUp = True
-        app.run(host='localhost', port = 8000, debug=True)
+        app.run(host='localhost', port = args.port, debug=True)
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
