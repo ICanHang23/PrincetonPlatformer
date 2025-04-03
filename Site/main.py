@@ -54,6 +54,13 @@ def login():
     #going back to the index
     return flask.redirect('/')
 
+@app.route('/gametest', methods=['GET'])
+def gametest():
+    rendered = flask.render_template('game.html')
+    response = flask.make_response(rendered)
+    response.headers['Content-Encoding'] = 'brotli'
+    return response
+
 @app.route('/logout', methods=['GET'])
 def logout():
     #Using session here allows us to clear all data
