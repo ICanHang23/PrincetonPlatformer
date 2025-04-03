@@ -13,10 +13,10 @@ public class UploadScore : MonoBehaviour
 
     [SerializeField] GameData data;
 
-    public void SendScore(int deaths, float time)
+    public static void SendScore(int deaths, float time)
     {
         string level = SceneManager.GetActiveScene().name;
-        StartCoroutine(UploadScoreCoroutine(level, deaths, time));
+        instance.StartCoroutine(UploadScoreCoroutine(level, deaths, time));
     }
 
     private static IEnumerator UploadScoreCoroutine(string level, int deaths, float time){
