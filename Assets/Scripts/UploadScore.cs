@@ -10,7 +10,7 @@ public class UploadScore : MonoBehaviour
 
     [SerializeField] GameData data;
 
-    public static void SendScore(int deaths, float time)
+    public void SendScore(int deaths, float time)
     {
         string level = SceneManager.GetActiveScene().name;
         StartCoroutine(UploadScoreCoroutine(level, deaths, time));
