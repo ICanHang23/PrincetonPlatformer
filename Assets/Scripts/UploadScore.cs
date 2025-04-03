@@ -16,7 +16,7 @@ public class UploadScore : MonoBehaviour
     public static void SendScore(int deaths, float time)
     {
         string level = SceneManager.GetActiveScene().name;
-        instance.StartCoroutine(UploadScoreCoroutine(level, deaths, time));
+        Instance.StartCoroutine(UploadScoreCoroutine(level, deaths, time));
     }
 
     private static IEnumerator UploadScoreCoroutine(string level, int deaths, float time){
