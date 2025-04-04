@@ -1,10 +1,12 @@
 using UnityEngine;
+using System.Collections;
 
 public class Move : MonoBehaviour
 {
     private Rigidbody2D body;
     private BoxCollider2D box;
     private CapsuleCollider2D hurtbox;
+    private bool dead = false;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
     [SerializeField] private LayerMask groundLayer;
@@ -60,7 +62,7 @@ public class Move : MonoBehaviour
         {
             wallJumpCount++;
             body.linearVelocityX = -18 * inputVector.x;
-            body.linearVelocityY = 10;
+            body.linearVelocityY = 12;
         }
 
         // For double jumping
@@ -92,7 +94,7 @@ public class Move : MonoBehaviour
         bool actuallyPressed = inputAxis != 0;
         bool completed = game.reachedGoal;
 
-        return notTooFast && notWalled && actuallyPressed && !completed;
+        return notTooFast && notWalled && actuallyPressed && !completed && !dead;
     }
 
     bool jumpInput(bool precise = false)
@@ -125,9 +127,33 @@ public class Move : MonoBehaviour
 
     public void die()
     {
-        Vector2 newPosition = new Vector2(-5, 0);
-        transform.position = newPosition;
-        body.linearVelocity = Vector2.zero;
-        game.deathCount++;
+        //dead = true;
+        //body.linearVelocity = Vector2.zero;
+        //GetComponent<Rigidbody2D>().gravityScale=0;
+        killPlayer();
+        //GetComponent<Rigidbody2D>().gravityScale=2;
+        //Vector2 newPosition = new Vector2(-5, 0);
+        //transform.position = newPosition;
+        //body.linearVelocity = Vector2.zero;
+        //dead = false;
+        //game.deathCount++;
     }
+
+    public void killPlayer()
+    {
+        dead = true;
+        GetComponent<Rigidbody2D>().gravityScale=0;
+        body.linearVelocity = Vector2.zero;
+        StartCoroutine(UnfreezePlayer());
+    }
+    private IEnumerator UnfreezePlayer()
+        {
+            yield return new WaitForSeconds(1);
+            Vector2 newPosition = new Vector2(-5, 0);
+            body.linearVelocity = Vector2.zero;
+            GetComponent<Rigidbody2D>().gravityScale=2;
+            transform.position = newPosition;
+            dead = false;
+            game.deathCount++;
+        }
 }
