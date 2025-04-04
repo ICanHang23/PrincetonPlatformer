@@ -35,6 +35,24 @@ def query_leaderboard(level):
 
     return rows
 
+def get_next_run_id(netid: str):
+    conn = psycopg2.connect(database = "Primary DB", 
+                            user = db_user, 
+                            host= db_host,
+                            password = db_pwd,
+                            port = 5432)
+    with conn.cursor() as curr:
+        query = "SELECT run_id FROM runs WHERE netid LIKE '%s' " % netid
+        query += "ORDER BY run_id DESC"
+        curr.execute(query)
+        rows = curr.fetchall()
+        print(rows)
+        output = rows[0][0] + 1 if len(rows) != 0 else 1
+    conn.commit()
+    conn.close()
+
+    return output
+
 def insert_db(params):
     time = datetime.datetime.now()
     time.strftime('%Y-%m-%d %H:%M:%S')
