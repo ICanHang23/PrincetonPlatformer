@@ -2,4 +2,4 @@
 
 import flask
 
-app =flask.Flask('main', template_folder = '.')
+app =flask.Flask('main', template_folder = 'templates')
