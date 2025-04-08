@@ -121,7 +121,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        app.run(host='localhost', port = args.port, debug=True)
+        app.run(host='localhost', port = args.port, debug=False)
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
