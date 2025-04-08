@@ -22,6 +22,7 @@ dotenv.load_dotenv()
 app.secret_key = os.environ['APP_SECRET_KEY']
 
 #-----------------------------------------------------------------------
+app = flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
