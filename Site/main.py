@@ -102,7 +102,7 @@ def leaderboard():
         return flask.redirect('/')
     table_info = query_leaderboard(lvl)
 
-    limit = 3 # Number of rows on table at once
+    limit = 10 # Number of rows on table at once
     if pg * limit > len(table_info):
         pg = len(table_info) // limit
         pg += 1 if len(table_info) % limit != 0 else 0

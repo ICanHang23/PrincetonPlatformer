@@ -11,6 +11,7 @@
             <table class="table" id="overviewsTable">
                 <thead class="thead-primary">
                     <tr>
+                        <th>Rank</th>
                         <th>NetId</th>
                         <th>Number of Deaths</td>
                         <th>Time</td>
@@ -21,6 +22,7 @@
                 {% for row in table[(pg - 1) * limit: pg * limit] %}
                 <tbody>
                     <tr>
+                        <td>{{ loop.index + (pg - 1) * limit }}</td>
                         <td>{{ row[0] }}</td>
                         <td>{{ row[1] }}</td>
                         <td>{{ row[2] }}</td>

@@ -46,7 +46,6 @@ def get_next_run_id(netid: str):
         query += "ORDER BY run_id DESC"
         curr.execute(query)
         rows = curr.fetchall()
-        print(rows)
         output = rows[0][0] + 1 if len(rows) != 0 else 1
     conn.commit()
     conn.close()
