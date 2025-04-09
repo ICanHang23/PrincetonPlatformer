@@ -22,6 +22,7 @@ dotenv.load_dotenv()
 app.secret_key = os.environ['APP_SECRET_KEY']
 
 #-----------------------------------------------------------------------
+app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -130,7 +131,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        app.run(host='localhost', port = args.port, debug=True)
+        app.run(host='localhost', port = args.port, debug=False)
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
