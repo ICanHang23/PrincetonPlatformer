@@ -1,46 +1,5 @@
 <!DOCTYPE html>
 <html>
-    <style>
-        body {
-            background: #f8f9fd !important;
-        }
-
-        /* Taken from colorlib.com */
-        .table-div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .table {
-            min-width: 400px !important;
-            width: 60%;
-            background: #fff;
-        }
-
-        .table thead.thead-primary {
-            background: #E77500;
-        }
-
-        .table thead th {
-            border: none;
-            padding: 20px 30px;
-            font-size: 14px;
-            color: #fff;
-        }
-
-        .table tbody tr {
-            margin-bottom: 10px;
-        }
-
-        .table tbody th,
-        .table tbody td {
-            border: none;
-            padding: 20px 30px;
-            border-bottom: 3px solid #f8f9fd;
-            font-size: 14px;
-        }
-    </style>
-
     <head>
         <title>Princeton Platformer - Leaderboard</title>
     </head>
@@ -59,7 +18,7 @@
                 </thead>
                 {% if table|length == 0: %}
                 {% else %}
-                {% for row in table %}
+                {% for row in table[(pg - 1) * limit: pg * limit] %}
                 <tbody>
                     <tr>
                         <td>{{ row[0] }}</td>
@@ -71,6 +30,14 @@
                 {% endif %}
 
             </table>
+        </div>
+        <div class = "btn-div">
+            {% if pg > 1 %}
+            <a href="/leaderboard?lvl={{lvl}}&pg={{pg - 1}}"><button class="table-btn">Back</button></a>
+            {% endif %}
+            {% if table|length > pg * limit %}
+            <a href="/leaderboard?lvl={{lvl}}&pg={{pg + 1}}"><button class="table-btn">Next</button></a>
+            {% endif %}
         </div>
     </body>
 </html>

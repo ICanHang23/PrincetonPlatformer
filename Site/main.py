@@ -96,10 +96,19 @@ def leader_menu():
 @app.route('/leaderboard', methods=['GET'])
 def leaderboard():
     lvl = flask.request.args.get('lvl', None)
+    pg = int(flask.request.args.get('pg', 1))
+
     if lvl == None:
         return flask.redirect('/')
     table_info = query_leaderboard(lvl)
-    return flask.render_template('leaderboard.html', table = table_info)
+
+    limit = 3 # Number of rows on table at once
+    if pg * limit > len(table_info):
+        pg = len(table_info) // limit
+        pg += 1 if len(table_info) % limit != 0 else 0
+
+    return flask.render_template('leaderboard.html', table = table_info,
+                                lvl = lvl, pg = pg, limit = limit)
 
 @app.route('/insert', methods=['POST'])
 def insert():

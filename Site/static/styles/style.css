@@ -1,0 +1,132 @@
+body {
+    margin: 0px;
+    background: #f8f9fd;
+}
+.header {
+    background-color: #E77500;
+    align-self: top;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+}
+.title-text {
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #FFF;
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+    font-family: Inter;
+    font-size: 5vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -1.28px;
+    margin-left: 30%
+}
+
+.login-text {
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #FFF;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    margin-left: 18vw;
+}
+
+a {
+    color: inherit;
+    -webkit-text-stroke-width: inherit;
+    -webkit-text-stroke-color: inherit;
+    text-decoration: inherit;
+  }
+
+.main-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-btn-div {
+    padding: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 15vh;
+}
+
+.btn-main {
+    width: 400px;
+    border-radius: 25px;
+    background-color: #E77500;
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.96px;
+}
+
+  /* Taken from colorlib.com */
+  .table-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.table {
+    min-width: 400px !important;
+    width: 60%;
+    background: #fff;
+}
+
+.btn-div {
+    width: 60%;
+    display: flex;
+    justify-content: right;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.table-btn {
+    padding: 8px 16px;
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #E77500;
+    color: white;
+    border-radius: 20px;
+  }
+
+  button:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+  }
+
+.table thead.thead-primary {
+    background: #E77500;
+}
+
+.table thead th {
+    border: none;
+    padding: 20px 30px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.table tbody tr {
+    margin-bottom: 10px;
+}
+
+.table tbody th,
+.table tbody td {
+    border: none;
+    padding: 20px 30px;
+    border-bottom: 3px solid #f8f9fd;
+    font-size: 14px;
+}
