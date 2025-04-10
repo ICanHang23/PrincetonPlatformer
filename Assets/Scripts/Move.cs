@@ -43,7 +43,7 @@ public class Move : MonoBehaviour
         if (inputAxis != 0)
         {
             directionFacing = Math.Sign(inputAxis);
-            arrow.xScale(directionFacing);
+            arrow.dir(directionFacing);
         }
 
         // To check if double jump can be restored
