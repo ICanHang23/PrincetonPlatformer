@@ -18,7 +18,7 @@ public class Move : MonoBehaviour
     [SerializeField] GameObject hoagie;
     int directionFacing = 1;
     bool deployed = false;
-    GameObject arrow;
+    Arrow arrow;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -27,7 +27,8 @@ public class Move : MonoBehaviour
         body.freezeRotation = true;
         box = GetComponent<BoxCollider2D>();
         // Debug.Log(transform.childCount);
-        arrow = transform.GetChild(0).gameObject;
+        GameObject arrowObj = transform.GetChild(0).gameObject;
+        arrow = arrowObj.GetComponent<Arrow>();
     }
 
     // Update is called once per frame
@@ -40,6 +41,7 @@ public class Move : MonoBehaviour
         if (inputAxis != 0)
         {
             directionFacing = Math.Sign(inputAxis);
+            arrow.xScale(directionFacing);
         }
 
         // To check if double jump can be restored
@@ -113,18 +115,17 @@ public class Move : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
-            Arrow arrowScript = arrow.GetComponent<Arrow>();
-            arrowScript.toggleVisibily(true);
+            arrow.toggleVisibily(true);
+            arrow.rotate(1);
         }
         else if (Input.GetKey(KeyCode.R))
         {
-            Arrow arrowScript = arrow.GetComponent<Arrow>();
-            arrowScript.toggleVisibily(true);
+            arrow.toggleVisibily(true);
+            arrow.rotate(-1);
         }
         else
         {
-            Arrow arrowScript = arrow.GetComponent<Arrow>();
-            arrowScript.toggleVisibily(false);
+            arrow.toggleVisibily(false);
         }
     }
 
@@ -190,7 +191,8 @@ public class Move : MonoBehaviour
         GameObject newHoagie = Instantiate(hoagie, hoagiePosition, Quaternion.identity);
 
         // Calculate the launch angle
-        double angle = Math.PI / 6;
+        Arrow arrowScript = arrow.GetComponent<Arrow>();
+        double angle = arrowScript.angle * (Math.PI / 180);
         Vector2 trajectory = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle));
         trajectory.x *= directionFacing;
 
