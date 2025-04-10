@@ -37,6 +37,8 @@ body {
     font-style: normal;
     font-weight: 700;
     margin-left: 18vw;
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 a {
