@@ -87,12 +87,10 @@ def logout():
 
 @app.route('/signout', methods=['GET'])
 def signout():
-    _CAS_URL = auth._CAS_URL
-    # Log out of the CAS session, and then the application.
-    logout_url = (_CAS_URL + 'logout?service='
-        + urllib.parse.quote(
-            re.sub('logoutcas', 'logoutapp', flask.request.url)))
-    flask.abort(flask.redirect(logout_url))
+    flask.session.clear()
+    response = flask.redirect('/')
+    response.set_cookie('session', '', expires=0)
+    return response
 
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
