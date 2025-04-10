@@ -44,7 +44,8 @@ def login():
 
 @app.route('/gametest', methods=['GET'])
 def gametest():
-    rendered = flask.render_template('game.html')
+    logged_in = flask.session.get('logged_in', False) 
+    rendered = flask.render_template('game.html', log = logged_in)
     response = flask.make_response(rendered)
     response.headers['Content-Encoding'] = 'brotli'
     return response
