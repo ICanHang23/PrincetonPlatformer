@@ -90,6 +90,7 @@ def signout():
     cas_logout_url = 'https://fed.princeton.edu/cas/logout'
     return_url = flask.url_for('home', _external=True)
     logout_redirect_url = f"{cas_logout_url}?service={urllib.parse.quote(return_url)}"
+    return flask.redirect(logout_redirect_url)
     
 
 @app.route('/leaderboard-menu', methods=['GET'])
