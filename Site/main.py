@@ -8,8 +8,6 @@
 import sys
 import flask
 import auth
-import dotenv
-import os
 import argparse
 
 from db_tools import query_leaderboard, insert_db
@@ -17,12 +15,6 @@ from load import app
 import utils
 
 #-----------------------------------------------------------------------
-
-dotenv.load_dotenv()
-app.secret_key = os.environ['APP_SECRET_KEY']
-
-#-----------------------------------------------------------------------
-app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
