@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 
 public delegate void Callback();
@@ -9,6 +10,7 @@ public class Move : MonoBehaviour
     private BoxCollider2D box;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
+    private bool dead = false;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
     [SerializeField] float gyatt = 0.9f;
@@ -172,11 +174,24 @@ public class Move : MonoBehaviour
 
     public void die()
     {
-        Vector2 newPosition = new Vector2(-5, 0);
-        transform.position = newPosition;
-        resetVelocity();
-        game.deathCount++;
+        if (dead == false) 
+        {
+            dead = true;
+            GetComponent<Rigidbody2D>().gravityScale=0;
+            body.linearVelocity = Vector2.zero;
+            StartCoroutine(RespawnPlayer());
+            dead = false;
+        }
     }
+    private IEnumerator RespawnPlayer()
+        {
+            yield return new WaitForSeconds(1);
+            Vector2 newPosition = new Vector2(-5, 0);
+            body.linearVelocity = Vector2.zero;
+            GetComponent<Rigidbody2D>().gravityScale=2;
+            transform.position = newPosition;
+            game.deathCount++;
+        }
 
     public void resetVelocity()
     {
