@@ -65,9 +65,9 @@ public class Move : MonoBehaviour
         }
 
         // For jumping
-        bool canDoubleJump = !groundedNow && !doubleJumped;
+        bool canDoubleJump = !groundedNow && !doubleJumped && !dead;
 
-        if (jumpInput() && !game.reachedGoal && groundedNow)
+        if (jumpInput() && !game.reachedGoal && groundedNow && !dead)
         {
             body.linearVelocityY = 10;
         }
@@ -141,7 +141,7 @@ public class Move : MonoBehaviour
         bool actuallyPressed = inputAxis != 0;
         bool completed = game.reachedGoal;
 
-        return notTooFast && notWalled && actuallyPressed && !completed;
+        return notTooFast && notWalled && actuallyPressed && !completed && !dead;
     }
 
     bool jumpInput(bool precise = false)
@@ -178,6 +178,7 @@ public class Move : MonoBehaviour
         {
             dead = true;
             GetComponent<Rigidbody2D>().gravityScale=0;
+            resetVelocity();
             StartCoroutine(RespawnPlayer());
         }
     }
