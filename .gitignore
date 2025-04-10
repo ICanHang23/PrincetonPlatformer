@@ -82,3 +82,5 @@ UI Toolkit/*
 
 # Ignore Visual Studio Code settings
 .vscode/
+.env
+Site/__pycache__

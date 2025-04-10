@@ -1,0 +1,11 @@
+<link type="text/css" href="{{ url_for('static',filename='styles/style.css') }}" rel="stylesheet">
+
+<div class="header">
+    <div></div>
+    <div class="title-text"><a href="/">Princeton Platformer</a></a></div>
+    {% if log == False %}
+    <div class="login-text"><a href="/login">Login</a></div>
+    {% else %}
+    <div class="login-text"><a href="/logout">Logout</a></div>
+    {% endif %}
+</div>

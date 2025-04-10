@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Princeton Platformer</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <div class="main-body">
+            <div class="main-btn-div">
+                <a href="/leaderboard?lvl=1&pg=1">
+                    <button class="btn-main">Level One</button>
+                </a>
+            </div>
+            <br>
+            <br>
+            <form action="/insert" method="post">
+                <table>
+                    <tr>
+                        <td align="right">Run Id:</td>
+                        <td><input type="text" name="run_id" id="deptInput"><br></td>
+                    </tr>
+                    <tr>
+                        <td align="right">NetId:</td>
+                        <td><input type="text" name="netid" id="coursenumInput"><br><td>
+                    </tr>
+                    <tr>
+                        <td align="right">Level:</td>
+                        <td><input type="text" name="lvl" id="areaInput"><br></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Deaths:</td>
+                        <td><input type="text" name="deaths" id="titleInput"><br></td>
+                    </tr>
+                    <tr>
+                        <td align="right">Time:</td>
+                        <td><input type="text" name="time" id="titleInput"><br></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" id="submitButton" value="Submit"></td>
+                    </tr>
+                </table>
+            </form>
+            <!--div class="btn-div">
+                <a href="/leaderboard?lvl=2">
+                    <button type="submit" class="btn-main">Level Two</button>
+                </a>
+            </div>
+            <div class="btn-div">
+                <a href="/leaderboard?lvl=3">
+                    <button type="submit" class="btn-main">Level Three</button>
+                </a>
+            </div-->
+            {% if log == True %}
+            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
+                Logged in as <strong>{{ username }}</strong>
+            </div>
+            {% else %}
+            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
+                Currently playing as <strong>Guest</strong>. Scores will not be saved.
+            </div>
+            {% endif %}
+        </div>
+    </body>
+</html>

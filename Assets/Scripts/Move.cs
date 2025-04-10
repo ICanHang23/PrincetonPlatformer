@@ -8,6 +8,7 @@ public class Move : MonoBehaviour
 {
     private Rigidbody2D body;
     private BoxCollider2D box;
+    private CapsuleCollider2D hurtbox;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
     private bool dead = false;
@@ -78,7 +79,7 @@ public class Move : MonoBehaviour
         {
             wallJumpCount++;
             body.linearVelocityX = -18 * inputVector.x;
-            body.linearVelocityY = 10;
+            body.linearVelocityY = 12;
         }
 
         // For double jumping
@@ -240,4 +241,14 @@ public class Move : MonoBehaviour
     {
         deployed = false;
     }
+    private IEnumerator UnfreezePlayer()
+        {
+            yield return new WaitForSeconds(1);
+            Vector2 newPosition = new Vector2(-5, 0);
+            body.linearVelocity = Vector2.zero;
+            GetComponent<Rigidbody2D>().gravityScale=2;
+            transform.position = newPosition;
+            dead = false;
+            game.deathCount++;
+        }
 }

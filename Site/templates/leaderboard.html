@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Princeton Platformer - Leaderboard</title>
+    </head>
+
+    <body>
+        {% include 'header.html' %}
+        <br><br>
+        <div class="table-div">
+            <table class="table" id="overviewsTable">
+                <thead class="thead-primary">
+                    <tr>
+                        <th>Rank</th>
+                        <th>NetId</th>
+                        <th>Number of Deaths</td>
+                        <th>Time</td>
+                    </tr>
+                </thead>
+                {% if table|length == 0: %}
+                {% else %}
+                {% for row in table[(pg - 1) * limit: pg * limit] %}
+                <tbody>
+                    <tr>
+                        <td>{{ loop.index + (pg - 1) * limit }}</td>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+                {% endif %}
+
+            </table>
+        </div>
+        <div class = "btn-div">
+            {% if pg > 1 %}
+            <a href="/leaderboard?lvl={{lvl}}&pg={{pg - 1}}"><button class="table-btn">Back</button></a>
+            {% endif %}
+            {% if table|length > pg * limit %}
+            <a href="/leaderboard?lvl={{lvl}}&pg={{pg + 1}}"><button class="table-btn">Next</button></a>
+            {% endif %}
+        </div>
+    </body>
+</html>
