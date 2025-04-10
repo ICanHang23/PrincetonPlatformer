@@ -3,11 +3,19 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     public double angle = 45;
+    public float scale_x = 5;
+    public int direction = 1;
+
 
     public void toggleVisibily(bool visible)
     {
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         renderer.enabled = visible;
+
+        if (visible)
+        {
+            transform.localScale = new Vector3(scale_x, 5, 5);
+        }
     }
 
     public void rotate(int alpha)
@@ -17,21 +25,22 @@ public class Arrow : MonoBehaviour
         if (angle + delta < 85 && angle + delta > 10)
         {
             angle += delta;
-            Quaternion newRotation = Quaternion.AngleAxis((float) angle, Vector3.forward);
-            transform.rotation = newRotation;
         }
+
+        double toRotate = angle;
+
+        if (direction == -1)
+        {
+            double gamma = 2 * (90 - angle);
+            toRotate += gamma;
+        }
+
+        Quaternion newRotation = Quaternion.AngleAxis((float)toRotate, Vector3.forward);
+        transform.rotation = newRotation;
     }
 
-    public void xScale(int scale)
+    public void dir(int scale)
     {
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        if (scale == -1)
-        {
-            renderer.flipX = true;
-        }
-        else
-        {
-            renderer.flipX = false;
-        }
+        direction = scale;
     }
 }
