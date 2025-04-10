@@ -94,7 +94,7 @@ public class Move : MonoBehaviour
         }
 
         // To check for death
-        if (transform.position.y < -15)
+        if (transform.position.y < -15 && !dead)
         {
             die();
         }
@@ -174,23 +174,22 @@ public class Move : MonoBehaviour
 
     public void die()
     {
-        if (dead == false) 
+        if (!dead) 
         {
             dead = true;
             GetComponent<Rigidbody2D>().gravityScale=0;
-            body.linearVelocity = Vector2.zero;
             StartCoroutine(RespawnPlayer());
-            dead = false;
         }
     }
     private IEnumerator RespawnPlayer()
         {
             yield return new WaitForSeconds(1);
             Vector2 newPosition = new Vector2(-5, 0);
-            body.linearVelocity = Vector2.zero;
-            GetComponent<Rigidbody2D>().gravityScale=2;
+            resetVelocity();
             transform.position = newPosition;
+            GetComponent<Rigidbody2D>().gravityScale=2;
             game.deathCount++;
+            dead = false;
         }
 
     public void resetVelocity()
