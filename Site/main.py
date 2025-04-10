@@ -91,7 +91,19 @@ def signout():
     return_url = flask.url_for('home', _external=True)
     logout_redirect_url = f"{cas_logout_url}?service={urllib.parse.quote(return_url)}"
     return flask.redirect(logout_redirect_url)
+
+# this is a endpoint to send information to the game. for now we just send netID but in the future we can send more
+@app.route('/getprofile', methods=['GET'])
+def get_profile():
+    username = flask.session.get('username', None)
     
+    if not username:
+        return flask.jsonify({"username": "Guest"})
+
+    # Pull from session, or eventually a database
+    return flask.jsonify({
+        "username": username,
+    })
 
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
