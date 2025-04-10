@@ -2,10 +2,16 @@
 
 <div class="header">
     <div></div>
-    <div class="title-text"><a href="/">Princeton Platformer</a></a></div>
-    {% if log == False %}
-    <div class="login-text"><a href="/login">Login</a></div>
+    <div class="title-text"><a href="/">Princeton Platformer</a></div>
+    
+    {% if not log %}
+        <div class="login-text">
+            <a href="/login">Login</a>
+        </div>
     {% else %}
-    <div class="login-text"><a href="/logout">Logout</a></div>
+        <div class="login-text">
+            <a href="/logout">Logout</a><br>
+            <a href="/logout-full" class="small-link" title="Forget login on this device">(Full Logout)</a>
+        </div>
     {% endif %}
 </div>

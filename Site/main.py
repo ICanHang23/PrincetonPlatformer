@@ -81,6 +81,13 @@ def logout():
     flask.session.clear()
     return flask.redirect('/')
 
+@app.route('/signout', methods = ['GET'])
+def signout():
+    flask.session.clear()
+    response = flask.redirect('/')
+    response.set_cookie('session', '', expires=0)
+    return response
+
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
     logged_in = flask.session.get('logged_in', False)
