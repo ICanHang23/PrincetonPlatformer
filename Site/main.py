@@ -64,13 +64,11 @@ def receivescore():
         'netid' : netid,
         'lvl': int(level[5:]),
         'deaths' : deaths,
-        'time' : time,
+        'time' : round(time, 2),
     }
 
     if (netid is not None):
         insert_db(params)
-    else:
-        print("Did not go through")
 
     return flask.redirect('/leaderboard-menu')
     
@@ -122,7 +120,7 @@ def main():
     # add arguments
     parser.add_argument("port", help="""the port at which the
                         server should listen""", nargs='?',
-                        metavar="port", type=int, default=8000)
+                        metavar="port", type=int, default=5000)
 
     args = parser.parse_args()
 
