@@ -9,6 +9,9 @@ import sys
 import flask
 import auth
 import argparse
+import urllib.request
+import urllib.parse
+import re
 
 from db_tools import query_leaderboard, insert_db, get_next_run_id
 from load import app
@@ -83,11 +86,13 @@ def logout():
     return flask.redirect('/')
 
 @app.route('/signout', methods=['GET'])
-def signout():
-    flask.session.clear()
-    response = flask.redirect('https://cas.princeton.edu/cas/logout?service=http://localhost:5000/')
-    response.set_cookie('session', '', expires=0)
-    return response
+def logoutcas():
+    _CAS_URL = auth._CAS_URL
+    # Log out of the CAS session, and then the application.
+    logout_url = (_CAS_URL + 'logout?service='
+        + urllib.parse.quote(
+            re.sub('logoutcas', 'logoutapp', flask.request.url)))
+    flask.abort(flask.redirect(logout_url))
 
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
