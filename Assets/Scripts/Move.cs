@@ -7,7 +7,6 @@ public class Move : MonoBehaviour
 {
     private Rigidbody2D body;
     private BoxCollider2D box;
-    private CapsuleCollider2D hurtbox;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
     [SerializeField] private LayerMask groundLayer;
@@ -19,6 +18,7 @@ public class Move : MonoBehaviour
     [SerializeField] GameObject hoagie;
     int directionFacing = 1;
     bool deployed = false;
+    GameObject arrow;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -26,7 +26,8 @@ public class Move : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         body.freezeRotation = true;
         box = GetComponent<BoxCollider2D>();
-        hurtbox = GetComponent<CapsuleCollider2D>();
+        // Debug.Log(transform.childCount);
+        arrow = transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -108,6 +109,22 @@ public class Move : MonoBehaviour
                 HoagieBuns buns = hoagie.GetComponent<HoagieBuns>();
                 buns.teleport(gameObject);
             }
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            Arrow arrowScript = arrow.GetComponent<Arrow>();
+            arrowScript.toggleVisibily(true);
+        }
+        else if (Input.GetKey(KeyCode.R))
+        {
+            Arrow arrowScript = arrow.GetComponent<Arrow>();
+            arrowScript.toggleVisibily(true);
+        }
+        else
+        {
+            Arrow arrowScript = arrow.GetComponent<Arrow>();
+            arrowScript.toggleVisibily(false);
         }
     }
 
