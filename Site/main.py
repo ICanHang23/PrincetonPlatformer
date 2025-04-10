@@ -47,7 +47,7 @@ def login():
 @app.route('/gametest', methods=['GET'])
 def gametest():
     logged_in = flask.session.get('logged_in', False) 
-    rendered = flask.render_template('game.html', log = logged_in)
+    rendered = flask.render_template('game.html', log=logged_in)
     response = flask.make_response(rendered)
     response.headers['Content-Encoding'] = 'brotli'
     return response
@@ -114,6 +114,7 @@ def leader_menu():
 
 @app.route('/leaderboard', methods=['GET'])
 def leaderboard():
+    logged_in = flask.session.get('logged_in', False) 
     lvl = flask.request.args.get('lvl', None)
     pg = int(flask.request.args.get('pg', 1))
     logged_in = flask.session.get('logged_in', False)
@@ -128,8 +129,8 @@ def leaderboard():
         pg += 1 if len(table_info) % limit != 0 else 0
 
     return flask.render_template('leaderboard.html', table = table_info,
-                                lvl = lvl, pg = pg, limit = limit, log = logged_in)
-
+                                lvl = lvl, pg = pg, limit = limit, log=logged_in)
+  
 @app.route('/insert', methods=['POST'])
 def insert():
     params = utils.get_form_params()
