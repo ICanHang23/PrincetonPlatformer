@@ -10,11 +10,18 @@ import flask
 import auth
 import argparse
 import urllib.parse
-import re
+import dotenv
+import os
 
 from db_tools import query_leaderboard, insert_db, get_next_run_id
 from load import app
 import utils
+
+#-----------------------------------------------------------------------
+
+dotenv.load_dotenv()
+debug = os.environ.get('DEBUG')
+debug = utils.str_to_bool(debug) if debug != None else False
 
 #-----------------------------------------------------------------------
 
@@ -117,7 +124,6 @@ def leaderboard():
     logged_in = flask.session.get('logged_in', False) 
     lvl = flask.request.args.get('lvl', None)
     pg = int(flask.request.args.get('pg', 1))
-    logged_in = flask.session.get('logged_in', False)
 
     if lvl == None:
         return flask.redirect('/')
@@ -151,7 +157,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        app.run(host='localhost', port = args.port, debug=False)
+        app.run(host='localhost', port = args.port, debug=debug)
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
