@@ -92,6 +92,7 @@ def leader_menu():
 def leaderboard():
     lvl = flask.request.args.get('lvl', None)
     pg = int(flask.request.args.get('pg', 1))
+    logged_in = flask.session.get('logged_in', False)
 
     if lvl == None:
         return flask.redirect('/')
@@ -103,7 +104,7 @@ def leaderboard():
         pg += 1 if len(table_info) % limit != 0 else 0
 
     return flask.render_template('leaderboard.html', table = table_info,
-                                lvl = lvl, pg = pg, limit = limit)
+                                lvl = lvl, pg = pg, limit = limit, log = logged_in)
 
 @app.route('/insert', methods=['POST'])
 def insert():
