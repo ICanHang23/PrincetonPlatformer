@@ -17,11 +17,9 @@ public class Spike : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         GameObject obj = other.gameObject;
-        Debug.Log("lol");
 
         if (obj.tag.Equals("Player") && other.collider is BoxCollider2D)
         {
-            Debug.Log("lmao");
             Move playerscript = obj.GetComponent<Move>();
             playerscript.die();
         }
