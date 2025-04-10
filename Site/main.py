@@ -9,7 +9,6 @@ import sys
 import flask
 import auth
 import argparse
-import urllib.request
 import urllib.parse
 import re
 
@@ -88,9 +87,10 @@ def logout():
 @app.route('/signout', methods=['GET'])
 def signout():
     flask.session.clear()
-    response = flask.redirect('/')
-    response.set_cookie('session', '', expires=0)
-    return response
+    cas_logout_url = 'https://fed.princeton.edu/cas/logout'
+    return_url = flask.url_for('home', _external=True)
+    logout_redirect_url = f"{cas_logout_url}?service={urllib.parse.quote(return_url)}"
+    
 
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
