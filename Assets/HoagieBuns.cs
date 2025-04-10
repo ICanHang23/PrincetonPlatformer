@@ -4,12 +4,7 @@ using System.Collections.Generic;
 public class HoagieBuns : MonoBehaviour
 {
     Collider2D bunsCollider;
-    GameObject meat;
-
-    private void Awake()
-    {
-        meat = GameObject.FindGameObjectWithTag("HoagieMeat");
-    }
+    public Callback updateDeploy;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +18,7 @@ public class HoagieBuns : MonoBehaviour
         // To check if fell of edge
         if (transform.position.y < -15)
         {
-            Destroy(gameObject);
+            disable();
         }
     }
 
@@ -34,10 +29,7 @@ public class HoagieBuns : MonoBehaviour
 
         if (player != null && !tag.Equals("Player"))
         {
-            Move playerScript = player.GetComponent<Move>();
-            player.transform.position = transform.position;
-            playerScript.resetVelocity();
-            Destroy(gameObject);
+            teleport(player);
         }
     }
 
@@ -54,7 +46,7 @@ public class HoagieBuns : MonoBehaviour
 
             if (colliderObject.layer == ground)
             {
-                Destroy(gameObject);
+                disable();
             }
         }
         
@@ -63,6 +55,23 @@ public class HoagieBuns : MonoBehaviour
     public void launch(Vector2 direction)
     {
         Rigidbody2D bunBody = GetComponent<Rigidbody2D>();
-        bunBody.linearVelocity = direction * 8;
+        bunBody.linearVelocity = direction * 12;
+    }
+
+    public void teleport(GameObject player)
+    {
+        Move playerScript = player.GetComponent<Move>();
+        player.transform.position = transform.position;
+        // playerScript.resetVelocity();
+        disable();
+    }
+
+    void disable()
+    {
+        if (updateDeploy != null)
+        {
+            updateDeploy();
+        }
+        Destroy(gameObject);
     }
 }

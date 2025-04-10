@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 
+
+public delegate void Callback();
 public class Move : MonoBehaviour
 {
     private Rigidbody2D body;
@@ -16,6 +18,7 @@ public class Move : MonoBehaviour
     // for hoagie
     [SerializeField] GameObject hoagie;
     int directionFacing = 1;
+    bool deployed = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -94,7 +97,17 @@ public class Move : MonoBehaviour
         // Check for hoagie deployment
         if (Input.GetKeyUp(KeyCode.F))
         {
-            deployHoagie();
+            if (!deployed)
+            {
+                deployHoagie();
+                deployed = true;
+            }
+            else
+            {
+                GameObject hoagie = GameObject.FindGameObjectWithTag("HoagieBun");
+                HoagieBuns buns = hoagie.GetComponent<HoagieBuns>();
+                buns.teleport(gameObject);
+            }
         }
     }
 
@@ -164,8 +177,17 @@ public class Move : MonoBehaviour
         Vector2 trajectory = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle));
         trajectory.x *= directionFacing;
 
+
         // Launch the thing
         HoagieBuns buns = newHoagie.GetComponent<HoagieBuns>();
         buns.launch(trajectory);
+
+        // Set the undeploy function
+        buns.updateDeploy = updateDeploy;
+    }
+
+    void updateDeploy()
+    {
+        deployed = false;
     }
 }
