@@ -10,7 +10,7 @@ import flask
 import auth
 import argparse
 
-from db_tools import query_leaderboard, insert_db
+from db_tools import query_leaderboard, insert_db, get_next_run_id
 from load import app
 import utils
 
@@ -54,19 +54,23 @@ def gametest():
 def receivescore():
     data = flask.request.get_json()
     netid = flask.session.get('username', None)
+    run_id = get_next_run_id(netid) if netid is not None else 1
     time = data.get('time')
     level = data.get('level')
     deaths = data.get('deaths')
 
     params = {
-        'run_id': 45102973,
+        'run_id': run_id,
         'netid' : netid,
         'lvl': int(level[5:]),
         'deaths' : deaths,
         'time' : time,
     }
 
-    insert_db(params)
+    if (netid is not None):
+        insert_db(params)
+    else:
+        print("Did not go through")
 
     return flask.redirect('/leaderboard-menu')
     
