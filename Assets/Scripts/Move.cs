@@ -100,7 +100,7 @@ public class Move : MonoBehaviour
         }
 
         // Check for hoagie deployment
-        if (Input.GetKeyUp(KeyCode.F))
+        if (Input.GetKeyUp(KeyCode.F) || Input.GetMouseButtonDown(0))
         {
             if (!deployed)
             {
@@ -115,19 +115,35 @@ public class Move : MonoBehaviour
             }
         }
 
+        Vector2 scroll = Input.mouseScrollDelta;
+
+        // Check for hoagie angle change
         if (Input.GetKey(KeyCode.E))
         {
-            arrow.toggleVisibily(true);
-            arrow.rotate(1);
+            arrow.rotate(0.5);
+            arrow.resetVisibily();
         }
         else if (Input.GetKey(KeyCode.R))
         {
-            arrow.toggleVisibily(true);
-            arrow.rotate(-1);
+            arrow.rotate(-0.5);
+            arrow.resetVisibily();
         }
-        else
+        // this is for scroll wheel
+        else if (scroll.y > 0)
         {
-            arrow.toggleVisibily(false);
+            arrow.rotate(2);
+            arrow.resetVisibily();
+        }
+        else if (scroll.y < 0)
+        {
+            arrow.rotate(-2);
+            arrow.resetVisibily();
+        }
+
+        // Reset visibility
+        if (Input.GetKey(KeyCode.Q) || Input.GetMouseButton(1))
+        {
+            arrow.resetVisibily();
         }
     }
 
