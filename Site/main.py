@@ -8,21 +8,13 @@
 import sys
 import flask
 import auth
-import dotenv
-import os
 import argparse
 
-from db_tools import query_leaderboard, insert_db
+from db_tools import query_leaderboard, insert_db, get_next_run_id
 from load import app
 import utils
 
 #-----------------------------------------------------------------------
-
-dotenv.load_dotenv()
-app.secret_key = os.environ['APP_SECRET_KEY']
-
-#-----------------------------------------------------------------------
-app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -62,19 +54,21 @@ def gametest():
 def receivescore():
     data = flask.request.get_json()
     netid = flask.session.get('username', None)
+    run_id = get_next_run_id(netid) if netid is not None else 1
     time = data.get('time')
     level = data.get('level')
     deaths = data.get('deaths')
 
     params = {
-        'run_id': 45102973,
+        'run_id': run_id,
         'netid' : netid,
         'lvl': int(level[5:]),
         'deaths' : deaths,
-        'time' : time,
+        'time' : round(time, 2),
     }
 
-    insert_db(params)
+    if (netid is not None):
+        insert_db(params)
 
     return flask.redirect('/leaderboard-menu')
     
@@ -126,7 +120,7 @@ def main():
     # add arguments
     parser.add_argument("port", help="""the port at which the
                         server should listen""", nargs='?',
-                        metavar="port", type=int, default=8000)
+                        metavar="port", type=int, default=5000)
 
     args = parser.parse_args()
 
