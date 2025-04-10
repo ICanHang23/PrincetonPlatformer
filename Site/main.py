@@ -82,10 +82,10 @@ def logout():
     flask.session.clear()
     return flask.redirect('/')
 
-@app.route('/signout', methods = ['GET'])
+@app.route('/signout', methods=['GET'])
 def signout():
     flask.session.clear()
-    response = flask.redirect('/')
+    response = flask.redirect('https://cas.princeton.edu/cas/logout?service=http://localhost:5000/')
     response.set_cookie('session', '', expires=0)
     return response
 
