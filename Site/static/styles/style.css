@@ -37,8 +37,11 @@ body {
     font-style: normal;
     font-weight: 700;
     margin-left: 18vw;
-    text-decoration: none;
-    transition: color 0.2s ease;
+}
+
+.login-text a:hover {
+    color: #00BFFF; /* this is my valorant crosshair color lol */
+    text-decoration: underline;
 }
 
 a {
