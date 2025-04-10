@@ -39,6 +39,11 @@ body {
     margin-left: 18vw;
 }
 
+.login-text a:hover {
+    color: #00BFFF; /* this is my valorant crosshair color lol */
+    text-decoration: underline;
+}
+
 a {
     color: inherit;
     -webkit-text-stroke-width: inherit;

@@ -9,6 +9,8 @@ import sys
 import flask
 import auth
 import argparse
+import urllib.parse
+import re
 
 from db_tools import query_leaderboard, insert_db, get_next_run_id
 from load import app
@@ -82,6 +84,27 @@ def logout():
     flask.session.clear()
     return flask.redirect('/')
 
+@app.route('/signout', methods=['GET'])
+def signout():
+    flask.session.clear()
+    cas_logout_url = 'https://fed.princeton.edu/cas/logout'
+    return_url = flask.url_for('home', _external=True)
+    logout_redirect_url = f"{cas_logout_url}?service={urllib.parse.quote(return_url)}"
+    return flask.redirect(logout_redirect_url)
+
+# this is a endpoint to send information to the game. for now we just send netID but in the future we can send more
+@app.route('/getprofile', methods=['GET'])
+def get_profile():
+    username = flask.session.get('username', None)
+    
+    if not username:
+        return flask.jsonify({"username": "Guest"})
+
+    # Pull from session, or eventually a database
+    return flask.jsonify({
+        "username": username,
+    })
+
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
     logged_in = flask.session.get('logged_in', False)
@@ -94,6 +117,7 @@ def leaderboard():
     logged_in = flask.session.get('logged_in', False) 
     lvl = flask.request.args.get('lvl', None)
     pg = int(flask.request.args.get('pg', 1))
+    logged_in = flask.session.get('logged_in', False)
 
     if lvl == None:
         return flask.redirect('/')
@@ -106,7 +130,7 @@ def leaderboard():
 
     return flask.render_template('leaderboard.html', table = table_info,
                                 lvl = lvl, pg = pg, limit = limit, log=logged_in)
-
+  
 @app.route('/insert', methods=['POST'])
 def insert():
     params = utils.get_form_params()
