@@ -1,18 +1,27 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
+
+public delegate void Callback();
 public class Move : MonoBehaviour
 {
     private Rigidbody2D body;
     private BoxCollider2D box;
     private CapsuleCollider2D hurtbox;
-    private bool dead = false;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
+    private bool dead = false;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
     [SerializeField] float gyatt = 0.9f;
     int debug = 0;
+
+    // for hoagie
+    [SerializeField] GameObject hoagie;
+    int directionFacing = 1;
+    bool deployed = false;
+    Arrow arrow;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -20,15 +29,23 @@ public class Move : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         body.freezeRotation = true;
         box = GetComponent<BoxCollider2D>();
-        hurtbox = GetComponent<CapsuleCollider2D>();
+        // Debug.Log(transform.childCount);
+        GameObject arrowObj = transform.GetChild(0).gameObject;
+        arrow = arrowObj.GetComponent<Arrow>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Updating some variables that will be reused throughout
         float inputAxis = Input.GetAxis("Horizontal");
         Vector2 inputVector = new Vector2(inputAxis, 0);
         bool groundedNow = isGrounded();
+        if (inputAxis != 0)
+        {
+            directionFacing = Math.Sign(inputAxis);
+            arrow.dir(directionFacing);
+        }
 
         // To check if double jump can be restored
         if (groundedNow)
@@ -49,9 +66,9 @@ public class Move : MonoBehaviour
         }
 
         // For jumping
-        bool canDoubleJump = !groundedNow && !doubleJumped;
+        bool canDoubleJump = !groundedNow && !doubleJumped && !dead;
 
-        if (jumpInput() && !game.reachedGoal && groundedNow)
+        if (jumpInput() && !game.reachedGoal && groundedNow && !dead)
         {
             body.linearVelocityY = 10;
         }
@@ -78,9 +95,56 @@ public class Move : MonoBehaviour
         }
 
         // To check for death
-        if (transform.position.y < -15)
+        if (transform.position.y < -15 && !dead)
         {
             die();
+        }
+
+        // Check for hoagie deployment
+        if (Input.GetKeyUp(KeyCode.F) || Input.GetMouseButtonDown(0))
+        {
+            if (!deployed)
+            {
+                deployHoagie();
+                deployed = true;
+            }
+            else
+            {
+                GameObject hoagie = GameObject.FindGameObjectWithTag("HoagieBun");
+                HoagieBuns buns = hoagie.GetComponent<HoagieBuns>();
+                buns.teleport(gameObject);
+            }
+        }
+
+        Vector2 scroll = Input.mouseScrollDelta;
+
+        // Check for hoagie angle change
+        if (Input.GetKey(KeyCode.E))
+        {
+            arrow.rotate(0.5);
+            arrow.resetVisibily();
+        }
+        else if (Input.GetKey(KeyCode.R))
+        {
+            arrow.rotate(-0.5);
+            arrow.resetVisibily();
+        }
+        // this is for scroll wheel
+        else if (scroll.y > 0)
+        {
+            arrow.rotate(2);
+            arrow.resetVisibily();
+        }
+        else if (scroll.y < 0)
+        {
+            arrow.rotate(-2);
+            arrow.resetVisibily();
+        }
+
+        // Reset visibility
+        if (Input.GetKey(KeyCode.Q) || Input.GetMouseButton(1))
+        {
+            arrow.resetVisibily();
         }
     }
 
@@ -127,24 +191,55 @@ public class Move : MonoBehaviour
 
     public void die()
     {
-        //dead = true;
-        //body.linearVelocity = Vector2.zero;
-        //GetComponent<Rigidbody2D>().gravityScale=0;
-        killPlayer();
-        //GetComponent<Rigidbody2D>().gravityScale=2;
-        //Vector2 newPosition = new Vector2(-5, 0);
-        //transform.position = newPosition;
-        //body.linearVelocity = Vector2.zero;
-        //dead = false;
-        //game.deathCount++;
+        if (!dead) 
+        {
+            dead = true;
+            GetComponent<Rigidbody2D>().gravityScale=0;
+            resetVelocity();
+            StartCoroutine(RespawnPlayer());
+        }
+    }
+    private IEnumerator RespawnPlayer()
+        {
+            yield return new WaitForSeconds(1);
+            Vector2 newPosition = new Vector2(-5, 0);
+            resetVelocity();
+            transform.position = newPosition;
+            GetComponent<Rigidbody2D>().gravityScale=2;
+            game.deathCount++;
+            dead = false;
+        }
+
+    public void resetVelocity()
+    {
+        body.linearVelocity = Vector2.zero;
     }
 
-    public void killPlayer()
+    void deployHoagie()
     {
-        dead = true;
-        GetComponent<Rigidbody2D>().gravityScale=0;
-        body.linearVelocity = Vector2.zero;
-        StartCoroutine(UnfreezePlayer());
+        // Spawn the hoagie
+        Vector3 hoagiePosition = transform.position;
+        hoagiePosition.y += 0.1f;
+        GameObject newHoagie = Instantiate(hoagie, hoagiePosition, Quaternion.identity);
+
+        // Calculate the launch angle
+        Arrow arrowScript = arrow.GetComponent<Arrow>();
+        double angle = arrowScript.angle * (Math.PI / 180);
+        Vector2 trajectory = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle));
+        trajectory.x *= directionFacing;
+
+
+        // Launch the thing
+        HoagieBuns buns = newHoagie.GetComponent<HoagieBuns>();
+        buns.launch(trajectory);
+
+        // Set the undeploy function
+        buns.updateDeploy = updateDeploy;
+    }
+
+    void updateDeploy()
+    {
+        deployed = false;
     }
     private IEnumerator UnfreezePlayer()
         {
