@@ -79,9 +79,9 @@ public class Move : MonoBehaviour
         {
             wallJumpCount++;
             body.linearVelocityX = -12 * inputVector.x;
-            body.linearVelocityY = 12;
+            body.linearVelocityY = 1;
         }
-
+        
         // For double jumping
         else if (jumpInput(true) && !game.reachedGoal && canDoubleJump)
         {
