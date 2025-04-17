@@ -6,7 +6,11 @@
 
     <body>
         {% include 'header.html' %}
-        <br><br>
+        {% if lvl %}
+        <h1 style="text-align:center;margin: 10px 0px;">Leaderboard for Level {{ lvl }}</h1>
+        {% else %}
+        <h1 style="text-align:center;margin: 10px 0px;">{{username}}'s times</h1>
+        {% endif %}
         <div class="table-div">
             <table class="table" id="overviewsTable">
                 <thead class="thead-primary">
