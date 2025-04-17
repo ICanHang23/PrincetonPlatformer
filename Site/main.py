@@ -13,7 +13,12 @@ import urllib.parse
 import dotenv
 import os
 
-from db_tools import query_leaderboard, insert_db, get_next_run_id
+from db_tools import (
+    query_leaderboard, 
+    insert_db, 
+    get_next_run_id, 
+    query_times
+)
 from load import app
 import utils
 
@@ -136,6 +141,23 @@ def leaderboard():
 
     return flask.render_template('leaderboard.html', table = table_info,
                                 lvl = lvl, pg = pg, limit = limit, log=logged_in)
+
+@app.route('/times/<user>')
+def times(user):
+    logged_in = flask.session.get('logged_in', False)
+    pg = int(flask.request.args.get('pg', 1))
+
+    table_info = query_times(user)
+
+    limit = 10 # Number of rows on table at once
+    if pg * limit > len(table_info):
+        pg = len(table_info) // limit
+        pg += 1 if len(table_info) % limit != 0 else 0
+
+    return flask.render_template('leaderboard.html', table = table_info,
+                                username = user, pg = pg, limit = limit, log=logged_in)
+
+
   
 @app.route('/insert', methods=['POST'])
 def insert():

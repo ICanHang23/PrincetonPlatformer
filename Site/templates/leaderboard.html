@@ -6,13 +6,22 @@
 
     <body>
         {% include 'header.html' %}
-        <br><br>
+        {% if lvl %}
+        <h1 style="text-align:center;margin: 10px 0px;">Leaderboard for Level {{ lvl }}</h1>
+        {% else %}
+        <h1 style="text-align:center;margin: 10px 0px;">{{username}}'s times</h1>
+        {% endif %}
         <div class="table-div">
             <table class="table" id="overviewsTable">
                 <thead class="thead-primary">
                     <tr>
+                        {% if lvl %}
                         <th>Rank</th>
                         <th>NetId</th>
+                        {% else %}
+                        <th>Run ID</th>
+                        <th>Level</th>
+                        {% endif %}
                         <th>Number of Deaths</td>
                         <th>Time</td>
                     </tr>
@@ -22,10 +31,15 @@
                 {% for row in table[(pg - 1) * limit: pg * limit] %}
                 <tbody>
                     <tr>
+                        {% if lvl %}
                         <td>{{ loop.index + (pg - 1) * limit }}</td>
+                        {% endif %}
                         <td>{{ row[0] }}</td>
                         <td>{{ row[1] }}</td>
                         <td>{{ row[2] }}</td>
+                        {% if username %}
+                        <td>{{ row[3] }}</td>
+                        {% endif %}
                     </tr>
                 </tbody>
                 {% endfor %}
@@ -34,12 +48,21 @@
             </table>
         </div>
         <div class = "btn-div">
-            {% if pg > 1 %}
-            <a href="/leaderboard?lvl={{lvl}}&pg={{pg - 1}}"><button class="table-btn">Back</button></a>
-            {% endif %}
-            {% if table|length > pg * limit %}
-            <a href="/leaderboard?lvl={{lvl}}&pg={{pg + 1}}"><button class="table-btn">Next</button></a>
-            {% endif %}
+            {% if lvl %}
+                {% if pg > 1 %}
+                    <a href="/leaderboard?lvl={{lvl}}&pg={{pg - 1}}"><button class="table-btn">Back</button></a>
+                    {% endif %}
+                {% if table|length > pg * limit %}
+                    <a href="/leaderboard?lvl={{lvl}}&pg={{pg + 1}}"><button class="table-btn">Next</button></a>
+                    {% endif %}
+            {% else %}
+                {% if pg > 1 %}
+                    <a href="/times/{{username}}?pg={{pg - 1}}"><button class="table-btn">Back</button></a>
+                    {% endif %}
+                {% if table|length > pg * limit %}
+                    <a href="/leaderboard/{{username}}?pg={{pg + 1}}"><button class="table-btn">Next</button></a>
+                    {% endif %}
+                {% endif %}
         </div>
     </body>
 </html>
