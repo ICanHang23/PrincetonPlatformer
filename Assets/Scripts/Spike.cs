@@ -20,7 +20,7 @@ public class Spike : MonoBehaviour
 
         if (obj.tag.Equals("Player") && other.collider is BoxCollider2D)
         {
-            Move playerscript = obj.GetComponent<Move>();
+            Player playerscript = obj.GetComponent<Player>();
             playerscript.die();
         }
     }

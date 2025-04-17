@@ -10,6 +10,14 @@ public class GoalScript : MonoBehaviour
         startTime = Time.fixedTime;
     }
 
+    public void Update()
+    {
+        if (!game.reachedGoal)
+        {
+            game.updateTime(Time.fixedTime, startTime);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         GameObject obj = other.gameObject;
@@ -17,16 +25,9 @@ public class GoalScript : MonoBehaviour
         if (obj.tag.Equals("Player") && other is BoxCollider2D)
         {
             game.reachedGoal = true;
-            game.deathString = "Deaths: " + game.deathCount;
-            float elapsedPlayTime = Time.fixedTime - game.startTime;
-            game.timeString = "Time taken: " + elapsedPlayTime + " seconds";
-
-
-            Debug.Log("Congratulations! You completed the level with " + game.deathCount + " deaths!");
-            Debug.Log("Completion time: " + (Time.fixedTime - startTime));
 
             // Putting in a score submission
-            UploadScore.SendScore(game.deathCount, elapsedPlayTime);
+            UploadScore.SendScore(game.deathCount, game.elapsed);
 
             Instantiate(levelComplete);
 

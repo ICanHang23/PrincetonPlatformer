@@ -60,7 +60,7 @@ public class HoagieBuns : MonoBehaviour
 
     public void teleport(GameObject player)
     {
-        Move playerScript = player.GetComponent<Move>();
+        Player playerScript = player.GetComponent<Player>();
         player.transform.position = transform.position;
         // playerScript.resetVelocity();
         disable();

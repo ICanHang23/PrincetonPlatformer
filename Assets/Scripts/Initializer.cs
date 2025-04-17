@@ -10,7 +10,7 @@ public class Initializer : MonoBehaviour
     {
         data.reachedGoal = false;
         data.deathCount = 0;
-        data.startTime = Time.fixedTime;
+        data.elapsed = 0;
 
         StartCoroutine(GetRequest("http://localhost:5000"));
     }

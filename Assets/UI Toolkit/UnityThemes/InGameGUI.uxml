@@ -1,0 +1,14 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement style="flex-grow: 1; flex-direction: row;">
+        <engine:Label style="color: rgb(255, 255, 255); font-size: 25px; width: 50%;">
+            <Bindings>
+                <engine:DataBinding property="text" data-source-path="deathString" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" binding-mode="ToTarget" />
+            </Bindings>
+        </engine:Label>
+        <engine:Label text="label test label test label test" style="color: rgb(255, 255, 255); font-size: 25px; -unity-text-align: upper-left; width: 40%;">
+            <Bindings>
+                <engine:DataBinding property="text" data-source-path="timeStringGUI" data-source="project://database/Assets/GS.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GS" binding-mode="ToTarget" />
+            </Bindings>
+        </engine:Label>
+    </engine:VisualElement>
+</engine:UXML>
