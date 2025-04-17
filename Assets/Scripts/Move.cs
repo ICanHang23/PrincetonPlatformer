@@ -78,7 +78,7 @@ public class Move : MonoBehaviour
             && wallJumpCount < 5)
         {
             wallJumpCount++;
-            body.linearVelocityX = -18 * inputVector.x;
+            body.linearVelocityX = -12 * inputVector.x;
             body.linearVelocityY = 12;
         }
 
