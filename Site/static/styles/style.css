@@ -13,6 +13,7 @@ body {
 .title-text {
     margin-top: auto;
     margin-bottom: auto;
+    white-space: nowrap;
     color: #FFF;
     text-align: center;
     -webkit-text-stroke-width: 1px;
