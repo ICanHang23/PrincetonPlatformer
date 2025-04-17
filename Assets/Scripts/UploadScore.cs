@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class UploadScore : MonoBehaviour
 {
     public static UploadScore Instance { get; private set; }
-    private static string url = "http://localhost:5000/receivescore";
+    private static string url = "https://princetonplatformer.onrender.com/receivescore";
 
     [SerializeField] GameData data;
 
