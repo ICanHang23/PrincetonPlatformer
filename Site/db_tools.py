@@ -35,6 +35,22 @@ def query_leaderboard(level):
 
     return rows
 
+def query_times(username):
+    conn = psycopg2.connect(database = "Primary DB", 
+                            user = db_user, 
+                            host= db_host,
+                            password = db_pwd,
+                            port = 5432)
+    with conn.cursor() as curr:
+        query = 'SELECT run_id, lvl, deaths, "time" FROM runs'
+        query += " WHERE netid='%s' ORDER BY run_id ASC" % username
+        curr.execute(query)
+        rows = curr.fetchall()
+    conn.commit()
+    conn.close()
+
+    return rows
+
 def get_next_run_id(netid: str):
     conn = psycopg2.connect(database = "Primary DB", 
                             user = db_user, 
