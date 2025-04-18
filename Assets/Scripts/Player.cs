@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.UIElements;
 
 
 public delegate void Callback();
@@ -8,7 +9,6 @@ public class Player : MonoBehaviour
 {
     private Rigidbody2D body;
     private BoxCollider2D box;
-    private CapsuleCollider2D hurtbox;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
     private bool dead = false;
@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
     bool deployed = false;
     Arrow arrow;
 
+    // pausing
+    bool paused = false;
+    GameObject pawseScreen;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -33,9 +37,20 @@ public class Player : MonoBehaviour
         arrow = arrowObj.GetComponent<Arrow>();
     }
 
+    private void Start()
+    {
+        pawseScreen = GameObject.Find("PauseScreen");
+    }
+
     // Update is called once per frame
     void Update()
     {
+        // pausing
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pause();
+        }
+
         move();
 
         // To check for death
@@ -44,7 +59,10 @@ public class Player : MonoBehaviour
             die();
         }
 
-        handleHoagieDeployment();
+        if (!paused)
+        {
+            handleHoagieDeployment();
+        }
     }
 
     void move()
@@ -253,13 +271,30 @@ public class Player : MonoBehaviour
         deployed = false;
     }
     private IEnumerator UnfreezePlayer()
+    {
+        yield return new WaitForSeconds(1);
+        Vector2 newPosition = new Vector2(-5, 0);
+        body.linearVelocity = Vector2.zero;
+        GetComponent<Rigidbody2D>().gravityScale=2;
+        transform.position = newPosition;
+        dead = false;
+        game.deathCount++;
+    }
+
+    public void pause()
+    {
+        if (paused)
         {
-            yield return new WaitForSeconds(1);
-            Vector2 newPosition = new Vector2(-5, 0);
-            body.linearVelocity = Vector2.zero;
-            GetComponent<Rigidbody2D>().gravityScale=2;
-            transform.position = newPosition;
-            dead = false;
-            game.deathCount++;
+            Time.timeScale = 1;
+            pawseScreen.SetActive(false);
         }
+        else
+        {
+            Time.timeScale = 0;
+            pawseScreen.SetActive(true);
+        }
+
+        paused = !paused;
+        
+    }
 }
