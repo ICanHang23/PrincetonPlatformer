@@ -8,9 +8,7 @@ public class Initializer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        data.reachedGoal = false;
-        data.deathCount = 0;
-        data.elapsed = 0;
+        data.Reset();
 
         StartCoroutine(GetRequest("http://localhost:5000"));
     }
