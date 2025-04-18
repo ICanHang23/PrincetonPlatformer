@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UIElements;
 using System.Collections;
 
 public class Initializer : MonoBehaviour
@@ -9,6 +10,12 @@ public class Initializer : MonoBehaviour
     void Start()
     {
         data.Reset();
+
+        GameObject pauseScreen = GameObject.Find("PauseScreen");
+        if (pauseScreen != null)
+        {
+            pauseScreen.SetActive(false);
+        }
 
         StartCoroutine(GetRequest("http://localhost:5000"));
     }

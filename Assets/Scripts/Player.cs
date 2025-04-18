@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.UIElements;
 
 
 public delegate void Callback();
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
 
     // pausing
     bool paused = false;
+    GameObject pawseScreen;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -33,6 +35,11 @@ public class Player : MonoBehaviour
         box = GetComponent<BoxCollider2D>();
         GameObject arrowObj = transform.GetChild(0).gameObject;
         arrow = arrowObj.GetComponent<Arrow>();
+    }
+
+    private void Start()
+    {
+        pawseScreen = GameObject.Find("PauseScreen");
     }
 
     // Update is called once per frame
@@ -274,17 +281,20 @@ public class Player : MonoBehaviour
         game.deathCount++;
     }
 
-    void pause()
+    public void pause()
     {
         if (paused)
         {
             Time.timeScale = 1;
-            paused = false;
+            pawseScreen.SetActive(false);
         }
         else
         {
             Time.timeScale = 0;
-            paused = true;
+            pawseScreen.SetActive(true);
         }
+
+        paused = !paused;
+        
     }
 }
