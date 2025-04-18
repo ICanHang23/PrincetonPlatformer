@@ -17,7 +17,7 @@ public class Initializer : MonoBehaviour
             pauseScreen.SetActive(false);
         }
 
-        StartCoroutine(GetRequest("http://localhost:5000"));
+        // StartCoroutine(GetRequest("http://localhost:5000"));
     }
 
     IEnumerator GetRequest(string uri)

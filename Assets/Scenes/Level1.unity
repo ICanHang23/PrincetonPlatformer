@@ -513,6 +513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 282833745}
   - component: {fileID: 282833744}
+  - component: {fileID: 282833746}
   m_Layer: 5
   m_Name: PauseScreen
   m_TagString: Untagged
@@ -535,7 +536,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: b4fb5dc3623584047999acc98c82e5f9, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 293846fcc556f13489240c8c3b64c72b, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -554,6 +555,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &282833746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282833743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5677870106d546408dc29086f1440ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &360039886
 GameObject:
   m_ObjectHideFlags: 0

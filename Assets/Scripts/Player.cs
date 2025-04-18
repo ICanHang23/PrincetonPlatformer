@@ -7,19 +7,25 @@ using UnityEngine.UIElements;
 public delegate void Callback();
 public class Player : MonoBehaviour
 {
+    // Components and other things
     private Rigidbody2D body;
     private BoxCollider2D box;
-    private bool doubleJumped = false;
-    private int wallJumpCount = 0;
-    private bool dead = false;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
+
+    private bool jumped = false;
+    private bool doubleJumped = false;
+    private bool midairJump = false;
+    private int wallJumpCount = 0;
+    private bool dead = false;
+
     [SerializeField] float gyatt = 0.9f;
     int debug = 0;
 
     // for hoagie
     [SerializeField] GameObject hoagie;
     int directionFacing = 1;
+    bool clicked = false;
     bool deployed = false;
     Arrow arrow;
 
@@ -42,8 +48,7 @@ public class Player : MonoBehaviour
         pawseScreen = GameObject.Find("PauseScreen");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // pausing
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -51,6 +56,25 @@ public class Player : MonoBehaviour
             pause();
         }
 
+        // see if user tries to execute a midair jump and have
+        // it be handled asynchronously
+        bool physicalCriteria = !dead && !isGrounded() && !jumped;
+        if (physicalCriteria && jumpInput(true))
+        {
+            Debug.Log("queueing mindair " + debug);
+            midairJump = true;
+            debug++;
+        }
+
+        // see if user just clicked
+        if (Input.GetMouseButtonDown(0))
+        {
+            clicked = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
         move();
 
         // To check for death
@@ -63,10 +87,16 @@ public class Player : MonoBehaviour
         {
             handleHoagieDeployment();
         }
+
+        midairJump = false;
+        clicked = false;
     }
 
     void move()
     {
+        // Set presumed statuses
+        jumped = false;
+
         // Updating some variables that will be reused throughout
         float inputAxis = Input.GetAxis("Horizontal");
         Vector2 inputVector = new Vector2(inputAxis, 0);
@@ -93,20 +123,20 @@ public class Player : MonoBehaviour
             }
             else
             {
-                body.AddForceX(8000 * inputAxis * Time.deltaTime);
+                body.AddForceX(80 * inputAxis);
             }
         }
 
         // For jumping
-        bool canDoubleJump = !groundedNow && !doubleJumped && !dead;
 
-        if (jumpInput() && !game.reachedGoal && groundedNow && !dead)
+        if (jumpInput() && !game.reachedGoal && groundedNow && !dead && !midairJump)
         {
             body.linearVelocityY = 10;
+            jumped = true;
         }
 
         // For walljumps
-        else if (jumpInput(true) && inputAxis != 0 && isWalled(inputVector)
+        else if (midairJump && inputAxis != 0 && isWalled(inputVector)
             && wallJumpCount < 5)
         {
             wallJumpCount++;
@@ -115,11 +145,11 @@ public class Player : MonoBehaviour
         }
 
         // For double jumping
-        else if (jumpInput(true) && !game.reachedGoal && canDoubleJump)
+        else if (midairJump && !doubleJumped)
         {
             if (inputAxis != 0)
             {
-                body.AddForceX(5000 * inputAxis * Time.deltaTime);
+                body.AddForceX(50 * inputAxis);
             }
 
             body.linearVelocityY = 8;
@@ -130,7 +160,7 @@ public class Player : MonoBehaviour
     void handleHoagieDeployment()
     {
         // Check for hoagie deployment
-        if (Input.GetKeyUp(KeyCode.F) || Input.GetMouseButtonDown(0))
+        if (Input.GetKeyUp(KeyCode.F) || clicked)
         {
             if (!deployed)
             {
