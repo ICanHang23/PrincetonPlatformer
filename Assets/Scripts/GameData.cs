@@ -11,6 +11,8 @@ public class GameData : ScriptableObject
     public string timeString = "Time taken: 0 seconds";
     public string timeStringGUI = "Time taken: 0";
 
+    public string ghostDiary = "";
+
     public void Reset()
     {
         reachedGoal = false;

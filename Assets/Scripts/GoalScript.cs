@@ -26,6 +26,10 @@ public class GoalScript : MonoBehaviour
         {
             game.reachedGoal = true;
 
+            // Log the inputs
+            Player player = obj.GetComponent<Player>();
+            player.logInputs();
+
             // Putting in a score submission
             UploadScore.SendScore(game.deathCount, game.elapsed);
 
