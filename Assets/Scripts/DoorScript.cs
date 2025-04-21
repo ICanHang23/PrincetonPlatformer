@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Splines;
+using Newtonsoft.Json;
 
 public class DoorScript : MonoBehaviour
 {

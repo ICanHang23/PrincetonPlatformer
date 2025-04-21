@@ -80,4 +80,12 @@ public class HoagieBuns : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
+    public void ghostIt()
+    {
+        ghost = true;
+        GameObject meat = transform.GetChild(0).gameObject;
+        SpriteRenderer spr = meat.GetComponent<SpriteRenderer>();
+        spr.color = Color.cyan;
+    }
 }

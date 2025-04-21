@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
@@ -52,8 +53,8 @@ public class Ghost : MonoBehaviour
         arrow = arrowObj.GetComponent<Arrow>();
 
         currentInput = new PlayerInput();
-        diary = JsonUtility.FromJson<InputLogger.InputDiary>(game.ghostDiary);
-        Debug.Log("Dictionary size: " + diary.list.Count);
+        diary = JsonConvert.DeserializeObject<InputLogger.InputDiary>(game.ghostDiary);
+        // Debug.Log("Dictionary size: " + diary.list.Count);
     }
 
     void FixedUpdate()
@@ -127,8 +128,8 @@ public class Ghost : MonoBehaviour
 
         if (currentInput.justJumped)
         {
-            Debug.Log(justJumped + " " + !doubleJumped + " " + !processed);
-            Debug.Log("Jump conditions: " + gameStateCriteria + " " + groundedNow + " " + jump);
+            // Debug.Log(justJumped + " " + !doubleJumped + " " + !processed);
+            // Debug.Log("Jump conditions: " + gameStateCriteria + " " + groundedNow + " " + jump);
         }
 
 
@@ -151,7 +152,7 @@ public class Ghost : MonoBehaviour
         // For double jumping
         else if (justJumped && !doubleJumped && !processed)
         {
-            Debug.Log("Double jumped");
+            // Debug.Log("Double jumped");
 
             if (inputAxis != 0)
             {
@@ -282,7 +283,7 @@ public class Ghost : MonoBehaviour
 
         // Launch the thing
         HoagieBuns buns = newHoagie.GetComponent<HoagieBuns>();
-        buns.ghost = true;
+        buns.ghostIt();
         buns.launch(trajectory);
 
         // Set the undeploy function

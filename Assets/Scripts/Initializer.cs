@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using System.Collections;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class Initializer : MonoBehaviour
 {
@@ -18,6 +20,12 @@ public class Initializer : MonoBehaviour
         }
 
         // StartCoroutine(GetRequest("http://localhost:5000"));
+
+
+        Dictionary<string, int> dict = new Dictionary<string, int>();
+        dict.Add("0", 0);
+        dict.Add("1", 1);
+        Debug.Log(JsonConvert.SerializeObject(dict));
     }
 
     IEnumerator GetRequest(string uri)

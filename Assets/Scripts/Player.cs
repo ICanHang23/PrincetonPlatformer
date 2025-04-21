@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
             handleHoagieDeployment();
         }
 
-        inputLogger.checkControllDiffs();
+        inputLogger.checkControllDiffs(phyFrame);
 
         currentInput.phyProcessed = true;
         previousInput = currentInput;

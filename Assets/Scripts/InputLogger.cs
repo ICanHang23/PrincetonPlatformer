@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class InputLogger
 {
@@ -11,64 +12,52 @@ public class InputLogger
     public InputLogger(Player p)
     {
         player = p;
-
-        List<InputBinding<int, InpBindList>> entryList = new List<InputBinding<int, InpBindList>>();
-        inputLog = new InputDiary(entryList);
+        inputLog = new InputDiary();
     }
 
-    [Serializable]
-    public class InputBinding<S, T>
-    {
-        public InputBinding(S k, T v)
-        {
-            key = k;
-            value = v;
-        }
-
-        public S key;
-        public T value;
-    }
 
     [Serializable]
-    public class InpBindList
+    public class InpDiaryEntry
     {
-        public List<InputBinding<string, double>> list;
+        public int frame;
+        public Dictionary<string, double> inputs;
 
-        public InpBindList(List<InputBinding<string, double>> l)
+        public InpDiaryEntry(int i, Dictionary<string, double> d)
         {
-            list = l;
+            frame = i;
+            inputs = d;
         }
 
-        public void Add(InputBinding<string, double> binding)
+        public void Add(String s, double d)
         {
-            list.Add(binding);
+            inputs.Add(s, d);
         }
     }
 
     [Serializable]
     public class InputDiary
     {
-        public List<InputBinding<int, InpBindList>> list;
+        public List<InpDiaryEntry> entryList;
 
-        public InputDiary(List<InputBinding<int, InpBindList>> l)
+        public InputDiary()
         {
-            list = l;
+            entryList = new List<InpDiaryEntry>();
         }
 
-        public void Add(InputBinding<int, InpBindList> entry)
+        public void Add(InpDiaryEntry entry)
         {
-            list.Add(entry);
+            entryList.Add(entry);
         }
 
         public bool checkifTime(int index, int pFrame)
         {
-            if (index >= list.Count)
+            if (entryList == null || index >= entryList.Count)
             {
                 return false;
             }
 
-            InputBinding<int, InpBindList> binding = list[index];
-            return binding.key == pFrame;
+            InpDiaryEntry entry = entryList[index];
+            return entry.frame == pFrame;
         }
 
         public void interpretBinding(string s, double d, PlayerInput pi)
@@ -120,24 +109,19 @@ public class InputLogger
 
         public void getEntry(int index, PlayerInput current)
         {
-            InputBinding<int, InpBindList> binding = list[index];
-            InpBindList ibl = binding.value;
+            InpDiaryEntry entry = entryList[index];
 
-            foreach (InputBinding<string, double> b in ibl.list)
+            foreach (var input in entry.inputs)
             {
-                interpretBinding(b.key, b.value, current);
+                interpretBinding(input.Key, input.Value, current);
             }
         }
     }
 
-    InputBinding<string, double> newBinding(string s, double o)
+    public void checkControllDiffs(int frame)
     {
-        return new InputBinding<string, double>(s, o);
-    }
-
-    public void checkControllDiffs()
-    {
-        InpBindList ibl = new InpBindList(new List<InputBinding<string, double>>());
+        Dictionary<string, double> entryDict = new Dictionary<string, double>();
+        InpDiaryEntry ibl = new InpDiaryEntry(frame, entryDict);
         bool changed = false;
 
         PlayerInput currentInput = player.currentInput;
@@ -146,7 +130,7 @@ public class InputLogger
         // jump
         if (currentInput.jump != previousInput.jump)
         {
-            ibl.Add(newBinding("hj", d(currentInput.jump)));
+            entryDict.Add("hj", d(currentInput.jump));
             // Debug.Log("changed hold jump status" + debug);
             changed = true;
         }
@@ -154,7 +138,7 @@ public class InputLogger
         // just jumped
         if (currentInput.justJumped != previousInput.justJumped)
         {
-            ibl.Add(newBinding("j", d(currentInput.justJumped)));
+            entryDict.Add("j", d(currentInput.justJumped));
             // Debug.Log("changed just jumped status" + debug);
             changed = true;
         }
@@ -162,7 +146,7 @@ public class InputLogger
         // move
         if (currentInput.moveDirection != previousInput.moveDirection)
         {
-            ibl.Add(newBinding("mv", currentInput.moveDirection));
+            entryDict.Add("mv", currentInput.moveDirection);
             // Debug.Log("changed move status" + debug);
             changed = true;
 
@@ -171,7 +155,7 @@ public class InputLogger
         // just left click
         if (currentInput.justClicked != previousInput.justClicked)
         {
-            ibl.Add(newBinding("lc", d(currentInput.justClicked)));
+            entryDict.Add("lc", d(currentInput.justClicked));
             // Debug.Log("changed left click status" + debug);
             changed = true;
 
@@ -180,7 +164,7 @@ public class InputLogger
         // hold right click
         if (currentInput.holdingRightClick != previousInput.holdingRightClick)
         {
-            ibl.Add(newBinding("rc", d(currentInput.holdingRightClick)));
+            entryDict.Add("lc", d(currentInput.holdingRightClick));
             // Debug.Log("changed right click status" + debug);
             changed = true;
 
@@ -189,7 +173,7 @@ public class InputLogger
         // scroll
         if (currentInput.scrollDelta != previousInput.scrollDelta)
         {
-            ibl.Add(newBinding("scr", currentInput.scrollDelta));
+            entryDict.Add("scr", currentInput.scrollDelta);
             // Debug.Log("changed scroll status" + debug);
             changed = true;
 
@@ -198,7 +182,7 @@ public class InputLogger
         // Q
         if (currentInput.Q != previousInput.Q)
         {
-            ibl.Add(newBinding("Q", d(currentInput.Q)));
+            entryDict.Add("Q", d(currentInput.Q));
             // Debug.Log("changed Q status" + debug);
             changed = true;
 
@@ -207,7 +191,7 @@ public class InputLogger
         // E
         if (currentInput.E != previousInput.E)
         {
-            ibl.Add(newBinding("E", d(currentInput.E)));
+            entryDict.Add("E", d(currentInput.E));
             // Debug.Log("changed E status" + debug);
             changed = true;
 
@@ -216,7 +200,7 @@ public class InputLogger
         // R
         if (currentInput.R != previousInput.R)
         {
-            ibl.Add(newBinding("R", d(currentInput.R)));
+            entryDict.Add("R", d(currentInput.R));
             // Debug.Log("changed R status" + debug);
             changed = true;
 
@@ -225,15 +209,14 @@ public class InputLogger
         // F
         if (currentInput.justF != previousInput.justF)
         {
-            ibl.Add(newBinding("F", d(currentInput.justF)));
+            entryDict.Add("F", d(currentInput.justF));
             // Debug.Log("changed justF status" + debug);
             changed = true;
         }
 
         if (changed)
         {
-            InputBinding<int, InpBindList> entry = new InputBinding<int, InpBindList>(player.phyFrame, ibl);
-            inputLog.Add(entry);
+            inputLog.Add(ibl);
             debug++;
         }
 
@@ -260,6 +243,6 @@ public class InputLogger
     }
     public string json()
     {
-        return JsonUtility.ToJson(inputLog);
+        return JsonConvert.SerializeObject(inputLog);
     }
 }
