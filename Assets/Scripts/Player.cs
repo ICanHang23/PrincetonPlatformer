@@ -184,6 +184,7 @@ public class Player : MonoBehaviour
             if (inputAxis != 0)
             {
                 body.AddForceX(50 * inputAxis);
+                body.linearVelocityX += 4 * inputVector.x;
             }
 
             body.linearVelocityY = 8;
