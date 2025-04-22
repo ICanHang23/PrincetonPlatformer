@@ -329,7 +329,6 @@ public class Player : MonoBehaviour
         Vector2 trajectory = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle));
         trajectory.x *= directionFacing;
 
-
         // Launch the thing
         HoagieBuns buns = newHoagie.GetComponent<HoagieBuns>();
         buns.launch(trajectory);

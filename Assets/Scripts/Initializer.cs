@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 public class Initializer : MonoBehaviour
 {
     [SerializeField] GameData data;
+    [SerializeField] GameObject ghost;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,10 +23,11 @@ public class Initializer : MonoBehaviour
         // StartCoroutine(GetRequest("http://localhost:5000"));
 
 
-        Dictionary<string, int> dict = new Dictionary<string, int>();
-        dict.Add("0", 0);
-        dict.Add("1", 1);
-        Debug.Log(JsonConvert.SerializeObject(dict));
+        if (!data.ghostDiary.Equals(""))
+        {
+            Vector3 ghostPosition = new Vector3(-5, 0, 0);
+            Instantiate(ghost, ghostPosition, Quaternion.identity);
+        }
     }
 
     IEnumerator GetRequest(string uri)

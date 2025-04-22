@@ -10,6 +10,7 @@ public class HoagieBuns : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bunsCollider = GetComponent<BoxCollider2D>();
         checkIntegrity();
     }
 
