@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657a24008b6a7fc478bc5e78b0b08111, type: 3}
   m_Name: GS
   m_EditorClassIdentifier: 
-  reachedGoal: 1
+  reachedGoal: 0
   deathCount: 0
+  elapsed: 0
   deathString: 'Deaths: 0'
   timeString: 'Time taken: 0 seconds'
+  timeStringGUI: 'Time taken: 0'
+  ghostDiary: 

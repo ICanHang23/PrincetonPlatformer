@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
 
-    private bool jumped = false;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
     private bool dead = false;
@@ -31,7 +30,7 @@ public class Player : MonoBehaviour
 
     // pausing
     bool paused = false;
-    GameObject pawseScreen;
+    [SerializeField] GameObject pawseScreen;
 
     // controls
     public PlayerInput previousInput;
@@ -54,11 +53,6 @@ public class Player : MonoBehaviour
         currentInput = new PlayerInput();
 
         inputLogger = new InputLogger(this);
-    }
-
-    private void Start()
-    {
-        pawseScreen = GameObject.Find("PauseScreen");
     }
 
     private void Update()
@@ -131,9 +125,6 @@ public class Player : MonoBehaviour
 
     void move()
     {
-        // Set presumed statuses
-        jumped = false;
-
         // Updating some variables that will be reused throughout
         float inputAxis = currentInput.moveDirection;
 
@@ -175,7 +166,6 @@ public class Player : MonoBehaviour
         if (gameStateCriteria && groundedNow && jump)
         {
             body.linearVelocityY = 10;
-            jumped = true;
         }
 
         // For walljumps
