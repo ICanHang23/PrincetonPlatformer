@@ -114,11 +114,11 @@ GameObject:
   - component: {fileID: 7383234335707970996}
   - component: {fileID: 4421152127296565762}
   - component: {fileID: 3457000603893074285}
-  - component: {fileID: 5932957630544320685}
   - component: {fileID: 454797544106762929}
-  m_Layer: 9
-  m_Name: Player
-  m_TagString: Player
+  - component: {fileID: 153988737953316893}
+  m_Layer: 8
+  m_Name: Ghost
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.19143139, g: 0.8616352, b: 0.12192939, a: 1}
+  m_Color: {r: 0.8627451, g: 0.12457149, b: 0.12156861, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -267,25 +267,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &5932957630544320685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4305305265633954731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d301d0138b369b4e86e447cb9633e2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  game: {fileID: 11400000, guid: 2fede285dd9962748b52d966b1217dda, type: 2}
-  gyatt: 0.98
-  hoagie: {fileID: 8542189437016471789, guid: 4be5dad5edc78ef488a469a071da66ac, type: 3}
-  phyFrame: 0
 --- !u!70 &454797544106762929
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -323,3 +304,24 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.9, y: 0.9}
   m_Direction: 0
+--- !u!114 &153988737953316893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4305305265633954731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171a7830f490929418107ad79f8bf40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  game: {fileID: 11400000, guid: 2fede285dd9962748b52d966b1217dda, type: 2}
+  gyatt: 0.9
+  hoagie: {fileID: 8542189437016471789, guid: 4be5dad5edc78ef488a469a071da66ac, type: 3}
+  phyFrame: 0
+  nextPFrame: 0
+  entryIndex: 0

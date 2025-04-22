@@ -513,6 +513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 282833745}
   - component: {fileID: 282833744}
+  - component: {fileID: 282833746}
   m_Layer: 5
   m_Name: PauseScreen
   m_TagString: Untagged
@@ -535,7 +536,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: b4fb5dc3623584047999acc98c82e5f9, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 293846fcc556f13489240c8c3b64c72b, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -554,6 +555,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &282833746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282833743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5677870106d546408dc29086f1440ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &360039886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,6 +1106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2fede285dd9962748b52d966b1217dda, type: 2}
+  ghost: {fileID: 4305305265633954731, guid: c37af32700d9fac41af92194f9b5e684, type: 3}
 --- !u!4 &723509259
 Transform:
   m_ObjectHideFlags: 0
@@ -1102,7 +1116,7 @@ Transform:
   m_GameObject: {fileID: 723509257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.202269, y: -7.2869997, z: -0.15425472}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1988,9 +2002,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5932957630544320685, guid: 754f55fcc158a9342926fd368bde7b05, type: 3}
-      propertyPath: hoagie
+      propertyPath: pawseScreen
       value: 
-      objectReference: {fileID: 8542189437016471789, guid: 4be5dad5edc78ef488a469a071da66ac, type: 3}
+      objectReference: {fileID: 282833743}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2248,6 +2262,10 @@ PrefabInstance:
     - target: {fileID: 2829334153259504610, guid: 26096921e29f96740ba5dbfb9ac06151, type: 3}
       propertyPath: m_Name
       value: Door0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829334153259504610, guid: 26096921e29f96740ba5dbfb9ac06151, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

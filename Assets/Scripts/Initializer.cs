@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using System.Collections;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class Initializer : MonoBehaviour
 {
     [SerializeField] GameData data;
+    [SerializeField] GameObject ghost;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +20,14 @@ public class Initializer : MonoBehaviour
             pauseScreen.SetActive(false);
         }
 
-        StartCoroutine(GetRequest("http://localhost:5000"));
+        // StartCoroutine(GetRequest("http://localhost:5000"));
+
+
+        if (!data.ghostDiary.Equals(""))
+        {
+            Vector3 ghostPosition = new Vector3(-5, 0, 0);
+            Instantiate(ghost, ghostPosition, Quaternion.identity);
+        }
     }
 
     IEnumerator GetRequest(string uri)

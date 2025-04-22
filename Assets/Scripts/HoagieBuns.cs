@@ -5,10 +5,12 @@ public class HoagieBuns : MonoBehaviour
 {
     Collider2D bunsCollider;
     public Callback updateDeploy;
+    public bool ghost = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bunsCollider = GetComponent<BoxCollider2D>();
         checkIntegrity();
     }
 
@@ -25,11 +27,17 @@ public class HoagieBuns : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (ghost)
+        {
+            player = GameObject.FindGameObjectWithTag("Ghost");
+        }
+
         string tag = collision.gameObject.tag;
 
-        if (player != null && !tag.Equals("Player"))
+        if (player != null && !tag.Equals("Player") && !tag.Equals("Ghost"))
         {
-            teleport(player);
+            teleport(player.transform);
         }
     }
 
@@ -58,10 +66,9 @@ public class HoagieBuns : MonoBehaviour
         bunBody.linearVelocity = direction * 12;
     }
 
-    public void teleport(GameObject player)
+    public void teleport(Transform trans)
     {
-        Player playerScript = player.GetComponent<Player>();
-        player.transform.position = transform.position;
+        trans.position = transform.position;
         // playerScript.resetVelocity();
         disable();
     }
@@ -73,5 +80,13 @@ public class HoagieBuns : MonoBehaviour
             updateDeploy();
         }
         Destroy(gameObject);
+    }
+
+    public void ghostIt()
+    {
+        ghost = true;
+        GameObject meat = transform.GetChild(0).gameObject;
+        SpriteRenderer spr = meat.GetComponent<SpriteRenderer>();
+        spr.color = Color.cyan;
     }
 }

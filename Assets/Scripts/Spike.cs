@@ -23,5 +23,10 @@ public class Spike : MonoBehaviour
             Player playerscript = obj.GetComponent<Player>();
             playerscript.die();
         }
+        else if (obj.tag.Equals("Ghost") && other.collider is BoxCollider2D)
+        {
+            Ghost ghostscript = obj.GetComponent<Ghost>();
+            ghostscript.die();
+        }
     }
 }

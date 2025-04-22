@@ -1,12 +1,13 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
 
-public delegate void Callback();
-public class Player : MonoBehaviour
+// public delegate void Callback();
+public class Ghost : MonoBehaviour
 {
 
     // Components and other things
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameData game;
 
+    private bool jumped = false;
     private bool doubleJumped = false;
     private int wallJumpCount = 0;
     private bool dead = false;
@@ -30,15 +32,16 @@ public class Player : MonoBehaviour
 
     // pausing
     bool paused = false;
-    [SerializeField] GameObject pawseScreen;
 
     // controls
-    public PlayerInput previousInput;
     public PlayerInput currentInput;
+    InputLogger.InputDiary diary;
 
     // fixed update stuff
     public int phyFrame = 0;
-    InputLogger inputLogger;
+    public int nextPFrame = 0;
+    public int entryIndex = 0;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -49,59 +52,21 @@ public class Player : MonoBehaviour
         GameObject arrowObj = transform.GetChild(0).gameObject;
         arrow = arrowObj.GetComponent<Arrow>();
 
-        previousInput = new PlayerInput();
         currentInput = new PlayerInput();
-
-        inputLogger = new InputLogger(this);
-    }
-
-    private void Update()
-    {
-        // pausing
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            pause();
-        }
-
-        // current input
-        if (currentInput == null || currentInput.phyProcessed)
-        {
-            currentInput = new PlayerInput();
-            currentInput.jump = jumpInput();
-            currentInput.moveDirection = Input.GetAxis("Horizontal");
-            currentInput.justJumped = jumpInput(true);
-
-
-            currentInput.justClicked = Input.GetMouseButtonDown(0);
-            currentInput.holdingRightClick = Input.GetMouseButton(1);
-            currentInput.scrollDelta = Input.mouseScrollDelta.y;
-
-            currentInput.Q = Input.GetKey(KeyCode.Q);
-            currentInput.E = Input.GetKey(KeyCode.E);
-            currentInput.R = Input.GetKey(KeyCode.R);
-            currentInput.justF = Input.GetKeyUp(KeyCode.F);
-        }
-        else
-        {
-            if (jumpInput(true))
-            {
-                currentInput.justJumped = jumpInput(true);
-            }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                currentInput.justClicked = Input.GetMouseButtonDown(0);
-            }
-
-            if (Input.GetKeyUp(KeyCode.F))
-            {
-                currentInput.justF = Input.GetKeyUp(KeyCode.F);
-            }
-        }
+        diary = JsonConvert.DeserializeObject<InputLogger.InputDiary>(game.ghostDiary);
+        // Debug.Log("Dictionary size: " + diary.list.Count);
     }
 
     void FixedUpdate()
     {
+        if (diary.checkifTime(entryIndex, phyFrame))
+        {
+            diary.getEntry(entryIndex, currentInput);
+            currentInput.phyProcessed = false;
+            entryIndex++;
+            // Debug.Log("Now printing diary index " + entryIndex);
+        }
+
         move();
 
         // To check for death
@@ -115,16 +80,15 @@ public class Player : MonoBehaviour
             handleHoagieDeployment();
         }
 
-        inputLogger.checkControllDiffs(phyFrame);
-
         currentInput.phyProcessed = true;
-        previousInput = currentInput;
-
         phyFrame++;
     }
 
     void move()
     {
+        // Set presumed statuses
+        jumped = false;
+
         // Updating some variables that will be reused throughout
         float inputAxis = currentInput.moveDirection;
 
@@ -162,10 +126,17 @@ public class Player : MonoBehaviour
         bool justJumped = currentInput.justJumped;
         bool processed = currentInput.phyProcessed;
 
+        if (currentInput.justJumped)
+        {
+            // Debug.Log(justJumped + " " + !doubleJumped + " " + !processed);
+            // Debug.Log("Jump conditions: " + gameStateCriteria + " " + groundedNow + " " + jump);
+        }
+
 
         if (gameStateCriteria && groundedNow && jump)
         {
             body.linearVelocityY = 10;
+            jumped = true;
         }
 
         // For walljumps
@@ -181,6 +152,8 @@ public class Player : MonoBehaviour
         // For double jumping
         else if (justJumped && !doubleJumped && !processed)
         {
+            // Debug.Log("Double jumped");
+
             if (inputAxis != 0)
             {
                 body.AddForceX(50 * inputAxis);
@@ -252,16 +225,6 @@ public class Player : MonoBehaviour
         return notTooFast && notWalled && actuallyPressed && !completed && !dead;
     }
 
-    bool jumpInput(bool precise = false)
-    {
-        if (precise)
-        {
-            return Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
-        }
-
-        return Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
-    }
-
     bool isGrounded()
     {
         Vector2 boxSize = box.bounds.size;
@@ -297,7 +260,6 @@ public class Player : MonoBehaviour
             resetVelocity();
             transform.position = newPosition;
             GetComponent<Rigidbody2D>().gravityScale=2;
-            game.addDeath();
             dead = false;
         }
 
@@ -321,6 +283,7 @@ public class Player : MonoBehaviour
 
         // Launch the thing
         HoagieBuns buns = newHoagie.GetComponent<HoagieBuns>();
+        buns.ghostIt();
         buns.launch(trajectory);
 
         // Set the undeploy function
@@ -340,29 +303,5 @@ public class Player : MonoBehaviour
         transform.position = newPosition;
         dead = false;
         game.deathCount++;
-    }
-
-    public void pause()
-    {
-        if (paused)
-        {
-            Time.timeScale = 1;
-            pawseScreen.SetActive(false);
-        }
-        else
-        {
-            Time.timeScale = 0;
-            pawseScreen.SetActive(true);
-        }
-
-        paused = !paused;
-        
-    }
-
-    public void logInputs()
-    {
-        string json = inputLogger.json();
-        game.ghostDiary = json;
-        Debug.Log(json);
     }
 }
