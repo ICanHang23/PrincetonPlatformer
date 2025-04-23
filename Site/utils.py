@@ -31,3 +31,9 @@ def get_form_params():
         'time': time,
     }
     return params
+
+def set_last_page(reference):
+    flask.session['ref'] = reference
+
+def get_last_page():
+    return flask.session['ref']

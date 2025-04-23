@@ -50,7 +50,14 @@ a {
     -webkit-text-stroke-width: inherit;
     -webkit-text-stroke-color: inherit;
     text-decoration: inherit;
+    cursor: pointer;
   }
+
+.table-a {
+    text-decoration: underline !important;
+    -webkit-text-stroke-color: blue !important;
+    color: blue !important;
+}
 
 .main-body {
     display: flex;
@@ -94,7 +101,7 @@ a {
 .btn-div {
     width: 60%;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     margin-right: auto;
     margin-left: auto;
 }
@@ -108,7 +115,7 @@ a {
     border-radius: 20px;
   }
 
-  button:hover {
+button:hover {
     background-color: black;
     color: white;
     cursor: pointer;
