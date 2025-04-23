@@ -73,6 +73,7 @@ def receivescore():
     time = data.get('time')
     level = data.get('level')
     deaths = data.get('deaths')
+    inputs = data.get('input')
 
     params = {
         'run_id': run_id,
@@ -80,6 +81,7 @@ def receivescore():
         'lvl': int(level[5:]),
         'deaths' : deaths,
         'time' : round(time, 2),
+        'inputs' : inputs
     }
 
     if (netid is not None):
