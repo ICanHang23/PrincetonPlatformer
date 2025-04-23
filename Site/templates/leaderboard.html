@@ -52,26 +52,30 @@
         <div class = "btn-div">
             {% if lvl %}
                 <div style="float: left;">
-                    <a href="/leaderboard-menu"><button class="table-btn">Back to Levels</button></a>
+                    <a href="/leaderboard-menu"><button class="table-btn" style="margin-left: 0">Back to Levels</button></a>
                 </div>
                 <div style="float: right;">
                     {% if pg > 1 %}
+                        <a href="/leaderboard?lvl={{lvl}}&pg=1"><button class="table-btn">Start</button></a>
                         <a href="/leaderboard?lvl={{lvl}}&pg={{pg - 1}}"><button class="table-btn">Prev</button></a>
                         {% endif %}
                     {% if table|length > pg * limit %}
                         <a href="/leaderboard?lvl={{lvl}}&pg={{pg + 1}}"><button class="table-btn">Next</button></a>
+                        <a href="/leaderboard?lvl={{lvl}}&pg={{table|length // limit + 1}}"><button class="table-btn">End</button></a>
                         {% endif %}
                 </div>
             {% else %}
                 <div style="float: left;">
-                    <a href="{{ ref }}"><button class="table-btn">Back</button></a>
+                    <a href="{{ ref }}"><button class="table-btn" style="margin-left: 0">Back</button></a>
                 </div>
                 <div style="float: right;">
                     {% if pg > 1 %}
+                        <a href="/times/{{username}}?pg=1"><button class="table-btn">Start</button></a>
                         <a href="/times/{{username}}?pg={{pg - 1}}"><button class="table-btn">Back</button></a>
                         {% endif %}
                     {% if table|length > pg * limit %}
                         <a href="/times/{{username}}?pg={{pg + 1}}"><button class="table-btn">Next</button></a>
+                        <a href="/times/{{username}}?pg={{table|length // limit + 1}}"><button class="table-btn">End</button></a>
                         {% endif %}
                     {% endif %}
                 </div>
