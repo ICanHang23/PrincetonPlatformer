@@ -42,6 +42,9 @@ public class Ghost : MonoBehaviour
     public int nextPFrame = 0;
     public int entryIndex = 0;
 
+    // respawn
+    public Vector2 respawnLocation;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -55,6 +58,8 @@ public class Ghost : MonoBehaviour
         currentInput = new PlayerInput();
         diary = JsonConvert.DeserializeObject<InputLogger.InputDiary>(game.ghostDiary);
         // Debug.Log("Dictionary size: " + diary.list.Count);
+
+        respawnLocation = new Vector2(-5, 0);
     }
 
     void FixedUpdate()
@@ -126,12 +131,6 @@ public class Ghost : MonoBehaviour
         bool justJumped = currentInput.justJumped;
         bool processed = currentInput.phyProcessed;
 
-        if (currentInput.justJumped)
-        {
-            // Debug.Log(justJumped + " " + !doubleJumped + " " + !processed);
-            // Debug.Log("Jump conditions: " + gameStateCriteria + " " + groundedNow + " " + jump);
-        }
-
 
         if (gameStateCriteria && groundedNow && jump)
         {
@@ -141,22 +140,23 @@ public class Ghost : MonoBehaviour
 
         // For walljumps
         else if (justJumped && inputAxis != 0 && isWalled(inputVector)
-            && wallJumpCount < 5 && !processed)
+            && wallJumpCount < 5 && !processed && gameStateCriteria)
         {
             wallJumpCount++;
             body.linearVelocityX = -16 * inputVector.x;
-            body.linearVelocityY = 10;
+            body.linearVelocityY = 11;
         }
 
         
         // For double jumping
-        else if (justJumped && !doubleJumped && !processed)
+        else if (justJumped && !doubleJumped && !processed && gameStateCriteria)
         {
             // Debug.Log("Double jumped");
 
             if (inputAxis != 0)
             {
                 body.AddForceX(50 * inputAxis);
+                body.linearVelocityX += 4 * inputVector.x;
             }
 
             body.linearVelocityY = 8;
@@ -256,9 +256,8 @@ public class Ghost : MonoBehaviour
     private IEnumerator RespawnPlayer()
         {
             yield return new WaitForSeconds(1);
-            Vector2 newPosition = new Vector2(-5, 0);
             resetVelocity();
-            transform.position = newPosition;
+            transform.position = respawnLocation;
             GetComponent<Rigidbody2D>().gravityScale=2;
             dead = false;
         }

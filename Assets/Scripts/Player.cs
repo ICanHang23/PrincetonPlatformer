@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
     public int phyFrame = 0;
     InputLogger inputLogger;
 
+    // respawn
+    public Vector2 respawnLocation;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -53,6 +56,7 @@ public class Player : MonoBehaviour
         currentInput = new PlayerInput();
 
         inputLogger = new InputLogger(this);
+        respawnLocation = new Vector2(-5, 0);
     }
 
     private void Update()
@@ -170,16 +174,16 @@ public class Player : MonoBehaviour
 
         // For walljumps
         else if (justJumped && inputAxis != 0 && isWalled(inputVector)
-            && wallJumpCount < 5 && !processed)
+            && wallJumpCount < 5 && !processed && gameStateCriteria)
         {
             wallJumpCount++;
             body.linearVelocityX = -16 * inputVector.x;
-            body.linearVelocityY = 10;
+            body.linearVelocityY = 11;
         }
 
         
         // For double jumping
-        else if (justJumped && !doubleJumped && !processed)
+        else if (justJumped && !doubleJumped && !processed && gameStateCriteria)
         {
             if (inputAxis != 0)
             {
@@ -294,9 +298,8 @@ public class Player : MonoBehaviour
     private IEnumerator RespawnPlayer()
         {
             yield return new WaitForSeconds(1);
-            Vector2 newPosition = new Vector2(-5, 0);
             resetVelocity();
-            transform.position = newPosition;
+            transform.position = respawnLocation;
             GetComponent<Rigidbody2D>().gravityScale=2;
             game.addDeath();
             dead = false;
