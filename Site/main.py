@@ -89,8 +89,8 @@ def receivescore():
     print(params['inputs'])
     print(params)
 
-    #if (netid is not None):
-        #insert_db(params)
+    if (netid is not None):
+        insert_db(params)
 
     return flask.redirect('/leaderboard-menu')
     

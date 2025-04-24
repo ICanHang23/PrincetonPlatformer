@@ -8,7 +8,7 @@ public class UploadScore : MonoBehaviour
     public static UploadScore Instance { get; private set; }
 
     // CHANGE THIS for the deployed version
-    private static string url = "127.0.0.1:5000/receivescore";
+    private static string url = "http://localhost:5000/receivescore";
 
     [SerializeField] GameData data;
 
