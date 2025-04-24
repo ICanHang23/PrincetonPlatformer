@@ -3002,6 +3002,70 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 882261060109458377, guid: 609ff5583f814944e8126945f21965f1, type: 3}
   m_PrefabInstance: {fileID: 1020129742}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1050400984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1050400987}
+  - component: {fileID: 1050400986}
+  - component: {fileID: 1050400985}
+  m_Layer: 5
+  m_Name: PauseScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1050400985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050400984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5677870106d546408dc29086f1440ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1050400986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050400984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: b4fb5dc3623584047999acc98c82e5f9, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 293846fcc556f13489240c8c3b64c72b, type: 3}
+  m_SortingOrder: 1
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+--- !u!4 &1050400987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050400984}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1055450214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4547,6 +4611,10 @@ PrefabInstance:
       propertyPath: hoagie
       value: 
       objectReference: {fileID: 8542189437016471789, guid: 4be5dad5edc78ef488a469a071da66ac, type: 3}
+    - target: {fileID: 5932957630544320685, guid: 754f55fcc158a9342926fd368bde7b05, type: 3}
+      propertyPath: pawseScreen
+      value: 
+      objectReference: {fileID: 1050400984}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6442,3 +6510,4 @@ SceneRoots:
   - {fileID: 1667739782}
   - {fileID: 2026377907}
   - {fileID: 1568618567}
+  - {fileID: 1050400987}
