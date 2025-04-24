@@ -12,6 +12,7 @@ import argparse
 import urllib.parse
 import dotenv
 import os
+import json
 
 from db_tools import (
     query_leaderboard, 
@@ -81,11 +82,15 @@ def receivescore():
         'lvl': int(level[5:]),
         'deaths' : deaths,
         'time' : round(time, 2),
-        'inputs' : inputs
+        'inputs' : json.dumps(inputs)
     }
 
-    if (netid is not None):
-        insert_db(params)
+    print("Game inputs")
+    print(params['inputs'])
+    print(params)
+
+    #if (netid is not None):
+        #insert_db(params)
 
     return flask.redirect('/leaderboard-menu')
     

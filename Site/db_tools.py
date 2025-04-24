@@ -52,19 +52,34 @@ def query_times(username):
     return rows
 
 def get_next_run_id(netid: str):
-    conn = psycopg2.connect(database = "Primary DB", 
+    with psycopg2.connect(database = "Primary DB", 
                             user = db_user, 
                             host= db_host,
                             password = db_pwd,
-                            port = 5432)
-    with conn.cursor() as curr:
-        query = "SELECT run_id FROM runs WHERE netid LIKE '%s' " % netid
-        query += "ORDER BY run_id DESC"
-        curr.execute(query)
-        rows = curr.fetchall()
-        output = rows[0][0] + 1 if len(rows) != 0 else 1
-    conn.commit()
-    conn.close()
+                            port = 5432) as conn:
+        with conn.cursor() as curr:
+            query = "SELECT run_id FROM runs WHERE netid LIKE '%s' " % netid
+            query += "ORDER BY run_id DESC"
+            curr.execute(query)
+            rows = curr.fetchall()
+            output = rows[0][0] + 1 if len(rows) != 0 else 1
+        conn.commit()
+
+    return output
+
+def get_ghost_info(params):
+    with psycopg2.connect(database = "Primary DB", 
+                            user = db_user, 
+                            host= db_host,
+                            password = db_pwd,
+                            port = 5432) as conn:
+        with conn.cursor() as curr:
+            curr.execute("SELECT ghost_info FROM ghosts WHERE netid='%s' AND run_id='%s'" % (
+                params['netid'], params['run_id']
+            ))
+            rows = curr.fetchall()
+            output = rows
+        conn.commit()
 
     return output
 
@@ -77,8 +92,8 @@ def insert_db(params):
                             password = db_pwd,
                             port = 5432) as conn:
         with conn.cursor() as curr:
-            curr.execute('INSERT INTO runs(run_id, netid, lvl, deaths, "time", "timestamp") ' +
-                            "VALUES('%s', '%s', '%s', '%s', '%s', '%s')" % (
+            curr.execute('INSERT INTO runs(run_id, netid, lvl, deaths, "time", "timestamp", has_ghost) ' +
+                            "VALUES('%s', '%s', '%s', '%s', '%s', '%s', TRUE)" % (
                             params['run_id'],
                             params['netid'],
                             params['lvl'],
@@ -86,6 +101,11 @@ def insert_db(params):
                             params['time'],
                             time,
                             ))
+        conn.commit()
+        with conn.cursor() as curr:
+            curr.execute("INSTER INTO ghosts(run_id, netid, ghost_info) VALUES('%s', '%s', '%s')" % (
+                params['run_id'], params['netid'], params['inputs']
+            ))
         conn.commit()
 
 #For testing purposes
