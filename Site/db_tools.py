@@ -103,23 +103,24 @@ def insert_db(params):
                             ))
         conn.commit()
         with conn.cursor() as curr:
-            curr.execute("INSTER INTO ghosts(run_id, netid, ghost_info) VALUES('%s', '%s', '%s')" % (
+            curr.execute("INSERT INTO ghosts(run_id, netid, ghost_info) VALUES('%s', '%s', '%s')" % (
                 params['run_id'], params['netid'], params['inputs']
             ))
         conn.commit()
 
 #For testing purposes
 def main():
-    query_leaderboard()
-    params = {
-        'run_id': 1,
-        'netid': 'sh3735',
-        'lvl': 1,
-        'deaths': 3,
-        'time': 21.4,
-    }
-    insert_db(params)
-    query_leaderboard()
+    print(get_ghost_info({"run_id": 11, "netid": 'sh3735'})[0][0])
+    # query_leaderboard()
+    # params = {
+    #     'run_id': 1,
+    #     'netid': 'sh3735',
+    #     'lvl': 1,
+    #     'deaths': 3,
+    #     'time': 21.4,
+    # }
+    # insert_db(params)
+    # query_leaderboard()
 
 if __name__ == '__main__':
     main()
