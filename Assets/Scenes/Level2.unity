@@ -2395,7 +2395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2fede285dd9962748b52d966b1217dda, type: 2}
-  ghost: {fileID: 0}
+  ghost: {fileID: 4305305265633954731, guid: c37af32700d9fac41af92194f9b5e684, type: 3}
 --- !u!4 &723509259
 Transform:
   m_ObjectHideFlags: 0
