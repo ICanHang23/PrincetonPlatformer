@@ -26,7 +26,7 @@ def query_leaderboard(level):
                             password = db_pwd,
                             port = 5432)
     with conn.cursor() as curr:
-        query = 'SELECT netid, deaths, "time" FROM runs'
+        query = 'SELECT netid, deaths, "time", run_id, has_ghost FROM runs'
         query += ' WHERE lvl=%s ORDER BY "time" ASC, deaths ASC' % level
         curr.execute(query)
         rows = curr.fetchall()
@@ -42,7 +42,7 @@ def query_times(username):
                             password = db_pwd,
                             port = 5432)
     with conn.cursor() as curr:
-        query = 'SELECT run_id, lvl, deaths, "time" FROM runs'
+        query = 'SELECT run_id, lvl, deaths, "time", has_ghost FROM runs'
         query += " WHERE netid='%s' ORDER BY run_id ASC" % username
         curr.execute(query)
         rows = curr.fetchall()
@@ -78,7 +78,7 @@ def get_ghost_info(params):
                 params['netid'], params['run_id']
             ))
             rows = curr.fetchall()
-            output = rows
+            output = rows[0][0]
         conn.commit()
 
     return output
@@ -110,7 +110,7 @@ def insert_db(params):
 
 #For testing purposes
 def main():
-    print(get_ghost_info({"run_id": 11, "netid": 'sh3735'})[0][0])
+    print(get_ghost_info({"run_id": 11, "netid": 'sh3735'}))
     # query_leaderboard()
     # params = {
     #     'run_id': 1,
