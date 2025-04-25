@@ -9,6 +9,7 @@ import psycopg2
 import dotenv
 import os
 import datetime
+import json
 
 #-----------------------------------------------------------------------
 
@@ -78,10 +79,24 @@ def get_ghost_info(params):
                 params['netid'], params['run_id']
             ))
             rows = curr.fetchall()
-            output = rows[0][0]
         conn.commit()
 
-    return output
+    return rows
+
+def get_run_info(params):
+    with psycopg2.connect(database = "Primary DB", 
+                            user = db_user, 
+                            host= db_host,
+                            password = db_pwd,
+                            port = 5432) as conn:
+        with conn.cursor() as curr:
+            curr.execute("SELECT lvl, deaths, \"time\" FROM runs WHERE netid='%s' AND run_id='%s'" % (
+                params['netid'], params['run_id']
+            ))
+            rows = curr.fetchall()
+        conn.commit()
+
+    return rows
 
 def insert_db(params):
     time = datetime.datetime.now()

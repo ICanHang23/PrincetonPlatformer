@@ -45,7 +45,10 @@
                         {% endif %}
                         {% if row[4] %}
                         <td style="padding-left: 30px !important; padding: inherit;">
-                            <button class="table-btn" style="margin-top: 0px !important;">Watch</button>
+                            <a href="/ghost?net_id={{row[0]}}&run={{row[3]}}">
+                                <button class="table-btn" style="margin-top: 0px !important;">Watch</button>
+                            </a>
+                            
                         </td>
                         {% else %}
                         <td>Not Available</td>

@@ -18,7 +18,9 @@ from db_tools import (
     query_leaderboard, 
     insert_db, 
     get_next_run_id, 
-    query_times
+    query_times,
+    get_ghost_info,
+    get_run_info
 )
 from load import app
 import utils
@@ -170,6 +172,47 @@ def times(user):
     return flask.render_template('leaderboard.html', table = table_info,
                                 username = user, pg = pg, limit = limit,
                                 log=logged_in, ref = ref)
+
+# gets called upon clicking the "watch" button in the leaderboard
+# sets cookies and redirects the user to the game page
+@app.route('/ghost', methods=['GET'])
+def ghost():
+    net_id = flask.request.args.get('net_id', "")
+    run_id = flask.request.args.get('run', 0)
+
+    flask.session["gho_net"] = net_id
+    flask.session["gho_run"] = run_id
+    return flask.redirect('/game')
+
+# gets called by the embedded game player when retrieving information
+# for ghosts. returns a json or an error status
+@app.route("/getghost", methods=['GET'])
+def get_ghost():
+    net_id = flask.session.get("gho_net", "")
+    run_id = flask.session.get("gho_run", "")
+
+    # checks for absent cookies
+    if net_id == "" or run_id == "":
+        flask.abort(400)
+    
+    params = {"run_id": run_id, "netid": net_id}
+
+    ghost_db_info = get_ghost_info(params)
+    if (len(ghost_db_info) == 0):
+        flask.abort(404)
+    ghost_json = ghost_db_info[0][0]
+
+    run_db_info = get_run_info(params)
+    if (len(get_run_info) == 0):
+        flask.abort(404)
+    lvl = run_db_info[0][0]
+    deaths = run_db_info[0][1]
+    time = run_db_info[0][2]
+
+    output = {"inputs": ghost_json, "lvl": lvl,
+              "deaths": deaths, "time": time}
+
+    return flask.jsonify(output)
 
 
   
