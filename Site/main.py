@@ -36,6 +36,7 @@ def home():
     #getting log in information
     logged_in = flask.session.get('logged_in', False) 
     username = flask.session.get('username', None)
+    utils.set_last_page('/')
     return flask.render_template('index.html', log=logged_in,
                                   username = username)
 
@@ -55,14 +56,16 @@ def login():
         flask.session['username'] = username
     
     #going back to the index
+    utils.set_last_page('/')
     return flask.redirect('/')
 
-@app.route('/gametest', methods=['GET'])
-def gametest():
+@app.route('/game', methods=['GET'])
+def game():
     logged_in = flask.session.get('logged_in', False) 
     rendered = flask.render_template('game.html', log=logged_in)
     response = flask.make_response(rendered)
     response.headers['Content-Encoding'] = 'brotli'
+    utils.set_last_page('/game')
     return response
 
 # I'm pretty sure post is right here to receive data?
@@ -127,7 +130,8 @@ def get_profile():
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
     logged_in = flask.session.get('logged_in', False)
-    username = flask.session.get('username', None) 
+    username = flask.session.get('username', None)
+    utils.set_last_page('/leaderboard-menu')
     return flask.render_template('leadermenu.html', log=logged_in,
                                  username = username)
 
@@ -146,6 +150,7 @@ def leaderboard():
         pg = len(table_info) // limit
         pg += 1 if len(table_info) % limit != 0 else 0
 
+    utils.set_last_page('/leaderboard?lvl=%s&pg=%s' % (lvl, pg))
     return flask.render_template('leaderboard.html', table = table_info,
                                 lvl = lvl, pg = pg, limit = limit, log=logged_in)
 
@@ -161,8 +166,10 @@ def times(user):
         pg = len(table_info) // limit
         pg += 1 if len(table_info) % limit != 0 else 0
 
+    ref = utils.get_last_page()
     return flask.render_template('leaderboard.html', table = table_info,
-                                username = user, pg = pg, limit = limit, log=logged_in)
+                                username = user, pg = pg, limit = limit,
+                                log=logged_in, ref = ref)
 
 
   
