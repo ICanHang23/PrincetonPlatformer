@@ -8,9 +8,10 @@ public class UploadScore : MonoBehaviour
     public static UploadScore Instance { get; private set; }
 
     // CHANGE THIS for the deployed version
-    private static string url = "http://localhost:5000/receivescore";
+    private static string url = "";
 
     [SerializeField] GameData data;
+    [SerializeField] HTTPData http;
 
     private void Awake()
     {
@@ -22,6 +23,8 @@ public class UploadScore : MonoBehaviour
         {
             Destroy(gameObject);  // Ensure only one instance exists
         }
+
+        url = http.prefix +"/receivescore";
     }
 
     public static void SendScore(int deaths, float time, string inputJson)

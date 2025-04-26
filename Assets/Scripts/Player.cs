@@ -366,7 +366,7 @@ public class Player : MonoBehaviour
     public void logInputs()
     {
         string json = inputLogger.json();
-        game.ghostDiary = json;
+        // game.ghostDiary = json;
         Debug.Log(json);
     }
 }

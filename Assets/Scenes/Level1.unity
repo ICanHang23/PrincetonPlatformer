@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2fede285dd9962748b52d966b1217dda, type: 2}
+  http: {fileID: 11400000, guid: d975795caca0c8a4eaeadd1e589ddea0, type: 2}
 --- !u!4 &72502616
 Transform:
   m_ObjectHideFlags: 0
