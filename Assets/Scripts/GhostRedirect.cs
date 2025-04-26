@@ -48,6 +48,10 @@ public class GhostRedirect : MonoBehaviour
 
             }
             // CHECK FOR ERRORS HERE
+            else
+            {
+                SceneManager.LoadSceneAsync("MainMenu");
+            }
         }
     }
 

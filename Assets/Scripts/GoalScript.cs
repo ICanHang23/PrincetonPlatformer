@@ -31,7 +31,7 @@ public class GoalScript : MonoBehaviour
             player.logInputs();
 
             // Putting in a score submission
-            UploadScore.SendScore(game.deathCount, game.elapsed, game.ghostDiary);
+            UploadScore.SendScore(game.deathCount, game.elapsed, game.playerDiary);
 
             Instantiate(levelComplete);
 
