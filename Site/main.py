@@ -220,7 +220,8 @@ def get_ghost():
     time = run_db_info[0][2]
 
     output = {"inputs": ghost_json, "lvl": lvl,
-              "deaths": deaths, "time": time}
+              "deaths": deaths, "time": time,
+              "netid": net_id}
 
     return flask.jsonify(output)
 

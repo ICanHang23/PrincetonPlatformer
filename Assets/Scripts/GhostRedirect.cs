@@ -9,6 +9,7 @@ public class GhostRedirect : MonoBehaviour
     public static GhostRedirect Instance { get; private set; }
     [SerializeField] GameData game;
     [SerializeField] HTTPData http;
+    [SerializeField] GhostRunData ghostData;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,6 +36,7 @@ public class GhostRedirect : MonoBehaviour
         using (UnityWebRequest www = new UnityWebRequest(http.prefix + "/getghost", "GET"))
         {
             www.downloadHandler = new DownloadHandlerBuffer();
+            GhostRunData ghostData = Instance.ghostData;
 
             // Wait for the request to complete
             yield return www.SendWebRequest();
@@ -43,11 +45,33 @@ public class GhostRedirect : MonoBehaviour
             {
                 string responseText = www.downloadHandler.text;
                 GhostHTTPResponse response = JsonConvert.DeserializeObject<GhostHTTPResponse>(responseText);
+
+                // initialize scriptable objects
                 game.ghostDiary = response.inputs;
-                SceneManager.LoadSceneAsync("Level" + response.lvl);
+                ghostData.deaths = response.deaths;
+                ghostData.timeTaken = response.time;
+                ghostData.level = response.lvl;
+                ghostData.netid = response.netid;
+                ghostData.build();
+
+                SceneManager.LoadSceneAsync("GhostLanding");
 
             }
             // CHECK FOR ERRORS HERE
+            else if (www.responseCode == 400)
+            {
+                ghostData.error = "The request to fetch run data was improperly formatted. Please try again or" +
+                    " contact the server administrator if the issue persists.";
+                ghostData.build();
+                SceneManager.LoadSceneAsync("GhostLanding");
+            }
+            else if (www.responseCode == 404)
+            {
+                ghostData.error = "We could not find data that matches the run you wanted to spectate. Please try" +
+                    " again or contact the server administrator if the issue persists.";
+                ghostData.build();
+                SceneManager.LoadSceneAsync("GhostLanding");
+            }
             else
             {
                 SceneManager.LoadSceneAsync("MainMenu");
@@ -57,6 +81,7 @@ public class GhostRedirect : MonoBehaviour
 
     class GhostHTTPResponse
     {
+        public string netid;
         public string inputs;
         public int lvl;
         public int deaths;

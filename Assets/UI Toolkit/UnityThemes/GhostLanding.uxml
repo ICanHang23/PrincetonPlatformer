@@ -1,0 +1,33 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/button.uss?fileID=7433441132597879392&amp;guid=7f7b1e6f82ac55b4ebea7c9ef4b54eff&amp;type=3#button" />
+    <engine:VisualElement name="VisualElement" style="width: 75%; height: 60%; background-color: rgb(255, 255, 255); top: 12.5%; left: 12.5%; border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-right-radius: 45px; border-bottom-left-radius: 45px;">
+        <engine:VisualElement name="TextContainer" style="flex-grow: 1; height: 51%; width: 100%; align-content: flex-start; flex-direction: column; flex-wrap: nowrap; justify-content: center;">
+            <engine:Label text="You&apos;re about to play Level 1 alongside ep0148." name="Header" style="-unity-font-style: bold; -unity-text-align: upper-center; font-size: 25px; align-items: stretch; top: auto; white-space: normal;">
+                <Bindings>
+                    <engine:DataBinding property="text" data-source-path="header" data-source="project://database/Assets/GhoRunData.asset?fileID=11400000&amp;guid=0587fec2df16a2142877b8c0f58a5a59&amp;type=2#GhoRunData" binding-mode="ToTarget" />
+                </Bindings>
+            </engine:Label>
+            <engine:Label text="ep0148 completed the level in 121.1 seconds and died twice." data-source="project://database/Assets/GameData.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GameData" name="Label" style="-unity-text-align: upper-center; font-size: 20px; white-space: normal;">
+                <Bindings>
+                    <engine:DataBinding property="text" data-source-path="statOverview" data-source="project://database/Assets/GhoRunData.asset?fileID=11400000&amp;guid=0587fec2df16a2142877b8c0f58a5a59&amp;type=2#GhoRunData" binding-mode="ToTarget" />
+                </Bindings>
+            </engine:Label>
+            <engine:Label text="Are you ready to play?" data-source="project://database/Assets/GameData.asset?fileID=11400000&amp;guid=2fede285dd9962748b52d966b1217dda&amp;type=2#GameData" style="-unity-text-align: upper-center; font-size: 20px;">
+                <Bindings>
+                    <engine:DataBinding property="text" data-source-path="coolMessage" data-source="project://database/Assets/GhoRunData.asset?fileID=11400000&amp;guid=0587fec2df16a2142877b8c0f58a5a59&amp;type=2#GhoRunData" binding-mode="ToTarget" />
+                </Bindings>
+            </engine:Label>
+        </engine:VisualElement>
+        <engine:VisualElement name="ButtonContainers" style="flex-grow: 1; flex-direction: row; align-content: flex-start; align-self: auto; justify-content: center; height: 23%; align-items: center;">
+            <engine:Button text="Back" name="BackButton" class="button" style="height: 65%; -unity-font-style: bold; font-size: 25%; margin-right: 30px;" />
+            <engine:Button text="Play" name="PlayButton" class="button" style="height: 65%; font-size: 25%; -unity-font-style: bold; margin-left: 30px;" />
+        </engine:VisualElement>
+        <engine:VisualElement style="flex-grow: 1;">
+            <engine:Label text="We could not find data that matches the run you wanted to spectate. Please try again or contact the server administrator if the issue persists." style="-unity-text-align: upper-center; font-size: 10px; flex-wrap: nowrap; white-space: normal;">
+                <Bindings>
+                    <engine:DataBinding property="text" data-source-path="error" data-source="project://database/Assets/GhoRunData.asset?fileID=11400000&amp;guid=0587fec2df16a2142877b8c0f58a5a59&amp;type=2#GhoRunData" binding-mode="ToTarget" />
+                </Bindings>
+            </engine:Label>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>
