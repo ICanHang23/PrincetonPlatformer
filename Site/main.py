@@ -160,6 +160,14 @@ def leaderboard():
     return flask.render_template('leaderboard.html', table = table_info,
                                 lvl = lvl, pg = pg, limit = limit, log=logged_in)
 
+@app.route('/about', methods=['GET'])
+def about_page():
+    logged_in = flask.session.get('logged_in', False)
+    username = flask.session.get('username', None)
+    utils.set_last_page('/about')
+    return flask.render_template('about.html', log=logged_in,
+                                 username = username)
+
 @app.route('/times/<user>')
 def times(user):
     logged_in = flask.session.get('logged_in', False)

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Princeton Platformer</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <div class="main-body">
+            <div class="main-btn-div">
+                <h1>How to Play</h1>
+                <h3>Objective</h3>
+                <p>
+                    The goal of the game is simple - Get to the end of the level and reach the exit 
+                    as quickly as possible! Avoid hazards and make it to the end while competing with
+                    others for the fastest time.
+                </p>
+                <h3>Movement basics</h3>
+                <p>To move the player right and left, use the key A to move right, and D to move left.
+                    To jump, press either W or the space bar while on the ground. You are able to change 
+                    the direction you are moving while airborne. 
+                </p>
+                <h3>Higher level movement</h3>
+                <p>
+                    To execute a double jump, press the jump key while in the air. This will give you more
+                    vertical momentum, and also a small speed boost in the horizontal direction you are moving. 
+                    You are only able to do one double jump before you land on the ground, so if you 
+                    have already double jumped, you will need to land before you can execute another 
+                    double jump. 
+                </p>
+                <p>
+                    To execute a wall jump, be adjacent to a wall and use your directional input towards the wall while
+                    pressing jump, which will give you a burst of vertical momentum and horizontal momentum in the direction
+                    away from the wall. You can only do walljumps a limited amount of times before you are required to land.
+                </p>
+                <h3>Hoagie mechanics</h3>
+                <p>
+                    The hoagie can be thrown using a left click on the mouse, which will launch a hoagie 
+                    that is affected by gravity. When the hoagie hits a surface, or the player left clicks
+                    again before it hits a surface, the player will be teleported to the location of the hoagie,
+                    conserving the momentum the player had prior to the teleportation. The hoagie will always be launched
+                    in the direction of the last directional input (A and D) and the angle the hoagie is thrown at can be
+                    changed by pressing E to increase the angle, and R to decrease the angle. There is no cooldown to the
+                    hoagie, and the moment one expires, another hoagie can be thrown. 
+                </p>
+                <h3>Hazards</h3>
+                <p>
+                    There are two main types of hazards. Spikes will instantly kill you on contact, which will send you 
+                    back to the last checkpoint, or the beginning of the level if no checkpoint is reached. If you fall off
+                    the map, you will also be counted as dying, and sent back to the checkpoint/beginning of the level. You want
+                    to avoid either of those scenarios, so try not to make contact with any spike or fall off the map. 
+                </p>
+                <h3>Prox</h3>
+                <p>
+                    You may notice that the exit may be blocked off, with a scanner in front of it. In those scenarios,
+                    you have to pick up a prox (insert image) and bring it to the scanner to authenticate yourself and 
+                    open the door and proceed.
+                </p>
+            </div>
+            <div class="main-btn-div">
+                <a href="/">
+                    <button type="submit" class="btn-main">Back to Main</button>
+                </a>
+            </div>
+            {% if log == True %}
+            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
+                Logged in as <strong>{{ username }}</strong>
+            </div>
+            {% else %}
+            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
+                Currently playing as <strong>Guest</strong>. Scores will not be saved.
+            </div>
+            {% endif %}
+        </div>
+    </body>
+</html>
