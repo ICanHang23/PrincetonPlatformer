@@ -12,6 +12,7 @@ public class GameData : ScriptableObject
     public string timeStringGUI = "Time taken: 0";
 
     public string ghostDiary = "";
+    public string playerDiary = "";
 
     public void Reset()
     {

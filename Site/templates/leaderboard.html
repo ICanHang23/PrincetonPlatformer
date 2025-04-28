@@ -22,8 +22,9 @@
                         <th>Run ID</th>
                         <th>Level</th>
                         {% endif %}
-                        <th>Number of Deaths</td>
-                        <th>Time</td>
+                        <th>Number of Deaths</th>
+                        <th>Time</th>
+                        <th>Watch their Run</th>
                     </tr>
                 </thead>
                 {% if table|length == 0: %}
@@ -41,6 +42,16 @@
                         <td>{{ row[2] }}</td>
                         {% if username %}
                         <td>{{ row[3] }}</td>
+                        {% endif %}
+                        {% if row[4] %}
+                        <td style="padding-left: 30px !important; padding: inherit;">
+                            <a href="/ghost?net_id={{row[0]}}&run={{row[3]}}">
+                                <button class="table-btn" style="margin-top: 0px !important;">Watch</button>
+                            </a>
+                            
+                        </td>
+                        {% else %}
+                        <td>Not Available</td>
                         {% endif %}
                     </tr>
                 </tbody>

@@ -12,12 +12,15 @@ import argparse
 import urllib.parse
 import dotenv
 import os
+import json
 
 from db_tools import (
     query_leaderboard, 
     insert_db, 
     get_next_run_id, 
-    query_times
+    query_times,
+    get_ghost_info,
+    get_run_info
 )
 from load import app
 import utils
@@ -36,6 +39,10 @@ def home():
     logged_in = flask.session.get('logged_in', False) 
     username = flask.session.get('username', None)
     utils.set_last_page('/')
+
+    if "gho_rdrct" in flask.session:
+        flask.session.pop("gho_rdrct")
+
     return flask.render_template('index.html', log=logged_in,
                                   username = username)
 
@@ -76,6 +83,7 @@ def receivescore():
     time = data.get('time')
     level = data.get('level')
     deaths = data.get('deaths')
+    inputs = data.get('input')
 
     params = {
         'run_id': run_id,
@@ -83,7 +91,12 @@ def receivescore():
         'lvl': int(level[5:]),
         'deaths' : deaths,
         'time' : round(time, 2),
+        'inputs' : json.dumps(inputs)
     }
+
+    print("Game inputs")
+    print(params['inputs'])
+    print(params)
 
     if (netid is not None):
         insert_db(params)
@@ -163,6 +176,54 @@ def times(user):
     return flask.render_template('leaderboard.html', table = table_info,
                                 username = user, pg = pg, limit = limit,
                                 log=logged_in, ref = ref)
+
+# gets called upon clicking the "watch" button in the leaderboard
+# sets cookies and redirects the user to the game page
+@app.route('/ghost', methods=['GET'])
+def ghost():
+    net_id = flask.request.args.get('net_id', "")
+    run_id = flask.request.args.get('run', 0)
+
+    flask.session["gho_net"] = net_id
+    flask.session["gho_run"] = run_id
+    flask.session["gho_rdrct"] = True
+    return flask.redirect('/game')
+
+# gets called by the embedded game player when retrieving information
+# for ghosts. returns a json or an error status
+@app.route("/getghost", methods=['GET'])
+def get_ghost():
+    net_id = flask.session.get("gho_net", "")
+    run_id = flask.session.get("gho_run", "")
+    valid_redirect = flask.session.get("gho_rdrct", False)
+
+    # checks for absent cookies
+    if net_id == "" or run_id == "":
+        flask.abort(400)
+
+    # check if redirect is proper
+    if not valid_redirect:
+        flask.abort(403)
+    
+    params = {"run_id": run_id, "netid": net_id}
+
+    ghost_db_info = get_ghost_info(params)
+    if (len(ghost_db_info) == 0):
+        flask.abort(404)
+    ghost_json = ghost_db_info[0][0]
+
+    run_db_info = get_run_info(params)
+    if (len(run_db_info) == 0):
+        flask.abort(404)
+    lvl = run_db_info[0][0]
+    deaths = run_db_info[0][1]
+    time = run_db_info[0][2]
+
+    output = {"inputs": ghost_json, "lvl": lvl,
+              "deaths": deaths, "time": time,
+              "netid": net_id}
+
+    return flask.jsonify(output)
 
 
   

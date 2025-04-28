@@ -6,9 +6,12 @@ using UnityEngine.SceneManagement;
 public class UploadScore : MonoBehaviour
 {
     public static UploadScore Instance { get; private set; }
-    private static string url = "https://princetonplatformer.onrender.com/receivescore";
+
+    // CHANGE THIS for the deployed version
+    private static string url = "";
 
     [SerializeField] GameData data;
+    [SerializeField] HTTPData http;
 
     private void Awake()
     {
@@ -20,9 +23,11 @@ public class UploadScore : MonoBehaviour
         {
             Destroy(gameObject);  // Ensure only one instance exists
         }
+
+        url = http.prefix +"/receivescore";
     }
 
-    public static void SendScore(int deaths, float time)
+    public static void SendScore(int deaths, float time, string inputJson)
     {
         if (Instance == null)
         {
@@ -31,16 +36,17 @@ public class UploadScore : MonoBehaviour
         }
 
         string level = SceneManager.GetActiveScene().name;
-        Instance.StartCoroutine(UploadScoreCoroutine(level, deaths, time));
+        Instance.StartCoroutine(UploadScoreCoroutine(level, deaths, time, inputJson));
     }
 
-    private static IEnumerator UploadScoreCoroutine(string level, int deaths, float time)
+    private static IEnumerator UploadScoreCoroutine(string level, int deaths, float time, string inputJson)
     {
         ScoreData scoreData = new ScoreData
         {
             level = level,
             deaths = deaths,
-            time = time
+            time = time,
+            input = inputJson
         };
 
         // Converting to JSON
@@ -76,5 +82,6 @@ public class UploadScore : MonoBehaviour
         public string level;
         public int deaths;
         public float time;
+        public string input;
     }
 }
