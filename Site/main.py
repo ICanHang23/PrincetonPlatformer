@@ -199,7 +199,7 @@ def get_ghost():
 
     # checks for absent cookies
     if net_id == "" or run_id == "":
-        flask.abort(400)
+        flask.abort(403)
 
     # check if redirect is proper
     if not valid_redirect:
