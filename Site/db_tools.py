@@ -123,9 +123,24 @@ def insert_db(params):
             ))
         conn.commit()
 
+def execute(query):
+    conn = psycopg2.connect(database = "Primary DB", 
+                        user = db_user, 
+                        host= db_host,
+                        password = db_pwd,
+                        port = 5432)
+    with conn.cursor() as curr:
+        curr.execute(query)
+        rows = curr.fetchall()
+    conn.commit()
+    conn.close()
+
+    return rows
+
+
 #For testing purposes
 def main():
-    print(get_ghost_info({"run_id": 11, "netid": 'sh3735'}))
+    print(execute("SELECT run_id, netid FROM ghosts"))
     # query_leaderboard()
     # params = {
     #     'run_id': 1,
