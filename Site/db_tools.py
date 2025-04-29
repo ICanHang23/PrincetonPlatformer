@@ -43,7 +43,7 @@ def query_times(username):
                             password = db_pwd,
                             port = 5432)
     with conn.cursor() as curr:
-        query = 'SELECT run_id, lvl, deaths, "time", has_ghost FROM runs'
+        query = 'SELECT run_id, lvl, deaths, "time", has_ghost, netid FROM runs'
         query += " WHERE netid='%s' ORDER BY run_id ASC" % username
         curr.execute(query)
         rows = curr.fetchall()
