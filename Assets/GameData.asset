@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657a24008b6a7fc478bc5e78b0b08111, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  reachedGoal: 0
+  reachedGoal: 1
   deathCount: 1
-  elapsed: 29.81999
+  elapsed: 28.159992
   deathString: 'Deaths: 1'
-  timeString: 'Time taken: 29.82 seconds'
-  timeStringGUI: 'Time taken: 29.82'
+  timeString: 'Time taken: 28.16 seconds'
+  timeStringGUI: 'Time taken: 28.16'
   ghostDiary: 
+  playerDiary: 

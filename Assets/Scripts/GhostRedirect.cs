@@ -34,7 +34,7 @@ public class GhostRedirect : MonoBehaviour
     private static IEnumerator FetchGhostCoroutine(HTTPData http, GameData game)
     {
         // Sending over
-        using (UnityWebRequest www = new UnityWebRequest(http.prefix + "/getghost", "GET"))
+        using (UnityWebRequest www = new UnityWebRequest(http.prefix() + "/getghost", "GET"))
         {
             www.downloadHandler = new DownloadHandlerBuffer();
             GhostRunData ghostData = Instance.ghostData;
