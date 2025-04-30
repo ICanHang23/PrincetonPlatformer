@@ -23,6 +23,7 @@ public class GhostRedirect : MonoBehaviour
             Destroy(gameObject);  // Ensure only one instance exists
         }
 
+        EnvironmentSetup.ConfigurePrefix(http);
         redirect();
     }
 
