@@ -13,6 +13,9 @@ public class GhostRedirect : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        EnvironmentSetup.ConfigurePrefix(http);
+        Debug.Log("Prefix in GhostRedirect: " + http.prefix);
+
         if (Instance == null)
         {
             Instance = this;  // Set the singleton instance
