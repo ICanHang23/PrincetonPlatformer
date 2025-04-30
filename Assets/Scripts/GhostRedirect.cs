@@ -13,6 +13,7 @@ public class GhostRedirect : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         if (Instance == null)
         {
             Instance = this;  // Set the singleton instance
@@ -33,7 +34,7 @@ public class GhostRedirect : MonoBehaviour
     private static IEnumerator FetchGhostCoroutine(HTTPData http, GameData game)
     {
         // Sending over
-        using (UnityWebRequest www = new UnityWebRequest(http.prefix() + "/getghost", "GET"))
+        using (UnityWebRequest www = new UnityWebRequest(http.prefix + "/getghost", "GET"))
         {
             www.downloadHandler = new DownloadHandlerBuffer();
             GhostRunData ghostData = Instance.ghostData;

@@ -24,7 +24,7 @@ public class UploadScore : MonoBehaviour
             Destroy(gameObject);  // Ensure only one instance exists
         }
 
-        url = http.prefix() +"/receivescore";
+        url = http.prefix +"/receivescore";
     }
 
     public static void SendScore(int deaths, float time, string inputJson)
