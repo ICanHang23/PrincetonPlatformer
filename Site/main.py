@@ -158,8 +158,7 @@ def leaderboard():
 
     utils.set_last_page('/leaderboard?lvl=%s&pg=%s' % (lvl, pg))
     return flask.render_template('leaderboard.html', table = table_info,
-                                lvl = lvl, pg = pg, limit = limit, log=logged_in,
-                                netid_index = 0, runid_index = 3)
+                                lvl = lvl, pg = pg, limit = limit, log=logged_in)
 
 @app.route('/about', methods=['GET'])
 def about_page():
@@ -184,8 +183,7 @@ def times(user):
     ref = utils.get_last_page()
     return flask.render_template('leaderboard.html', table = table_info,
                                 username = user, pg = pg, limit = limit,
-                                log=logged_in, ref = ref,
-                                netid_index = 5, runid_index = 0)
+                                log=logged_in, ref = ref)
 
 # gets called upon clicking the "watch" button in the leaderboard
 # sets cookies and redirects the user to the game page
@@ -209,7 +207,7 @@ def get_ghost():
 
     # checks for absent cookies
     if net_id == "" or run_id == "":
-        flask.abort(403)
+        flask.abort(400)
 
     # check if redirect is proper
     if not valid_redirect:

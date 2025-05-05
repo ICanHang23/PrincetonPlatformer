@@ -43,7 +43,7 @@ def query_times(username):
                             password = db_pwd,
                             port = 5432)
     with conn.cursor() as curr:
-        query = 'SELECT run_id, lvl, deaths, "time", has_ghost, netid FROM runs'
+        query = 'SELECT run_id, lvl, deaths, "time", has_ghost FROM runs'
         query += " WHERE netid='%s' ORDER BY run_id ASC" % username
         curr.execute(query)
         rows = curr.fetchall()
@@ -123,24 +123,9 @@ def insert_db(params):
             ))
         conn.commit()
 
-def execute(query):
-    conn = psycopg2.connect(database = "Primary DB", 
-                        user = db_user, 
-                        host= db_host,
-                        password = db_pwd,
-                        port = 5432)
-    with conn.cursor() as curr:
-        curr.execute(query)
-        rows = curr.fetchall()
-    conn.commit()
-    conn.close()
-
-    return rows
-
-
 #For testing purposes
 def main():
-    print(execute("SELECT run_id, netid FROM ghosts"))
+    print(get_ghost_info({"run_id": 11, "netid": 'sh3735'}))
     # query_leaderboard()
     # params = {
     #     'run_id': 1,

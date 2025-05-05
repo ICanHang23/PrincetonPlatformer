@@ -73,7 +73,7 @@ public class HoagieBuns : MonoBehaviour
         disable();
     }
 
-    public void disable()
+    void disable()
     {
         if (updateDeploy != null)
         {

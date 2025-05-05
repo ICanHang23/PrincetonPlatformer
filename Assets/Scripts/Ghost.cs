@@ -9,28 +9,29 @@ using UnityEngine.UIElements;
 // public delegate void Callback();
 public class Ghost : MonoBehaviour
 {
-    // Components and other things
-    protected Rigidbody2D body;
-    protected BoxCollider2D box;
-    [SerializeField] protected LayerMask groundLayer;
-    [SerializeField] protected GameData game;
 
-    protected bool doubleJumped = false;
-    protected int wallJumpCount = 0;
-    protected bool dead = false;
+    // Components and other things
+    private Rigidbody2D body;
+    private BoxCollider2D box;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private GameData game;
+
+    private bool jumped = false;
+    private bool doubleJumped = false;
+    private int wallJumpCount = 0;
+    private bool dead = false;
 
     [SerializeField] float gyatt = 0.9f;
     int debug = 0;
 
     // for hoagie
     [SerializeField] GameObject hoagie;
-    HoagieBuns thisHoagie;
     int directionFacing = 1;
     bool deployed = false;
-    protected Arrow arrow;
+    Arrow arrow;
 
     // pausing
-    protected bool paused = false;
+    bool paused = false;
 
     // controls
     public PlayerInput currentInput;
@@ -46,7 +47,7 @@ public class Ghost : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected virtual void Awake()
+    void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         body.freezeRotation = true;
@@ -68,6 +69,7 @@ public class Ghost : MonoBehaviour
             diary.getEntry(entryIndex, currentInput);
             currentInput.phyProcessed = false;
             entryIndex++;
+            // Debug.Log("Now printing diary index " + entryIndex);
         }
 
         move();
@@ -87,8 +89,11 @@ public class Ghost : MonoBehaviour
         phyFrame++;
     }
 
-    protected void move()
+    void move()
     {
+        // Set presumed statuses
+        jumped = false;
+
         // Updating some variables that will be reused throughout
         float inputAxis = currentInput.moveDirection;
 
@@ -130,6 +135,7 @@ public class Ghost : MonoBehaviour
         if (gameStateCriteria && groundedNow && jump)
         {
             body.linearVelocityY = 10;
+            jumped = true;
         }
 
         // For walljumps
@@ -158,19 +164,21 @@ public class Ghost : MonoBehaviour
         }
     }
 
-    protected void handleHoagieDeployment()
+    void handleHoagieDeployment()
     {
         // Check for hoagie deployment
         if ((currentInput.justF || currentInput.justClicked) && !currentInput.phyProcessed)
         {
-            if (!deployed && !dead)
+            if (!deployed)
             {
                 deployHoagie();
                 deployed = true;
             }
-            else if (!dead)
+            else
             {
-                thisHoagie.teleport(gameObject.transform);
+                GameObject hoagie = GameObject.FindGameObjectWithTag("HoagieBun");
+                HoagieBuns buns = hoagie.GetComponent<HoagieBuns>();
+                buns.teleport(gameObject.transform);
             }
         }
 
@@ -242,23 +250,17 @@ public class Ghost : MonoBehaviour
             dead = true;
             GetComponent<Rigidbody2D>().gravityScale=0;
             resetVelocity();
-
-            if (thisHoagie != null)
-            {
-                thisHoagie.disable();
-            }
-
             StartCoroutine(RespawnPlayer());
         }
     }
-    protected virtual IEnumerator RespawnPlayer()
-    {
-        yield return new WaitForSeconds(1);
-        resetVelocity();
-        transform.position = respawnLocation;
-        GetComponent<Rigidbody2D>().gravityScale=2;
-        dead = false;
-    }
+    private IEnumerator RespawnPlayer()
+        {
+            yield return new WaitForSeconds(1);
+            resetVelocity();
+            transform.position = respawnLocation;
+            GetComponent<Rigidbody2D>().gravityScale=2;
+            dead = false;
+        }
 
     public void resetVelocity()
     {
@@ -279,22 +281,26 @@ public class Ghost : MonoBehaviour
         trajectory.x *= directionFacing;
 
         // Launch the thing
-        thisHoagie = newHoagie.GetComponent<HoagieBuns>();
-
-        if (!(this is Player))
-        {
-            thisHoagie.ghostIt();
-        }
-
-        thisHoagie.launch(trajectory);
+        HoagieBuns buns = newHoagie.GetComponent<HoagieBuns>();
+        buns.ghostIt();
+        buns.launch(trajectory);
 
         // Set the undeploy function
-        thisHoagie.updateDeploy = updateDeploy;
+        buns.updateDeploy = updateDeploy;
     }
 
     void updateDeploy()
     {
         deployed = false;
-        thisHoagie = null;
+    }
+    private IEnumerator UnfreezePlayer()
+    {
+        yield return new WaitForSeconds(1);
+        Vector2 newPosition = new Vector2(-5, 0);
+        body.linearVelocity = Vector2.zero;
+        GetComponent<Rigidbody2D>().gravityScale=2;
+        transform.position = newPosition;
+        dead = false;
+        game.deathCount++;
     }
 }

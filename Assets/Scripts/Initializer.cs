@@ -9,7 +9,6 @@ public class Initializer : MonoBehaviour
 {
     [SerializeField] GameData data;
     [SerializeField] GameObject ghost;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,6 +19,9 @@ public class Initializer : MonoBehaviour
         {
             pauseScreen.SetActive(false);
         }
+
+        // StartCoroutine(GetRequest("http://localhost:5000"));
+
 
         if (!data.ghostDiary.Equals(""))
         {
