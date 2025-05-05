@@ -131,7 +131,7 @@ public class InputLogger
         if (currentInput.jump != previousInput.jump)
         {
             entryDict.Add("hj", d(currentInput.jump));
-            Debug.Log("changed hold jump status" + debug);
+            // Debug.Log("changed hold jump status" + debug);
             changed = true;
         }
 
@@ -139,7 +139,7 @@ public class InputLogger
         if (currentInput.justJumped != previousInput.justJumped)
         {
             entryDict.Add("j", d(currentInput.justJumped));
-            Debug.Log("changed just jumped status" + debug);
+            // Debug.Log("changed just jumped status" + debug);
             changed = true;
         }
 
@@ -147,7 +147,7 @@ public class InputLogger
         if (currentInput.moveDirection != previousInput.moveDirection)
         {
             entryDict.Add("mv", currentInput.moveDirection);
-            Debug.Log("changed move status" + debug);
+            // Debug.Log("changed move status" + debug);
             changed = true;
 
         }
@@ -156,7 +156,7 @@ public class InputLogger
         if (currentInput.justClicked != previousInput.justClicked)
         {
             entryDict.Add("lc", d(currentInput.justClicked));
-            Debug.Log("changed left click status" + debug);
+            // Debug.Log("changed left click status" + debug);
             changed = true;
 
         }
@@ -165,7 +165,7 @@ public class InputLogger
         if (currentInput.holdingRightClick != previousInput.holdingRightClick)
         {
             entryDict.Add("lc", d(currentInput.holdingRightClick));
-            Debug.Log("changed right click status" + debug);
+            // Debug.Log("changed right click status" + debug);
             changed = true;
 
         }
@@ -174,7 +174,7 @@ public class InputLogger
         if (currentInput.scrollDelta != previousInput.scrollDelta)
         {
             entryDict.Add("scr", currentInput.scrollDelta);
-            Debug.Log("changed scroll status" + debug);
+            // Debug.Log("changed scroll status" + debug);
             changed = true;
 
         }
@@ -183,7 +183,7 @@ public class InputLogger
         if (currentInput.Q != previousInput.Q)
         {
             entryDict.Add("Q", d(currentInput.Q));
-            Debug.Log("changed Q status" + debug);
+            // Debug.Log("changed Q status" + debug);
             changed = true;
 
         }
@@ -192,7 +192,7 @@ public class InputLogger
         if (currentInput.E != previousInput.E)
         {
             entryDict.Add("E", d(currentInput.E));
-            Debug.Log("changed E status" + debug);
+            // Debug.Log("changed E status" + debug);
             changed = true;
 
         }
@@ -201,7 +201,7 @@ public class InputLogger
         if (currentInput.R != previousInput.R)
         {
             entryDict.Add("R", d(currentInput.R));
-            Debug.Log("changed R status" + debug);
+            // Debug.Log("changed R status" + debug);
             changed = true;
 
         }
@@ -210,7 +210,7 @@ public class InputLogger
         if (currentInput.justF != previousInput.justF)
         {
             entryDict.Add("F", d(currentInput.justF));
-            Debug.Log("changed justF status" + debug);
+            // Debug.Log("changed justF status" + debug);
             changed = true;
         }
 

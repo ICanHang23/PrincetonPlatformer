@@ -3,5 +3,5 @@ using UnityEngine;
 [CreateAssetMenu]
 public class HTTPData : ScriptableObject
 {
-    public string prefix = "http://localhost:5000";
+    public string prefix = "https://princetonplatformer.onrender.com/";
 }
