@@ -16,6 +16,11 @@
                     <button type="submit" class="btn-main">Leaderboard</button>
                 </form>
             </div>
+            <div class="main-btn-div"\>
+                <form action="/about" method="get">
+                    <button type="submit" class="btn-main">About the Game</button>
+                </form>
+            </div>
             {% if log == True %}
             <div class="main-btn-div">
                 <form action="{{ url_for('times', user=username)}}" method="get">
