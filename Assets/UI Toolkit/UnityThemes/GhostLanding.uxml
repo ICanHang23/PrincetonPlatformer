@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/button.uss?fileID=7433441132597879392&amp;guid=7f7b1e6f82ac55b4ebea7c9ef4b54eff&amp;type=3#button" />
-    <engine:VisualElement name="VisualElement" style="width: 75%; height: 60%; background-color: rgb(255, 255, 255); top: 12.5%; left: 12.5%; border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-right-radius: 45px; border-bottom-left-radius: 45px;">
+    <engine:VisualElement name="VisualElement" style="width: 75%; height: 60%; background-color: rgb(255, 255, 255); top: 12.5%; left: 12.5%; border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-right-radius: 45px; border-bottom-left-radius: 45px; background-image: url(&quot;project://database/Assets/Backdrop%201.png?fileID=2800000&amp;guid=00eba59bcb6b183468854a65c0fc1a5c&amp;type=3#Backdrop 1&quot;); -unity-background-image-tint-color: rgba(255, 255, 255, 0.95);">
         <engine:VisualElement name="TextContainer" style="flex-grow: 1; height: 51%; width: 100%; align-content: flex-start; flex-direction: column; flex-wrap: nowrap; justify-content: center;">
             <engine:Label text="You&apos;re about to play Level 1 alongside ep0148." name="Header" style="-unity-font-style: bold; -unity-text-align: upper-center; font-size: 25px; align-items: stretch; top: auto; white-space: normal;">
                 <Bindings>
@@ -19,8 +19,8 @@
             </engine:Label>
         </engine:VisualElement>
         <engine:VisualElement name="ButtonContainers" style="flex-grow: 1; flex-direction: row; align-content: flex-start; align-self: auto; justify-content: center; height: 23%; align-items: center;">
-            <engine:Button text="Back" name="BackButton" class="button" style="height: 65%; -unity-font-style: bold; font-size: 25%; margin-right: 30px;" />
-            <engine:Button text="Play" name="PlayButton" class="button" style="height: 65%; font-size: 25%; -unity-font-style: bold; margin-left: 30px;" />
+            <engine:Button name="BackButton" class="button" style="height: 65%; -unity-font-style: bold; font-size: 25%; margin-right: 30px; background-image: url(&quot;project://database/Assets/Back%20and%20Play%20Buttons.png?fileID=817437673&amp;guid=6a5b0d7b90091fe4085f14aa56146a95&amp;type=3#Back and Play Buttons_0&quot;); visibility: visible; overflow: visible; width: 30%;" />
+            <engine:Button name="PlayButton" class="button" style="height: 65%; font-size: 25%; -unity-font-style: bold; margin-left: 30px; background-image: url(&quot;project://database/Assets/Back%20and%20Play%20Buttons.png?fileID=1257442909&amp;guid=6a5b0d7b90091fe4085f14aa56146a95&amp;type=3#Back and Play Buttons_1&quot;); width: 30%;" />
         </engine:VisualElement>
         <engine:VisualElement style="flex-grow: 1;">
             <engine:Label text="We could not find data that matches the run you wanted to spectate. Please try again or contact the server administrator if the issue persists." style="-unity-text-align: upper-center; font-size: 10px; flex-wrap: nowrap; white-space: normal;">

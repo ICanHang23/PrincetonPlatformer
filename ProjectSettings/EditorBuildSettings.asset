@@ -14,12 +14,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GhostLanding.unity
     guid: 422d04876f1863442981dfc76023f91c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level Select.unity
     guid: b51f2d609cd5ed84eb4f2b14a35483b6
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 180e5fd11e4ee5148bb0dbfbd60cedcd
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 79ac6c8349b50474e8fb8c9da02ce78d
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: d4d3756313bb3d245a0386fe1ca2be97
+  - enabled: 1
+    path: Assets/Scenes/Level4.unity
+    guid: d54779688a8fc8b4b86b9f15b43ae350
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
