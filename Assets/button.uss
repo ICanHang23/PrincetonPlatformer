@@ -7,3 +7,9 @@
     border-bottom-left-radius: 17px;
     width: 20%;
 }
+
+.button:hover {
+    border-width: 3px;
+    border-color: rgb(255, 200, 100); /* warm glow */
+    box-shadow: 0 0 10px 4px rgba(255, 200, 100, 0.5);
+}
