@@ -16,19 +16,11 @@
                     <button type="submit" class="btn-main">Leaderboard</button>
                 </form>
             </div>
-            <div class="main-btn-div"\>
-                <form action="/about" method="get">
-                    <button type="submit" class="btn-main">About the Game</button>
-                </form>
-            </div>
             {% if log == True %}
             <div class="main-btn-div">
                 <form action="{{ url_for('times', user=username)}}" method="get">
                     <button type="submit" class="btn-main">My Times</button>
                 </form>
-            </div>
-            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
-                Logged in as <strong>{{ username }}</strong>
             </div>
             {% else %}
             <div class="main-btn-div">
@@ -36,10 +28,8 @@
                     <button type="submit" class="btn-main">Login</button>
                 </form>
             </div>
-            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
-                Currently playing as <strong>Guest</strong>. Scores will not be saved.
-            </div>
             {% endif %}
         </div>
+        {% include 'footer.html' %}
     </body>
 </html>

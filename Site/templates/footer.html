@@ -1,0 +1,12 @@
+<div class="footer"> 
+    <div class="footer-left">
+        {% if log == True %}
+        Logged in as <strong>{{ username }}</strong>
+        {% else %}
+        Currently playing as <strong>Guest</strong>. Scores will not be saved.
+        {% endif %}
+    </div>
+    <div class="footer-right">
+        New to the Game? <a class="table-a" href="/about">Learn how to play!</a>
+    </div>
+</div>

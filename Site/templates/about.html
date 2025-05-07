@@ -6,7 +6,7 @@
     <body>
         {% include 'header.html' %}
         <div class="main-body">
-            <div class="main-btn-div">
+            <div class="about-text">
                 <h1>How to Play</h1>
                 <h3>Objective</h3>
                 <p>
@@ -62,20 +62,12 @@
                     in the pause menu. 
                 </p>
             </div>
-            <div class="main-btn-div">
+            <div class="">
                 <a href="/">
-                    <button type="submit" class="btn-main">Back to Main</button>
+                    <button type="submit" style="margin-bottom: 20px" class="table-btn">Back to Home</button>
                 </a>
             </div>
-            {% if log == True %}
-            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
-                Logged in as <strong>{{ username }}</strong>
-            </div>
-            {% else %}
-            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
-                Currently playing as <strong>Guest</strong>. Scores will not be saved.
-            </div>
-            {% endif %}
+            {% include 'footer.html' %}
         </div>
     </body>
 </html>
