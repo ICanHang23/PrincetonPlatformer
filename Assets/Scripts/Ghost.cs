@@ -113,6 +113,9 @@ public class Ghost : MonoBehaviour
             if (groundedNow)
             {
                 body.linearVelocityX = (7 * inputAxis);
+                if(body.linearVelocityX == 0 && inputAxis != 0) {
+                    body.linearVelocityY += (float)0.1;
+                }
             }
             else
             {

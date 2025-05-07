@@ -6,7 +6,7 @@
     <body>
         {% include 'header.html' %}
         <div class="main-body">
-            <div class="main-btn-div">
+            <div class="about-text">
                 <h1>How to Play</h1>
                 <h3>Objective</h3>
                 <p>
@@ -48,8 +48,8 @@
                     back to the last checkpoint, or the beginning of the level if no checkpoint is reached. If you fall off
                     the map, you will also be counted as dying, and sent back to the checkpoint/beginning of the level. You want
                     to avoid either of those scenarios, so try not to make contact with any spike or fall off the map. 
-
-                <img src = "static/images/Spike.png" alt = "Spike picture">
+                </p>
+                <img src = "static/images/Spike.png" alt = "Spike picture" width = "320" height = "200">
                 <h3>Prox</h3>
                 <p>
                     You may notice that the exit may be blocked off, with a scanner in front of it. In those scenarios,
@@ -62,20 +62,12 @@
                     in the pause menu. 
                 </p>
             </div>
-            <div class="main-btn-div">
+            <div class="">
                 <a href="/">
-                    <button type="submit" class="btn-main">Back to Main</button>
+                    <button type="submit" style="margin-bottom: 20px" class="table-btn">Back to Home</button>
                 </a>
             </div>
-            {% if log == True %}
-            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
-                Logged in as <strong>{{ username }}</strong>
-            </div>
-            {% else %}
-            <div style="position: fixed; bottom: 10px; left: 10px; font-size: 20px; color: #000">
-                Currently playing as <strong>Guest</strong>. Scores will not be saved.
-            </div>
-            {% endif %}
+            {% include 'footer.html' %}
         </div>
     </body>
 </html>
