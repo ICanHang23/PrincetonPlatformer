@@ -12,11 +12,14 @@ import utils
 
 #-----------------------------------------------------------------------
 
+# Error page
 @app.route("/error/<code>")
 def error(code, message = None):
     if message is not None:
         error_title = "Error %s" % code
         error_msg = message
+    # Assumes error is internal if no code is given 
+    # (could be wrong but is useful as a catch all)
     else:
         error_title = "Error 500"
         error_msg = "Internal Server Error"
@@ -28,6 +31,8 @@ def error(code, message = None):
     return flask.render_template('error.html', error_title = error_title,
                                  error_msg = error_msg, username = username, 
                                  log = logged_in, ref = ref)
+
+# Error handling for specific Errors below
 
 @app.errorhandler(400)
 def err400(error_given):

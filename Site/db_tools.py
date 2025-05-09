@@ -19,6 +19,7 @@ db_user = os.getenv("DB_USER", "")
 db_pwd = os.getenv("DB_PASS", "")
 db_host = os.getenv("DB_HOST", "")
 
+#queries the db and grabs relevant information to display the leaderboard
 def query_leaderboard(level):
     conn = psycopg2.connect(database = "Primary DB", 
                             user = db_user, 
@@ -35,6 +36,7 @@ def query_leaderboard(level):
 
     return rows
 
+# Grabs the run information for a specific user
 def query_times(username):
     conn = psycopg2.connect(database = "Primary DB", 
                             user = db_user, 
@@ -51,6 +53,7 @@ def query_times(username):
 
     return rows
 
+# Run Ids are sequential, so finds the next run id for a user
 def get_next_run_id(netid: str):
     with psycopg2.connect(database = "Primary DB", 
                             user = db_user, 
@@ -67,6 +70,7 @@ def get_next_run_id(netid: str):
 
     return output
 
+# Collects the JSON used to 
 def get_ghost_info(params):
     with psycopg2.connect(database = "Primary DB", 
                             user = db_user, 
@@ -82,6 +86,7 @@ def get_ghost_info(params):
 
     return rows
 
+# Gets information about a specific run using netid and runid
 def get_run_info(params):
     with psycopg2.connect(database = "Primary DB", 
                             user = db_user, 
@@ -97,6 +102,7 @@ def get_run_info(params):
 
     return rows
 
+# Inserts a run into the database
 def insert_db(params):
     time = datetime.datetime.now()
     time.strftime('%Y-%m-%d %H:%M:%S')
@@ -122,20 +128,7 @@ def insert_db(params):
             ))
         conn.commit()
 
-def execute(query):
-    conn = psycopg2.connect(database = "Primary DB", 
-                        user = db_user, 
-                        host= db_host,
-                        password = db_pwd,
-                        port = 5432)
-    with conn.cursor() as curr:
-        curr.execute(query)
-        rows = curr.fetchall()
-    conn.commit()
-    conn.close()
-
-    return rows
-
+# Gets the highest numerical level there currently is for error checking
 def get_highest_lvl():
     with psycopg2.connect(database = "Primary DB", 
                         user = db_user, 

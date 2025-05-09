@@ -37,6 +37,7 @@ debug = utils.str_to_bool(debug) if debug != None else False
 
 #-----------------------------------------------------------------------
 
+# Home page
 @app.route('/', methods=['GET'])
 def home():
     #getting log in information
@@ -50,6 +51,7 @@ def home():
     return flask.render_template('index.html', log=logged_in,
                                   username = username)
 
+# Logs in user using CAS
 @app.route('/login', methods=['GET'])
 def login():
     user_info = auth.authenticate()
@@ -69,6 +71,7 @@ def login():
     utils.set_last_page('/')
     return flask.redirect('/')
 
+# The game page which holds the built game on the site
 @app.route('/game', methods=['GET'])
 def game():
     logged_in = flask.session.get('logged_in', False) 
@@ -100,21 +103,19 @@ def receivescore():
         'inputs' : json.dumps(inputs)
     }
 
-    print("Game inputs")
-    print(params['inputs'])
-    print(params)
-
+    # Insert only if the user is logged in
     if (netid is not None):
         insert_db(params)
 
     return flask.redirect('/leaderboard-menu')
     
-
+# Clears the cookies for logout
 @app.route('/logout', methods=['GET'])
 def logout():
     flask.session.clear()
     return flask.redirect('/')
 
+# Logs user out of their CAS
 @app.route('/signout', methods=['GET'])
 def signout():
     flask.session.clear()
@@ -136,6 +137,7 @@ def get_profile():
         "username": username,
     })
 
+# The place to go to different levels' leaderboards
 @app.route('/leaderboard-menu', methods=['GET'])
 def leader_menu():
     logged_in = flask.session.get('logged_in', False)
@@ -144,6 +146,7 @@ def leader_menu():
     return flask.render_template('leadermenu.html', log=logged_in,
                                  username = username)
 
+# Queries the db to get the leaderboard for this level
 @app.route('/leaderboard', methods=['GET'])
 def leaderboard():
     logged_in = flask.session.get('logged_in', False) 
@@ -154,12 +157,14 @@ def leaderboard():
     if lvl == None:
         return flask.redirect('/')
 
+    # Raises error if user inputs level higher than that which exists
     highest_lvl = get_highest_lvl()
     if int(lvl) > highest_lvl:
         return error("404 - Page Not Found", "This level does not exist!")
 
     table_info = query_leaderboard(lvl)
 
+    # If user inputs page then makes sure it stops at last page
     limit = 10 # Number of rows on table at once
     if pg * limit > len(table_info):
         pg = len(table_info) // limit
@@ -170,6 +175,7 @@ def leaderboard():
                                 lvl = lvl, pg = pg, limit = limit, log=logged_in,
                                 netid_index = 0, runid_index = 3, username = username)
 
+# About page on how to play the game
 @app.route('/about', methods=['GET'])
 def about_page():
     logged_in = flask.session.get('logged_in', False)
@@ -178,6 +184,7 @@ def about_page():
     return flask.render_template('about.html', log=logged_in,
                                  username = username)
 
+# Check the runs of a specific user
 @app.route('/times/<user>')
 def times(user):
     logged_in = flask.session.get('logged_in', False)
@@ -186,11 +193,13 @@ def times(user):
 
     table_info = query_times(user)
 
+    # If user inputs page then makes sure it stops at last page
     limit = 10 # Number of rows on table at once
     if pg * limit > len(table_info):
         pg = len(table_info) // limit
         pg += 1 if len(table_info) % limit != 0 else 0
 
+    # For going back to the levels page from where the user came
     ref = utils.get_last_page()
     return flask.render_template('leaderboard.html', table = table_info,
                                 user = user, pg = pg, limit = limit,

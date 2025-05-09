@@ -10,11 +10,13 @@ import db_tools
 
 #-----------------------------------------------------------------------
 
+# Changes a string to a boolean
 def str_to_bool(string):
     if string == "True":
         return True
     return False
 
+# Deprecated but was used for manual run insertion testing
 def get_form_params():
     netid = flask.request.form.get('netid', '')
     netid = flask.session.get('username', None) if netid == '' else netid
@@ -32,8 +34,10 @@ def get_form_params():
     }
     return params
 
+# Sets the last page for going back to 
 def set_last_page(reference):
     flask.session['ref'] = reference
 
+# Grabs the last page so a user can return there
 def get_last_page():
     return flask.session['ref']
