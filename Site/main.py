@@ -20,7 +20,8 @@ from db_tools import (
     get_next_run_id, 
     query_times,
     get_ghost_info,
-    get_run_info
+    get_run_info, 
+    get_highest_lvl
 )
 from load import app
 import utils
@@ -149,6 +150,11 @@ def leaderboard():
 
     if lvl == None:
         return flask.redirect('/')
+
+    highest_lvl = get_highest_lvl()
+    if int(lvl) > highest_lvl:
+        return error("404 - Page Not Found", "This level does not exist!")
+
     table_info = query_leaderboard(lvl)
 
     limit = 10 # Number of rows on table at once
@@ -210,22 +216,22 @@ def get_ghost():
 
     # checks for absent cookies
     if net_id == "" or run_id == "":
-        flask.abort(403)
+        error("403 - Forbidden", "Cookies are absent, please login!")
 
     # check if redirect is proper
     if not valid_redirect:
-        flask.abort(403)
+        error("403 - Forbidden", "Redirect is improper!")
     
     params = {"run_id": run_id, "netid": net_id}
 
     ghost_db_info = get_ghost_info(params)
     if (len(ghost_db_info) == 0):
-        flask.abort(404)
+        error("404 - Page Not Found", "No watch information for this run!")
     ghost_json = ghost_db_info[0][0]
 
     run_db_info = get_run_info(params)
     if (len(run_db_info) == 0):
-        flask.abort(404)
+        error("404 - Page Not Found", "No run information found!")
     lvl = run_db_info[0][0]
     deaths = run_db_info[0][1]
     time = run_db_info[0][2]
@@ -236,13 +242,23 @@ def get_ghost():
 
     return flask.jsonify(output)
 
+@app.errorhandler(Exception)
+@app.route("/error/<code>")
+def error(code, message = None):
+    if message is not None:
+        error_title = "Error %s" % code
+        error_msg = message
+    else:
+        error_title = "Error 500"
+        error_msg = "Internal Server Error"
+        print(code)
+    logged_in = flask.session.get('logged_in', False)
+    username =  flask.session.get('username', None)
 
-  
-@app.route('/insert', methods=['POST'])
-def insert():
-    params = utils.get_form_params()
-    insert_db(params)
-    return flask.redirect('/leaderboard-menu')
+    ref = utils.get_last_page()
+    return flask.render_template('error.html', error_title = error_title,
+                                 error_msg = error_msg, username = username, 
+                                 log = logged_in, ref = ref)
 
 def main():
     # set up parser
@@ -261,6 +277,7 @@ def main():
         app.run(host='localhost', port = args.port, debug=debug)
     except Exception as ex:
         print(ex, file=sys.stderr)
+        error(500, "Internal Server Error Occurred, Please contact the administrator!")
         sys.exit(1)
 
 if __name__ == "__main__":

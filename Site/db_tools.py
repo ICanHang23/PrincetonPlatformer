@@ -9,7 +9,6 @@ import psycopg2
 import dotenv
 import os
 import datetime
-import json
 
 #-----------------------------------------------------------------------
 
@@ -137,20 +136,23 @@ def execute(query):
 
     return rows
 
+def get_highest_lvl():
+    with psycopg2.connect(database = "Primary DB", 
+                        user = db_user, 
+                        host= db_host,
+                        password = db_pwd,
+                        port = 5432) as conn:
+        query = "SELECT lvl FROM runs ORDER BY lvl DESC LIMIT 1"
+        with conn.cursor() as curr:
+            curr.execute(query)
+            rows = curr.fetchall()
+    conn.commit()
+    return rows[0][0]
+
 
 #For testing purposes
 def main():
-    print(execute("SELECT run_id, netid FROM ghosts"))
-    # query_leaderboard()
-    # params = {
-    #     'run_id': 1,
-    #     'netid': 'sh3735',
-    #     'lvl': 1,
-    #     'deaths': 3,
-    #     'time': 21.4,
-    # }
-    # insert_db(params)
-    # query_leaderboard()
+    get_highest_lvl()
 
 if __name__ == '__main__':
     main()

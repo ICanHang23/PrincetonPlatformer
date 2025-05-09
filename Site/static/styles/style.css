@@ -115,6 +115,14 @@ a {
     letter-spacing: -0.96px;
 }
 
+.ldrmenu-btn-div {
+    padding: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 7.5vh;
+    margin-bottom: 5vh;
+}
+
   /* Taken from colorlib.com */
   .table-div {
     display: flex;
@@ -171,4 +179,18 @@ button:hover {
     padding: 15px 30px;
     border-bottom: 3px solid #f8f9fd;
     font-size: 14px;
+}
+
+.error-div {
+    border-color: #E77500;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 5%;
+    background-color: white;
+    margin: auto;
+    width: 30%;
+    height: fit-content;
+    padding: 5% 3% 2%;
+    align-content: center;
+    text-align: center;
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Princeton Platformer</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <div class="error-div">
+            <h2>{{ error_title }}</h2>
+            <br><br>
+            <p>{{error_msg }}</p>
+            <a href="{{ ref }}"><button class="table-btn">Back</button></a>
+        </div>
+        {% include 'footer.html' %}
+    </body>
+</html>
