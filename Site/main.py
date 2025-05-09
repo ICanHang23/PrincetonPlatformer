@@ -23,6 +23,9 @@ from db_tools import (
     get_run_info, 
     get_highest_lvl
 )
+
+from err_handling import error
+
 from load import app
 import utils
 
@@ -216,22 +219,22 @@ def get_ghost():
 
     # checks for absent cookies
     if net_id == "" or run_id == "":
-        error("403 - Forbidden", "Cookies are absent, please login!")
+        flask.abort(405)
 
     # check if redirect is proper
     if not valid_redirect:
-        error("403 - Forbidden", "Redirect is improper!")
+        flask.abort(405)
     
     params = {"run_id": run_id, "netid": net_id}
 
     ghost_db_info = get_ghost_info(params)
     if (len(ghost_db_info) == 0):
-        error("404 - Page Not Found", "No watch information for this run!")
+        flask.abort(405)
     ghost_json = ghost_db_info[0][0]
 
     run_db_info = get_run_info(params)
     if (len(run_db_info) == 0):
-        error("404 - Page Not Found", "No run information found!")
+        flask.abort(405)
     lvl = run_db_info[0][0]
     deaths = run_db_info[0][1]
     time = run_db_info[0][2]
@@ -241,24 +244,6 @@ def get_ghost():
               "netid": net_id}
 
     return flask.jsonify(output)
-
-@app.errorhandler(Exception)
-@app.route("/error/<code>")
-def error(code, message = None):
-    if message is not None:
-        error_title = "Error %s" % code
-        error_msg = message
-    else:
-        error_title = "Error 500"
-        error_msg = "Internal Server Error"
-        print(code)
-    logged_in = flask.session.get('logged_in', False)
-    username =  flask.session.get('username', None)
-
-    ref = utils.get_last_page()
-    return flask.render_template('error.html', error_title = error_title,
-                                 error_msg = error_msg, username = username, 
-                                 log = logged_in, ref = ref)
 
 def main():
     # set up parser
