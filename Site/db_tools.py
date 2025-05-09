@@ -27,7 +27,7 @@ def query_leaderboard(level):
                             port = 5432)
     with conn.cursor() as curr:
         query = 'SELECT netid, deaths, "time", run_id, has_ghost FROM runs'
-        query += ' WHERE lvl=%s ORDER BY "time" ASC, deaths ASC' % level
+        query += ' WHERE lvl=%s ORDER BY "time" ASC, deaths ASC LIMIT 100' % level
         curr.execute(query)
         rows = curr.fetchall()
     conn.commit()
@@ -43,7 +43,7 @@ def query_times(username):
                             port = 5432)
     with conn.cursor() as curr:
         query = 'SELECT run_id, lvl, deaths, "time", has_ghost, netid FROM runs'
-        query += " WHERE netid='%s' ORDER BY run_id ASC" % username
+        query += " WHERE netid='%s' ORDER BY run_id DESC" % username
         curr.execute(query)
         rows = curr.fetchall()
     conn.commit()
@@ -59,7 +59,7 @@ def get_next_run_id(netid: str):
                             port = 5432) as conn:
         with conn.cursor() as curr:
             query = "SELECT run_id FROM runs WHERE netid LIKE '%s' " % netid
-            query += "ORDER BY run_id DESC"
+            query += "ORDER BY run_id DESC LIMIT 1"
             curr.execute(query)
             rows = curr.fetchall()
             output = rows[0][0] + 1 if len(rows) != 0 else 1
