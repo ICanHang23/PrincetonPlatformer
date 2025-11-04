@@ -12,6 +12,8 @@ The player also has wall jumps, which is input by holding the directional input 
 
 Finally, the player has a "hoagie" a projectile that the player can throw (with the angle of the throw being set before the throw), and will teleport the player to its location when it either collides with any terrain (even harmful) or the player manually reactivates it. The player will retain the momentum that they had right before they teleported to the hoagie, allowing them to change directions or fall down a shaft surrounded by spikes. 
 
+The player does not have any healthbar, and upon collision with any hazard, or falling off the map and hitting the kill zone, will instantly die. They will then be sent back to the last checkpoint that they have crossed in the level, and their death count (shown at the end of the level) will increment every time. 
+
 # Level Design
 
 The levels are short, 30 second bite sized levels that are meant to be completed by new players to the platforming genre, while still posing a possible challenge and pushing the player to use all the mechanics and movement tech at their disposal in different ways. 
