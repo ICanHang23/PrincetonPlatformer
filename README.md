@@ -10,6 +10,8 @@ The player has a double jump, and if holding a directional input while double ju
 
 The player also has wall jumps, which is input by holding the directional input towards the wall they are adjacent too, and then inputting jump. This will launch the player vertically and horizontally in the opposite direction of the wall. The amount of wall jumps a player can do before having to touch the ground again is 5, to prevent breaking some levels by infinitely jumping over some walls. 
 
+Finally, the player has a "hoagie" a projectile that the player can throw (with the angle of the throw being set before the throw), and will teleport the player to its location when it either collides with any terrain (even harmful) or the player manually reactivates it. The player will retain the momentum that they had right before they teleported to the hoagie, allowing them to change directions or fall down a shaft surrounded by spikes. 
+
 # Level Design
 
 The levels are short, 30 second bite sized levels that are meant to be completed by new players to the platforming genre, while still posing a possible challenge and pushing the player to use all the mechanics and movement tech at their disposal in different ways. 
