@@ -16,6 +16,6 @@ The player does not have any healthbar, and upon collision with any hazard, or f
 
 # Level Design
 
-The levels are short, 30 second bite sized levels that are meant to be completed by new players to the platforming genre, while still posing a possible challenge and pushing the player to use all the mechanics and movement tech at their disposal in different ways. 
+The levels are short, 30 second bite sized levels that are meant to be completed by new players to the platforming genre, while still posing a possible challenge and pushing the player to use all the mechanics and movement tech at their disposal in different ways. While we wanted to make the levels longer, as a browser game and as a game we knew would be played by people who are new to the platforming genre, we decided to have the levels shorter, with less setpieces, to minimize frustration and feelings that the level would never end. 
 
 
